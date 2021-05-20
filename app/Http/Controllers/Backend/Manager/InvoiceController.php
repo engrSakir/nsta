@@ -8,6 +8,7 @@ use App\Models\CustomerAndBranch;
 use App\Models\Invoice;
 use App\Models\Sender;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -196,8 +197,12 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        $linked_branches = auth()->user()->branch->fromLinkedBranchs;
-        return view('backend.manager.invoice.edit', compact('linked_branches', 'invoice'));
+        if ($invoice->from_branch_id == auth()->user()->branch->id || $invoice->to_branch_id == auth()->user()->branch->id){
+            $linked_branches = auth()->user()->branch->fromLinkedBranchs;
+            return view('backend.manager.invoice.edit', compact('linked_branches', 'invoice'));
+        }else{
+            return back()->withErrors('Your are not permitted to check this invoice.');
+        }
     }
 
     /**
@@ -209,7 +214,109 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //
+        if ($invoice->from_branch_id != auth()->user()->branch->id || $invoice->to_branch_id != auth()->user()->branch->id){
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Your are not permitted to check this invoice.',
+            ]);
+        }
+
+        $request->validate([
+            'sender_name'        =>  'required|string',
+            'receiver_name'      =>  'required|string',
+            'receiver_phone'     =>  'nullable|string',
+            'receiver_email'     =>  'nullable|email',
+            'branch'             =>  'required|exists:branches,id',
+            'description'        =>  'required|string',
+            'quantity'           =>  'required|string|min:0',
+            'price'              =>  'required|string|min:0',
+            'advance'            =>  'required|string|min:0',
+            'home'               =>  'required|string|min:0',
+            'labour'             =>  'required|string|min:0',
+        ]);
+
+        //# Step 0 CHECK TO_BRANCH IS VALID OR NOT
+        if (!check_branch_link(auth()->user()->branch->id, $request->branch)){
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Branch are not linked. Contact with admin.',
+            ]);
+        }
+
+        //# Step 1 CUSTOMER
+        $customer = null;
+        //যদি এই তথ্যের সাথে মিলে কাস্টমার না থাকে তাহলে নতুন কাস্টমার তৈরি হবে
+        if ($request->receiver_phone){  // ফোন নাম্বার পায় তাহলে সেই ফোন নাম্বারের আন্ডারে হবে
+            $customer = User::where('phone', $request->receiver_phone)->first();
+        }
+
+        if(!$customer && $request->receiver_email){ // যদি ফোন নাম্বার না পেয়ে ইমেইল পায় তাহলে সেই ইমেইল এর আন্ডারে হবে
+            $customer = User::where('email', $request->receiver_email)->first();
+        }
+
+        if(!$customer && $request->receiver_name){ //যদি ফোন নাম্বার এবং ইমেইল না পায় তাহলে নামের আন্ডারে হওয়ার চেষ্টা করবে
+            $customer = User::where('name', $request->receiver_name)->where('phone', null)->where('email', null)->first();
+        }
+
+        if(!$customer){ //যদি কোন নাম্বার ইমেইল এবং নাম কোনটির সাথে মিলে না পাওয়া যায় তাহলে নতুন তৈরি হবে
+            $customer = new User();
+            $customer->name = $request->receiver_name;
+            $customer->email = $request->receiver_email;
+            $customer->phone = bn_to_en($request->receiver_phone);
+            $customer->password = Str::random(20);
+            $customer->creator_id = auth()->user()->id;
+            try {
+                $customer->save();
+            }catch (\Exception $exception){
+                return response()->json([
+                    'type' => 'error',
+                    'message' => $exception->getMessage(),
+                ]);
+            }
+        }
+
+        //# Step 2 LINKED
+        //কাস্টমার যদি এই ব্রাঞ্চ এর সাথে যুক্ত হয়ে না থাকে তাহলে যুক্ত হয়ে যাবে
+        $customer_and_branch = CustomerAndBranch::firstOrCreate(
+            ['user_id' => $customer->id],
+            ['branch_id' => auth()->user()->branch->id]
+        );
+
+        //# Step 3 INVOICE
+        //এখন কাস্টমারের আইডি নিয়ে ভাউচার তৈরি করা হবে
+        $invoice->status            = 'Received';     //Received|On Going|Delivered
+
+        $invoice->from_branch_id    = auth()->user()->branch->id;
+        $invoice->to_branch_id      = $request->branch;
+        $invoice->sender_name       = $request->sender_name;
+        $invoice->receiver_id       = $customer->id;
+
+        $invoice->description       = $request->description;
+        $invoice->quantity          = bn_to_en($request->quantity);
+        $invoice->price             = bn_to_en($request->price);
+        $invoice->home              = bn_to_en($request->home);
+        $invoice->labour            = bn_to_en($request->labour);
+        $invoice->paid              = bn_to_en($request->advance);
+
+        $invoice->updater_id        = auth()->user()->id;
+
+        //# Step 4 SMS
+        try {
+
+            $invoice->save();
+
+        }catch (\Exception $exception){
+            return response()->json([
+                'type' => 'error',
+                'message' => $exception->getMessage(),
+            ]);
+        }
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Successfully updated',
+            'url' => route('manager.invoice.show', $invoice),
+        ]);
     }
 
     /**

@@ -173,6 +173,7 @@
         </div>
     </div>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script type="text/javascript">
         let invoice = new Vue({
@@ -377,26 +378,24 @@
             });
 
             $('#save-invoice').click( function (){
-                var formData = new FormData();
                 var this_btn = $(this);
-                formData.append('sender_name', $('#sender-name').val());
-                formData.append('receiver_name', $('#receiver-name').val());
-                formData.append('receiver_phone', $('#receiver-phone').val());
-                formData.append('receiver_email', $('#receiver-email').val());
-                formData.append('branch', $('input:radio[name=branch]:checked').val());
-                formData.append('description', $('#description').val());
-                formData.append('quantity', $('#quantity').val());
-                formData.append('price', $('#price').val());
-                formData.append('advance', $('#advance').val());
-                formData.append('home', $('#home').val());
-                formData.append('labour', $('#labour').val());
                 $.ajax({
-                    method: 'POST',
-                    url: '{{ route('manager.invoice.store') }}',
+                    method: 'PATCH',
+                    url: '{{ route('manager.invoice.update', $invoice) }}',
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    data: formData,
-                    processData: false,
-                    contentType: false,
+                    data:{
+                        sender_name:$('#sender-name').val(),
+                        receiver_name:$('#receiver-name').val(),
+                        receiver_phone:$('#receiver-phone').val(),
+                        receiver_email:$('#receiver-email').val(),
+                        branch:$('input:radio[name=branch]:checked').val(),
+                        description:$('#description').val(),
+                        quantity:$('#quantity').val(),
+                        price:$('#price').val(),
+                        advance:$('#advance').val(),
+                        home:$('#home').val(),
+                        labour:$('#labour').val(),
+                    },
                     beforeSend: function (){
                         //this_btn.html('Please wait ---- ');
                         this_btn.prop("disabled",true);

@@ -21,6 +21,7 @@ class CreateInvoicesTable extends Migration
 
             $table->foreignId('chalan_id')->nullable()->comment('Chalan Paper ID');
             $table->foreignId('creator_id')->nullable()->comment('Admin/manager who create invoice');
+            $table->foreignId('updater_id')->nullable()->comment('Admin/manager who update invoice');
             $table->foreignId('receiver_id')->comment('Customer/Receiver');
             $table->foreignId('from_branch_id');
             $table->foreignId('to_branch_id');
