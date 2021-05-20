@@ -11,13 +11,11 @@
                            data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ auth()->user()->name }}<span class="caret"></span></a>
                         <div class="dropdown-menu animated flipInY">
                             <!-- text-->
-                            <a href="{{ route('backend.profile') }}" class="dropdown-item"><i class="ti-user"></i> My
-                                Profile</a>
+                            <a href="{{ route('backend.profile') }}" class="dropdown-item"><i class="ti-user"></i> আমার প্রোফাইল </a>
                             <!-- text-->
                             <div class="dropdown-divider"></div>
                             <!-- text-->
-                            <a href="javascript:0" class="dropdown-item logout-btn"><i class="fas fa-power-off"></i>
-                                Logout</a>
+                            <a href="javascript:0" class="dropdown-item logout-btn"><i class="fas fa-power-off"></i> লগ আউট </a>
                             <!-- text-->
                         </div>
                     </div>

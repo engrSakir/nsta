@@ -1,5 +1,5 @@
 @push('title')
-    Dashboard
+    ভাউচার লিস্ট
 @endpush
 @extends('layouts.backend.app')
 @push('style')
@@ -8,15 +8,15 @@
 @section('breadcrumb')
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor font-weight-bold">Status: {{ $status ?? '' }}/Branch: {{ $branch_name ?? '' }}</h4>
+            <h4 class="text-themecolor font-weight-bold">অবস্থা: {{ $status ?? '' }}/শাখা: {{ $branch_name ?? '' }}</h4>
         </div>
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('manager.dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Invoice</li>
+                    <li class="breadcrumb-item"><a href="{{ route('manager.dashboard') }}">ড্যাশবোর্ড</a></li>
+                    <li class="breadcrumb-item active">ভাউচার</li>
                 </ol>
-                <a href="{{ route('manager.invoice.create') }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Create Invoice</a>
+                <a href="{{ route('manager.invoice.create') }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>ভাউচার তৈরি</a>
             </div>
         </div>
     </div>
@@ -30,13 +30,13 @@
                 <div class="card">
                     <div class="box bg-info text-center">
                         <h4 class="font-light text-white font-weight-bold"> {{ \App\Models\Branch::find($branch_id)->name }}</h4>
-                        <h6 class="text-white"> Invoice: {{ $invoice_items->count() }} </h6>
+                        <h6 class="text-white"> ভাউচার: {{ en_to_bn($invoice_items->count()) }} </h6>
                         <h6 class="text-white">
-                            Price : {{ $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour') }}
+                            মোট টাকা : {{ en_to_bn($invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour')) }}
                             <br>
-                            Due : {{ $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour') - $invoice_items->sum('paid') }}
+                            বাকি টাকা : {{ en_to_bn($invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour') - $invoice_items->sum('paid')) }}
                             <br>
-                            Paid : {{ $invoice_items->sum('paid') }}
+                            পরিশোধিত টাকা : {{ en_to_bn($invoice_items->sum('paid')) }}
                         </h6>
                     </div>
                 </div>
@@ -48,26 +48,26 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Invoice List</h4>
+                    <h4 class="card-title">ভাউচার তৈরি</h4>
 {{--                    <h6 class="card-subtitle">Add class <code>.color-bordered-table .primary-bordered-table</code></h6>--}}
                     <div class="row button-group">
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-info select-all">Select all</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-info select-all">সবগুলো ধরুন</button>
                         </div>
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-success un-select-all">Un select all</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-success un-select-all">সবগুলো বাদ দিন</button>
                         </div>
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-danger delete-selected-all">Delete selected</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-danger delete-selected-all">সবগুলো ডিলিট</button>
                         </div>
                         @if (Request::is('*/manager/invoice/status/received') || Request::is('*/manager/invoice/status/received/branch/*'))
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-info make-as-on-going-btn">Make as On Going</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-info make-as-on-going-btn">মালামাল ট্রাকে উঠান</button>
                         </div>
                         @endif
                         @if (Request::is('*/manager/invoice/status/on-going') || Request::is('*/manager/invoice/status/on-going/branch/*'))
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-info make-as-delivered-btn">Make as Delivered</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-info make-as-delivered-btn">মালামাল পৌঁছে গেছে</button>
                         </div>
                         @endif
                     </div>
@@ -76,10 +76,10 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Customer</th>
-                                <th>Office</th>
-                                <th>Payment</th>
-                                <th>Action</th>
+                                <th>কাস্টমার</th>
+                                <th>শাখা অফিস</th>
+                                <th>পেমেন্ট</th>
+                                <th>প্রিন্ট/এডিট/ডিলিট</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -89,7 +89,7 @@
                                     <label class="btn btn-info active">
                                         <div class="custom-control custom-checkbox mr-sm-2">
                                             <input type="checkbox" value="{{ $invoice->id }}" name="invoice" class="custom-control-input" id="invoice-{{ $loop->iteration }}">
-                                            <label class="custom-control-label font-weight-bold" for="invoice-{{ $loop->iteration }}">#{{ $invoice->custom_counter }}</label>
+                                            <label class="custom-control-label font-weight-bold" for="invoice-{{ $loop->iteration }}"># {{ en_to_bn($invoice->custom_counter) }}</label>
                                         </div>
                                     </label>
 
@@ -104,12 +104,12 @@
                                 </td>
                                 <td style="font-size: 16px;">
                                     {{ $invoice->toBranch->name ?? '' }}<br>
-                                    <b>{{ $invoice->created_at->format('d/m/Y') }}</b>
+                                    <b>{{ en_to_bn($invoice->created_at->format('d/m/Y')) }}</b>
                                 </td>
                                 <td style="font-size: 16px;">
-                                    <span class="text-danger">Due: {{ $invoice->price + $invoice->home + $invoice->labour - $invoice->paid }}</span><br>
-                                    <span class="text-info">Paid: {{ $invoice->paid }}</span><br>
-                                    <span class="text-success">Total: {{ $invoice->price + $invoice->home + $invoice->labour }}</span>
+                                    <span class="text-danger">বাকি টাকা: <b style="font-size: 18px;">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b></span><br>
+                                    <span class="text-info">পরিশোধিত টাকা: <b style="font-size: 18px;">{{ en_to_bn($invoice->paid) }}</b></span><br>
+                                    <span class="text-success">মোট টাকা: <b style="font-size: 18px;">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></span>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-info btn-circle btn-lg show-inv" value="{{ route('manager.invoice.show', $invoice) }}"><i class="mdi mdi-cloud-print"></i> </button>
@@ -121,10 +121,10 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Customer</th>
-                                <th>Office</th>
-                                <th>Payment</th>
-                                <th>Action</th>
+                                <th>কাস্টমার</th>
+                                <th>শাখা অফিস</th>
+                                <th>পেমেন্ট</th>
+                                <th>প্রিন্ট/এডিট/ডিলিট</th>
                             </tr>
                             </thead>
                             </tbody>
@@ -200,23 +200,23 @@
                 var html_embed_code = `<embed type="text/html" src="`+$(this).val()+`" width="750" height="500">`;
                 $('#extra-large-modal-body').html(html_embed_code);
                 $('#extra-large-modal-body').addClass( "text-center" );
-                $('#extra-large-modal-title').text( "INVOICE" );
+                $('#extra-large-modal-title').text( "ভাউচার" );
                 $('#extra-large-modal').modal('show');
             });
 
             $(".delete-selected-all").click( function (){
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: 'আপনি কি নিশ্চিত?',
+                    text: "একবার ডিলিট করে ফেললে এটিকে আর ফিরিয়ে আনতে পারবেন না!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#74051e',
                     cancelButtonColor: '#aad9e2',
-                    confirmButtonText: 'Yes, delete!'
+                    confirmButtonText: 'হ্যাঁ ডিলিট হোক!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         if($('.invoice-table input:checkbox[name=invoice]:checked').length < 1){
-                            alert('Please chose invoice');
+                            alert('দয়া করে কিছু সংখ্যক ভাউচার পছন্দ করুন');
                         }else{
                             var invoices = []
                             $('.invoice-table input:checkbox[name=invoice]:checked').each(function()
@@ -246,16 +246,16 @@
                                     if (data.type == 'success'){
                                         Swal.fire({
                                             icon: data.type,
-                                            title: 'DELETED',
+                                            title: 'ডিলিট',
                                             text: data.message,
                                         });
                                         location.reload();
                                     }else{
                                         Swal.fire({
                                             icon: data.type,
-                                            title: 'Oops...',
+                                            title: 'দুঃখিত...',
                                             text: data.message,
-                                            footer: 'Something went wrong!'
+                                            footer: 'কোথাও কিছু একটা সমস্যা হয়েছে!'
                                         });
                                     }
                                 },
@@ -271,7 +271,7 @@
                                         '                    </div>';
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Oops...',
+                                        title: 'দুঃখিত...',
                                         footer: errorMessage
                                     });
                                 },
@@ -287,13 +287,13 @@
     <script>
         $(document).ready(function(){
             $(".make-as-on-going-btn").click( function (){
-                $('#inv-modal-title').text( "Make as on going" );
+                $('#inv-modal-title').text( "মালামাল ট্রাকে উঠানোর জন্য ড্রাইভার এর তথ্য লিপিবদ্ধ করুন" );
                 $('#inv-modal').modal('show');
             });
 
             $("#make-as-on-going-submit-btn").click( function (){
                 if($('.invoice-table input:checkbox[name=invoice]:checked').length < 1){
-                    alert('Please chose invoice');
+                    alert('দয়া করে কিছু সংখ্যক ভাউচার পছন্দ করুন');
                 }else{
                     var invoices = []
                     $('.invoice-table input:checkbox[name=invoice]:checked').each(function()
@@ -329,19 +329,19 @@
                                 var html_embed_code = `<embed type="text/html" src="`+data.url+`" width="750" height="800">`;
                                 $('#extra-large-modal-body').html(html_embed_code);
                                 $('#extra-large-modal-body').addClass( "text-center" );
-                                $('#extra-large-modal-title').text( "Chalan" );
+                                $('#extra-large-modal-title').text( "এন্ট্রি চালান" );
                                 $('#extra-large-modal').modal('show');
                                 Swal.fire({
                                     icon: data.type,
-                                    title: 'INVOICE',
+                                    title: 'এন্ট্রি চালান',
                                     text: data.message,
                                 });
                             }else{
                                 Swal.fire({
                                     icon: data.type,
-                                    title: 'Oops...',
+                                    title: 'দুঃখিত...',
                                     text: data.message,
-                                    footer: 'Something went wrong!'
+                                    footer: 'কোথাও কিছু একটা সমস্যা হয়েছে!'
                                 });
                             }
                         },
@@ -357,7 +357,7 @@
                                 '                    </div>';
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Oops...',
+                                title: 'দুঃখিত...',
                                 footer: errorMessage
                             });
                         },
@@ -372,17 +372,17 @@
         $(document).ready(function(){
             $(".make-as-delivered-btn").click( function (){
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: 'আপনি কি নিশ্চিত?',
+                    text: "সত্যই ট্রাকের মালগুলো ডেলিভারি হয়ে গেছে!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#2ba809',
                     cancelButtonColor: '#003cef',
-                    confirmButtonText: 'Yes, delivered it!'
+                    confirmButtonText: 'হ্যাঁ ডেলিভারি সম্পন্ন!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         if($('.invoice-table input:checkbox[name=invoice]:checked').length < 1){
-                            alert('Please chose invoice');
+                            alert('দয়া করে কিছু সংখ্যক ভাউচার পছন্দ করুন');
                         }else{
                             var invoices = []
                             $('.invoice-table input:checkbox[name=invoice]:checked').each(function()
@@ -412,16 +412,16 @@
                                     if (data.type == 'success'){
                                         Swal.fire({
                                             icon: data.type,
-                                            title: 'DELIVERED',
+                                            title: 'ডেলিভারি সম্পন্ন',
                                             text: data.message,
                                         });
                                         location.reload();
                                     }else{
                                         Swal.fire({
                                             icon: data.type,
-                                            title: 'Oops...',
+                                            title: 'দুঃখিত...',
                                             text: data.message,
-                                            footer: 'Something went wrong!'
+                                            footer: 'কোথাও কিছু একটা সমস্যা হয়েছে!'
                                         });
                                     }
                                 },
@@ -437,7 +437,7 @@
                                         '                    </div>';
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Oops...',
+                                        title: 'দুঃখিত...',
                                         footer: errorMessage
                                     });
                                 },

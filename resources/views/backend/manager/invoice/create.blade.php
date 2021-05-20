@@ -1,5 +1,5 @@
 @push('title')
-    Dashboard
+    ভাউচার তৈরি
 @endpush
 @extends('layouts.backend.app')
 @push('style')
@@ -62,15 +62,15 @@
 @section('breadcrumb')
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">Invoice</h4>
+            <h4 class="text-themecolor">ভাউচার তৈরি</h4>
         </div>
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('manager.dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Invoice</li>
+                    <li class="breadcrumb-item active">ভাউচার</li>
                 </ol>
-                <a href="{{ route('manager.invoice.index') }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Invoice List</a>
+                <a href="{{ route('manager.invoice.index') }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>ভাউচার লিস্ট</a>
             </div>
         </div>
     </div>
@@ -79,26 +79,25 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card card-body">
-                <h4 class="card-title">Hello {{ auth()->user()->name }} !</h4>
                 <form class="form-horizontal mt-4" id="invoice-form">
                     <div class="row">
                         <div class="form-group col-md-3">
-                            <label for="sender-name">Sender Name</label>
+                            <label for="sender-name">প্রেরকের নাম</label>
                             <input type="hidden" value="sender-name">
                             <input type="text" class="form-control search-item" id="sender-name" name="sender-name" placeholder="Sender name" value="">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="receiver-name">Receiver Name</label>
+                            <label for="receiver-name">প্রাপকের নাম</label>
                             <input type="hidden" value="receiver-name">
                             <input type="text" class="form-control search-item" id="receiver-name" name="receiver-name" placeholder="Receiver name" value="">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="receiver-phone">Receiver Phone</label>
+                            <label for="receiver-phone">প্রাপকের ফোন</label>
                             <input type="hidden" value="receiver-phone">
                             <input type="text" class="form-control search-item" id="receiver-phone" name="receiver-phone" placeholder="Receiver phone" value="">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="receiver-email">Receiver Email</label>
+                            <label for="receiver-email">প্রাপকের ইমেইল</label>
                             <input type="hidden" value="receiver-email">
                             <input type="email" class="form-control search-item" id="receiver-email" name="receiver-email" placeholder="Receiver Email" value="">
                         </div>
@@ -122,7 +121,7 @@
                         <div class="form-group col-md-3">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="input-quantity">Quantity</span>
+                                    <span class="input-group-text" id="input-quantity">সংখ্যা</span>
                                 </div>
                                 <input type="text" class="form-control" onClick="this.select();" min="0" id="quantity" v-model="quantity">
                             </div>
@@ -130,7 +129,7 @@
                         <div class="form-group col-md-3">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="input-price">Price</span>
+                                    <span class="input-group-text" id="input-price">মূল্য</span>
                                 </div>
                                 <input type="text" class="form-control" onClick="this.select();" min="0" id="price" v-model="price">
                             </div>
@@ -138,7 +137,7 @@
                         <div class="form-group col-md-3">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="input-advance">Advance</span>
+                                    <span class="input-group-text" id="input-advance">পরিশোধিত </span>
                                 </div>
                                 <input type="text" class="form-control" onClick="this.select();" min="0" id="advance" v-model="advance">
                             </div>
@@ -146,7 +145,7 @@
                         <div class="form-group col-md-3">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="input-home">Home</span>
+                                    <span class="input-group-text" id="input-home">হোম ডেলিভারি</span>
                                 </div>
                                 <input type="text" class="form-control" onClick="this.select();" min="0" id="home" v-model="home">
                             </div>
@@ -154,7 +153,7 @@
                         <div class="form-group col-md-3">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="input-labour">Labour</span>
+                                    <span class="input-group-text" id="input-labour">লেবার খরচ</span>
                                 </div>
                                 <input type="text" class="form-control" onClick="this.select();" min="0" id="labour" v-model="labour">
                             </div>
@@ -162,7 +161,7 @@
                         <div class="form-group col-md-3">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="input-due">Due</span>
+                                    <span class="input-group-text" id="input-due">বাকি টাকা</span>
                                 </div>
                                 <input type="text" class="form-control bg-danger" id="due" v-bind:value="due" disabled readonly>
                             </div>
@@ -170,7 +169,7 @@
                         <div class="form-group col-md-3">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="input-total" >Total</span>
+                                    <span class="input-group-text" id="input-total" >মোট টাকা</span>
                                 </div>
                                 <input type="text" class="form-control bg-success" min="0" id="total" v-bind:value="total" disabled readonly>
                             </div>
@@ -178,14 +177,14 @@
                         <div class="form-group col-md-3">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">Signature</span>
+                                    <span class="input-group-text">স্বাক্ষর</span>
                                 </div>
                                 <input type="text" class="form-control bg-secondary" value="{{ auth()->user()->name }}" readonly>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 text-center">
-                        <button type="button" id="save-invoice" class="btn waves-effect waves-light btn-lg btn-primary"> SAVE INVOICE </button>
+                        <button type="button" id="save-invoice" class="btn waves-effect waves-light btn-lg btn-primary"> ভাউচার সেভ </button>
                     </div>
                 </form>
             </div>

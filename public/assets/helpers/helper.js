@@ -41,13 +41,13 @@
 
         $(".logout-btn").click(function (){
                 Swal.fire({
-                title: 'Are you sure?',
-                text: "You can login again in this system!",
+                title: 'আপনি কি নিশ্চিত?',
+                text: "ফোন নাম্বার অথবা ইউজারনেম মনে রাখলে পুনরায় লগইন করতে পারবেন!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#061a6c',
                 cancelButtonColor: '#b8c7c1',
-                confirmButtonText: 'Yes, logout it!'
+                confirmButtonText: 'হ্যাঁ লগআউট!'
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
@@ -57,14 +57,14 @@
                         success: function (response) {
                             if (response.type == 'success'){
                                 Swal.fire(
-                                    'Thank you !',
+                                    'ধন্যবাদ !',
                                     response.message,
                                     response.type
                                 )
                                 location.replace(response.url);
                             }else{
                                 Swal.fire(
-                                    'Sorry !',
+                                    'দুঃখিত !',
                                     response.message,
                                     response.type
                                 )
@@ -82,7 +82,7 @@
                                 '                    </div>';
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Oops...',
+                                title: 'দুঃখিত...',
                                 footer: errorMessage
                             })
                         },
@@ -158,7 +158,7 @@
                     }else{
                         Swal.fire({
                             icon: data.type,
-                            title: 'Oops...',
+                            title: 'দুঃখিত...',
                             text: data.message,
                             footer: 'Something went wrong!'
                         });
@@ -176,7 +176,7 @@
                             '                    </div>';
                         Swal.fire({
                             icon: 'error',
-                            title: 'Oops...',
+                            title: 'দুঃখিত...',
                             footer: errorMessage
                         });
                     },
@@ -222,7 +222,7 @@
                     }else{
                         Swal.fire({
                             icon: data.type,
-                            title: 'Oops...',
+                            title: 'দুঃখিত...',
                             text: data.message,
                             footer: 'Something went wrong!'
                         });
@@ -240,7 +240,7 @@
                         '                    </div>';
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops...',
+                        title: 'দুঃখিত...',
                         footer: errorMessage
                     });
                 },
@@ -269,13 +269,13 @@
                     if (response.type == 'success'){
                         $('#subscribe-email').val("");
                         Swal.fire(
-                            'Thank you !',
+                            'ধন্যবাদ !',
                             response.message,
                             'success'
                         )
                     }else{
                         Swal.fire(
-                            'Sorry !',
+                            'দুঃখিত !',
                             response.message,
                             response.type
                         )
@@ -293,7 +293,7 @@
                         '                    </div>';
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops...',
+                        title: 'দুঃখিত...',
                         footer: errorMessage
                     })
                 },
@@ -306,13 +306,13 @@
         var url = objButton.value;
         // alert(objButton.value)
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: 'আপনি কি নিশ্চিত?',
+            text: "একবার ডিলিট করে ফেললে এটিকে আর ফিরিয়ে আনতে পারবেন না!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#74051e',
             cancelButtonColor: '#aad9e2',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'হ্যাঁ ডিলিট হোক'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -322,8 +322,8 @@
                     success: function (data) {
                         if (data.type == 'success'){
                             Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted. '+data.message,
+                                'ডিলিট !',
+                                'সঠিকভাবে ডিলিট সম্পন্ন হয়েছে।  '+data.message,
                                 'success'
                             )
                             if(data.url){
@@ -337,8 +337,8 @@
                             }
                         }else{
                             Swal.fire(
-                                'Wrong!',
-                                'Something going wrong. '+data.message,
+                                'দুঃখিত',
+                                'কোথাও কিছু একটা সমস্যা হয়েছে. '+data.message,
                                 'warning'
                             )
                         }
