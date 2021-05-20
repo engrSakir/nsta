@@ -108,23 +108,23 @@
                 var html_embed_code = `<embed type="text/html" src="`+$(this).val()+`" width="750" height="500">`;
                 $('#extra-large-modal-body').html(html_embed_code);
                 $('#extra-large-modal-body').addClass( "text-center" );
-                $('#extra-large-modal-title').text( "CHALAN" );
+                $('#extra-large-modal-title').text( "এন্ট্রি চালান" );
                 $('#extra-large-modal').modal('show');
             });
 
             $(".delete-selected-all").click( function (){
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: 'আপনি কি নিশ্চিত?',
+                    text: "একবার ডিলিট করে ফেললে এটিকে আর ফিরিয়ে আনতে পারবেন না!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#74051e',
                     cancelButtonColor: '#aad9e2',
-                    confirmButtonText: 'Yes, delete!'
+                    confirmButtonText: 'হ্যাঁ ডিলিট হোক!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         if($('.invoice-table input:checkbox[name=chalan]:checked').length < 1){
-                            alert('Please chose chalan');
+                            alert('দয়া করে কিছু সংখ্যক চালান পছন্দ করুন।');
                         }else{
                             var chalans = []
                             $('.invoice-table input:checkbox[name=chalan]:checked').each(function()
@@ -154,16 +154,16 @@
                                     if (data.type == 'success'){
                                         Swal.fire({
                                             icon: data.type,
-                                            title: 'DELETED',
+                                            title: 'ডিলিট !',
                                             text: data.message,
                                         });
                                         location.reload();
                                     }else{
                                         Swal.fire({
                                             icon: data.type,
-                                            title: 'Oops...',
+                                            title: 'দুঃখিত...',
                                             text: data.message,
-                                            footer: 'Something went wrong!'
+                                            footer: 'কোথাও কিছু একটা সমস্যা হয়েছে !'
                                         });
                                     }
                                 },
@@ -179,7 +179,7 @@
                                         '                    </div>';
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Oops...',
+                                        title: 'দুঃখিত...',
                                         footer: errorMessage
                                     });
                                 },
@@ -187,175 +187,7 @@
                         }
                     }
                 })
-
             });
         });
     </script>
-    @if (Request::is('*/manager/invoice/status/received') || Request::is('*/manager/invoice/status/received/branch/*'))
-    <script>
-        $(document).ready(function(){
-            $(".make-as-on-going-btn").click( function (){
-                $('#inv-modal-title').text( "Make as on going" );
-                $('#inv-modal').modal('show');
-            });
-
-            $("#make-as-on-going-submit-btn").click( function (){
-                if($('.invoice-table input:checkbox[name=invoice]:checked').length < 1){
-                    alert('Please chose invoice');
-                }else{
-                    var invoices = []
-                    $('.invoice-table input:checkbox[name=invoice]:checked').each(function()
-                    {
-                        invoices.push($(this).val())
-                    });
-
-                    var this_btn = $(this);
-                    var formData = new FormData();
-                    formData.append('invoices', invoices);
-                    formData.append('branch_office', $('#branch-office').val());
-                    formData.append('driver_name', $('#driver-name').val());
-                    formData.append('driver_phone', $('#driver-phone').val());
-                    formData.append('car_number', $('#car-number').val());
-                    $.ajax({
-                        method: 'POST',
-                        url: '{{ route('manager.chalan.store') }}',
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        beforeSend: function (){
-                            //this_btn.html('Please wait ---- ');
-                            this_btn.prop("disabled",true);
-                        },
-                        complete: function (){
-                            //this_btn.html('Edit now');
-                            this_btn.prop("disabled",false);
-                        },
-                        success: function (data) {
-                            if (data.type == 'success'){
-                                $('#inv-modal').modal('hide');
-                                var html_embed_code = `<embed type="text/html" src="`+data.url+`" width="750" height="800">`;
-                                $('#extra-large-modal-body').html(html_embed_code);
-                                $('#extra-large-modal-body').addClass( "text-center" );
-                                $('#extra-large-modal-title').text( "Chalan" );
-                                $('#extra-large-modal').modal('show');
-                                Swal.fire({
-                                    icon: data.type,
-                                    title: 'INVOICE',
-                                    text: data.message,
-                                });
-                            }else{
-                                Swal.fire({
-                                    icon: data.type,
-                                    title: 'Oops...',
-                                    text: data.message,
-                                    footer: 'Something went wrong!'
-                                });
-                            }
-                        },
-                        error: function (xhr) {
-                            var errorMessage = '<div class="card bg-danger">\n' +
-                                '                        <div class="card-body text-center p-5">\n' +
-                                '                            <span class="text-white">';
-                            $.each(xhr.responseJSON.errors, function(key,value) {
-                                errorMessage +=(''+value+'<br>');
-                            });
-                            errorMessage +='</span>\n' +
-                                '                        </div>\n' +
-                                '                    </div>';
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                footer: errorMessage
-                            });
-                        },
-                    });
-                }
-            });
-        });
-    </script>
-    @endif
-    @if (Request::is('*/manager/invoice/status/on-going') || Request::is('*/manager/invoice/status/on-going/branch/*'))
-    <script>
-        $(document).ready(function(){
-            $(".make-as-delivered-btn").click( function (){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#2ba809',
-                    cancelButtonColor: '#003cef',
-                    confirmButtonText: 'Yes, delivered it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        if($('.invoice-table input:checkbox[name=invoice]:checked').length < 1){
-                            alert('Please chose invoice');
-                        }else{
-                            var invoices = []
-                            $('.invoice-table input:checkbox[name=invoice]:checked').each(function()
-                            {
-                                invoices.push($(this).val())
-                            });
-
-                            var this_btn = $(this);
-                            var formData = new FormData();
-                            formData.append('invoices', invoices);
-                            $.ajax({
-                                method: 'POST',
-                                url: '{{ route('manager.invoice.makeAsDelivered') }}',
-                                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                                data: formData,
-                                processData: false,
-                                contentType: false,
-                                beforeSend: function (){
-                                    //this_btn.html('Please wait ---- ');
-                                    this_btn.prop("disabled",true);
-                                },
-                                complete: function (){
-                                    //this_btn.html('Edit now');
-                                    this_btn.prop("disabled",false);
-                                },
-                                success: function (data) {
-                                    if (data.type == 'success'){
-                                        Swal.fire({
-                                            icon: data.type,
-                                            title: 'DELIVERED',
-                                            text: data.message,
-                                        });
-                                        location.reload();
-                                    }else{
-                                        Swal.fire({
-                                            icon: data.type,
-                                            title: 'Oops...',
-                                            text: data.message,
-                                            footer: 'Something went wrong!'
-                                        });
-                                    }
-                                },
-                                error: function (xhr) {
-                                    var errorMessage = '<div class="card bg-danger">\n' +
-                                        '                        <div class="card-body text-center p-5">\n' +
-                                        '                            <span class="text-white">';
-                                    $.each(xhr.responseJSON.errors, function(key,value) {
-                                        errorMessage +=(''+value+'<br>');
-                                    });
-                                    errorMessage +='</span>\n' +
-                                        '                        </div>\n' +
-                                        '                    </div>';
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        footer: errorMessage
-                                    });
-                                },
-                            });
-                        }
-                    }
-                })
-
-            });
-        });
-    </script>
-    @endif
 @endpush
