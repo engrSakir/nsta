@@ -63,7 +63,7 @@ class AuthenticatedSessionController extends Controller
         if($request->ajax()){
             return response()->json([
                 'type' => 'success',
-                'message' => 'Successfully logged out from '.config('app.name').' !',
+                'message' => 'সঠিকভাবে লগআউট সম্পন্ন হয়েছে। '.config('app.name'),
                 'url' => url('/'),
             ]);
         }else{

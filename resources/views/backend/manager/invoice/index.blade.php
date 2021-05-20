@@ -52,13 +52,13 @@
 {{--                    <h6 class="card-subtitle">Add class <code>.color-bordered-table .primary-bordered-table</code></h6>--}}
                     <div class="row button-group">
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-info select-all">সবগুলো ধরুন</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-info select-all">সবগুলো পছন্দ</button>
                         </div>
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-success un-select-all">সবগুলো বাদ দিন</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-success un-select-all">সবগুলো অপছন্দ</button>
                         </div>
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-danger delete-selected-all">সবগুলো ডিলিট</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-danger delete-selected-all">পছন্দ গুলো ডিলেট</button>
                         </div>
                         @if (Request::is('*/manager/invoice/status/received') || Request::is('*/manager/invoice/status/received/branch/*'))
                         <div class="col-lg-2 col-md-4">

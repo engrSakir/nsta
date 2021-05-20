@@ -1,5 +1,5 @@
 @push('title')
-    Dashboard
+    এন্ট্রি চালান
 @endpush
 @extends('layouts.backend.app')
 @push('style')
@@ -8,15 +8,15 @@
 @section('breadcrumb')
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor font-weight-bold">Chalan</h4>
+            <h4 class="text-themecolor font-weight-bold">এন্ট্রি চালান</h4>
         </div>
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('manager.dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Chalan</li>
+                    <li class="breadcrumb-item"><a href="{{ route('manager.dashboard') }}">ড্যাশবোর্ড</a></li>
+                    <li class="breadcrumb-item active">এন্ট্রি চালান</li>
                 </ol>
-                <a href="{{ route('manager.invoice.create') }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Create Invoice</a>
+                <a href="{{ route('manager.invoice.create') }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> ভাউচার তৈরি</a>
             </div>
         </div>
     </div>
@@ -26,17 +26,17 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Chalan List</h4>
+                    <h4 class="card-title">এন্ট্রি চালান তালিকা</h4>
 {{--                    <h6 class="card-subtitle">Add class <code>.color-bordered-table .primary-bordered-table</code></h6>--}}
                     <div class="row button-group">
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-info select-all">Select all</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-info select-all">সবগুলো পছন্দ</button>
                         </div>
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-success un-select-all">Un select all</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-success un-select-all">সবগুলো অপছন্দ</button>
                         </div>
                         <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-danger delete-selected-all">Delete selected</button>
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-danger delete-selected-all">পছন্দ গুলো ডিলেট</button>
                         </div>
                     </div>
                     <div class="invoice-table table-responsive">
@@ -44,10 +44,10 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Date</th>
-                                <th>Driver</th>
-                                <th>Branch Office</th>
-                                <th>Action</th>
+                                <th>তারিখ</th>
+                                <th>ড্রাইভার</th>
+                                <th>শাখা অফিস</th>
+                                <th>প্রিন্ট/এডিট/ডিলিট</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -62,16 +62,16 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <b style="font-size: 18px;">{{ $chalan->created_at->format('d/m/Y') ?? '' }}</b><br>
+                                    <b style="font-size: 18px;">{{ en_to_bn($chalan->created_at->format('d/m/Y')) ?? '' }}</b><br>
 
                                     <span class="badge badge-success">
-                                        Total Invoice:  {{ $chalan->invoices->count() ?? '' }}
+                                       মোট ভাউচার:  {{ en_to_bn($chalan->invoices->count()) ?? '' }}
                                     </span>
                                 </td>
                                 <td style="font-size: 16px;">
                                     {{ $chalan->driver_name ?? '' }}<br>
                                     <b>{{ $chalan->driver_phone ?? '' }}<br>
-                                    <span class="text-danger">Due: {{ $chalan->car_number }}</span><br></b>
+                                    <span class="text-danger">গাড়ি নাম্বার: {{ $chalan->car_number }}</span><br></b>
                                 </td>
                                 <td style="font-size: 16px;">
                                     {{ $chalan->toBranch->name ?? '' }}
@@ -86,10 +86,10 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Date</th>
-                                <th>Driver</th>
-                                <th>Branch Office</th>
-                                <th>Action</th>
+                                <th>তারিখ</th>
+                                <th>ড্রাইভার</th>
+                                <th>শাখা অফিস</th>
+                                <th>প্রিন্ট/এডিট/ডিলিট</th>
                             </tr>
                             </thead>
                             </tbody>
