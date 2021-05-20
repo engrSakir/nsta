@@ -196,7 +196,8 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        //
+        $linked_branches = auth()->user()->branch->fromLinkedBranchs;
+        return view('backend.manager.invoice.edit', compact('linked_branches', 'invoice'));
     }
 
     /**
