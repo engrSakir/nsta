@@ -1,0 +1,42 @@
+@page {
+    header: page-header;
+    footer: page-footer;
+
+    sheet-size: A5-L;
+
+    background-color: azure;
+
+    marks: crop;/*crop | cross | none*/
+
+    margin-top: 0.5cm;
+    margin-left: 0.5cm;
+    margin-right: 0.5cm;
+
+
+    /*margin-top: 0.5cm;*/
+    /*margin-left: 1cm;*/
+    /*margin-right: 1cm;*/
+    /*margin-bottom: 0.5cm;*/
+    /*margin-header: 0;*/
+    /*margin-footer: 0;*/
+    /*vertical-align: top;*/
+    /*background: ...*/
+    /*background-image: ...*/
+    /*background-position ...*/
+    /*background-repeat ...*/
+    /*background-color ...*/
+    /*background-gradient: ...*/
+
+
+    /*https://mpdf.github.io/css-stylesheets/supported-css.html*/
+    /*https://mpdf.github.io/paging/different-page-sizes.html*/
+
+}
+
+body{
+    font-family: bengali_englisg, sans-serif;
+}
+
+
+
+
