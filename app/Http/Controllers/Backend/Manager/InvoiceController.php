@@ -197,7 +197,7 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        if ($invoice->from_branch_id == auth()->user()->branch->id || $invoice->to_branch_id == auth()->user()->branch->id){
+        if ($invoice->from_branch_id == auth()->user()->branch->id){
             $linked_branches = auth()->user()->branch->fromLinkedBranchs;
             return view('backend.manager.invoice.edit', compact('linked_branches', 'invoice'));
         }else{
@@ -214,10 +214,10 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        if ($invoice->from_branch_id != auth()->user()->branch->id || $invoice->to_branch_id != auth()->user()->branch->id){
+        if ($invoice->from_branch_id != auth()->user()->branch->id){
             return response()->json([
                 'type' => 'error',
-                'message' => 'Your are not permitted to check this invoice.',
+                'message' => 'Your are not permitted to update this invoice.',
             ]);
         }
 
