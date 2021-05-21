@@ -50,6 +50,13 @@ class InvoiceController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->user()->company->purchasePackage->package->invoice <= Invoice::whereIn('from_branch_id', auth()->user()->company->branches->pluck('id'))->count()){
+            return response()->json([
+                'type' => 'error',
+                'message' => 'You need to upgrade your package for add more invoice.',
+            ]);
+        }
+
         $request->validate([
            'sender_name'        =>  'required|string',
            'receiver_name'      =>  'required|string',
