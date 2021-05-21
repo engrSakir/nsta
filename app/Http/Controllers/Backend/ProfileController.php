@@ -60,7 +60,7 @@ class ProfileController extends Controller
         if($request->phone == null && $request->email == null && $request->username == null){
             return back()->withErrors( 'Required phone/email/username');
         }
-        
+
         $user = Auth::user();
         $user->name = $request->name;
         $user->email = $request->email;

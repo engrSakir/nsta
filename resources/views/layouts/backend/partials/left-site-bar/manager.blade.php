@@ -6,12 +6,12 @@
 
 <li>
     <a class="waves-effect waves-dark" href="{{ route('manager.invoice.create') }}">
-        <i class="far fa-circle text-success"></i><span class="hide-menu">চালান তৈরি</span>
+        <i class="far fa-circle text-success"></i><span class="hide-menu">ভাউচার তৈরি</span>
     </a>
 </li>
 <li>
     <a class="waves-effect waves-dark" href="{{ route('manager.invoice.index') }}">
-        <i class="far fa-circle text-success"></i><span class="hide-menu">ভাউচার</span>
+        <i class="far fa-circle text-success"></i><span class="hide-menu">সকল ভাউচার</span>
     </a>
 </li>
 <li>
