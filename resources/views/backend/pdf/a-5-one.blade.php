@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title> ভাউচারঃ {{ '$invoice->invoice_id' }}  </title>
+    <title> ভাউচারঃ {{ $invoice->custom_counter ?? '---' }}  </title>
     <style>
         @page  {
             background-color: #ffffff;
@@ -69,7 +69,6 @@
             border-bottom: 1px solid black;
             padding: 0px 10px;
         }
-
     </style>
 </head>
 <body class="vertical-layout">

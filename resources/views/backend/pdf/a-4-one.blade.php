@@ -2,7 +2,7 @@
 <head>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: bengali_englisg, sans-serif;
             font-size: 10pt;
         }
 
@@ -65,7 +65,7 @@ Page {PAGENO} of {nb}
 <sethtmlpagefooter name="myfooter" value="on" />
 mpdf-->
 <div style="text-align: center">
-    <h4 class="m-1"><b>Entry Chalan</b></h4>
+    <h4 class="m-1"><b>এন্টি চালান</b></h4>
     <img src="{{ asset($chalan->fromBranch->company->logo ?? get_static_option('no_image')) }}" width="17%" height="50px">
     <h2 class="m-1"><b>{{ $chalan->fromBranch->company->name ?? '' }}</b></h2>
     <b class="m-5">{!! $chalan->fromBranch->chalan_heading_one ?? '' !!}</b>
