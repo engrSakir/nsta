@@ -79,7 +79,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card card-body">
-                <form class="form-horizontal mt-4" id="invoice-form">
+                <form class="form-horizontal mt-4" id="create-inv-form">
                     <div class="row">
                         <div class="form-group col-md-3">
                             <label for="sender-name">প্রেরকের নাম</label>
@@ -123,7 +123,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-quantity">সংখ্যা</span>
                                 </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="quantity" v-model="quantity">
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="quantity" value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-3">
@@ -131,7 +131,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-price">মূল্য</span>
                                 </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="price" v-model="price">
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="price" value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-3">
@@ -139,7 +139,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-advance">পরিশোধিত </span>
                                 </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="advance" v-model="advance">
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="advance" value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-3">
@@ -147,7 +147,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-home">হোম ডেলিভারি</span>
                                 </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="home" v-model="home">
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="home" value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-3">
@@ -155,7 +155,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-labour">লেবার খরচ</span>
                                 </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="labour" v-model="labour">
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="labour" value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-3">
@@ -163,7 +163,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-due">বাকি টাকা</span>
                                 </div>
-                                <input type="text" class="form-control bg-danger" id="due" v-bind:value="due" disabled readonly>
+                                <input type="text" class="form-control bg-danger" id="due" disabled readonly value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-3">
@@ -171,7 +171,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-total" >মোট টাকা</span>
                                 </div>
-                                <input type="text" class="form-control bg-success" min="0" id="total" v-bind:value="total" disabled readonly>
+                                <input type="text" class="form-control bg-success" min="0" id="total" disabled readonly value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-3">
@@ -192,69 +192,47 @@
     </div>
 @endsection
 @push('script')
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-    <script type="text/javascript">
-        let invoice = new Vue({
-            el: "#invoice-form",
-            data: {
-                quantity: 0,
-                price: 0,
-                advance: 0,
-                home: 0,
-                labour: 0,
-                due: 0,
-                total: 0,
-            },
-            watch: {
-                quantity(){
-                    if (parseFloat(this.quantity) < 0 || this.quantity.length < 1){
-                        this.quantity = 0;
-                    }
-                },
-                advance(){
-                    if (parseFloat(this.advance) < 0 || this.advance.length < 1){
-                        this.advance = 0;
-                    }
-                    this.total_due_calculate();
-                },
-                price(){
-                    if (parseFloat(this.price) < 0 || this.price.length < 1){
-                        this.price = 0;
-                    }
-                    this.total_calculate();
-                    this.total_due_calculate();
-                },
-                home(){
-                    if (parseFloat(this.home) < 0 || this.home.length < 1){
-                        this.home = 0;
-                    }
-                    this.total_calculate();
-                    this.total_due_calculate();
-                },
-                labour(){
-                    if (parseFloat(this.labour) < 0 || this.labour.length < 1){
-                        this.labour = 0;
-                    }
-                    this.total_calculate();
-                    this.total_due_calculate();
-                }
-            },
-            methods: {
-                total_calculate(){
-                    this.total = parseFloat(this.price) + parseFloat(this.home) + parseFloat(this.labour);
-                },
-                total_due_calculate(){
-                    this.due = parseFloat(this.total) - parseFloat(this.advance);
-                }
-            }
-        });
-    </script>
-
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(document).ready(function(){
+            //Auto calculation
+            var price= 0;
+            $("#create-inv-form #price" ).autocomplete({
+                source: function(request, response) {
+                    price = parseFloat(request.term);
+                    $('#create-inv-form #total').val(price + home + labour);
+                    $('#create-inv-form #due').val(price - advance + home + labour);
+                },
+            });
 
-            $( "#sender-name" ).autocomplete({
+            var advance = 0;
+            $("#create-inv-form #advance" ).autocomplete({
+                source: function(request, response) {
+                    advance  = parseFloat(request.term);
+                    $('#create-inv-form #due').val(price - advance + home + labour);
+                },
+            });
+
+            var home= 0;
+            $("#create-inv-form #home" ).autocomplete({
+                source: function(request, response) {
+                    home = parseFloat(request.term);
+                    $('#create-inv-form #total').val(price + home + labour);
+                    $('#create-inv-form #due').val(price - advance + home + labour);
+                },
+            });
+
+            var labour= 0;
+            $("#create-inv-form #labour" ).autocomplete({
+                source: function(request, response) {
+                    labour = parseFloat(request.term);
+                    $('#create-inv-form #total').val(price + home + labour);
+                    $('#create-inv-form #due').val(price - advance + home + labour);
+                },
+            });
+
+            //Auto Search
+            $( "#create-inv-form #sender-name" ).autocomplete({
                 source: function(request, response) {
                     // console.log(request.term);
                     var formData = new FormData();
@@ -281,7 +259,7 @@
                 minLength: 1,
             });
 
-            $( "#receiver-name" ).autocomplete({
+            $( "#create-inv-form #receiver-name" ).autocomplete({
                 source: function(request, response) {
                     // console.log(request.term);
                     var formData = new FormData();
@@ -319,7 +297,7 @@
                 }
             });
 
-            $( "#receiver-phone" ).autocomplete({
+            $( "#create-inv-form #receiver-phone" ).autocomplete({
                 source: function(request, response) {
                     // console.log(request.term);
                     var formData = new FormData();
@@ -357,7 +335,7 @@
                 }
             });
 
-            $( "#receiver-email" ).autocomplete({
+            $( "#create-inv-form #receiver-email" ).autocomplete({
                 source: function(request, response) {
                     // console.log(request.term);
                     var formData = new FormData();
@@ -395,7 +373,7 @@
                 }
             });
 
-            $('#save-invoice').click( function (){
+            $('#create-inv-form #save-invoice').click( function (){
                 var formData = new FormData();
                 var this_btn = $(this);
                 formData.append('sender_name', $('#sender-name').val());
@@ -426,7 +404,7 @@
                     },
                     success: function (data) {
                         if (data.type == 'success'){
-                            $('#invoice-form').trigger("reset");
+                            $('#create-inv-form').trigger("reset");
                             var html_embed_code = `<embed type="text/html" src="`+data.url+`" width="750" height="500">`;
                             $('#extra-large-modal-body').html(html_embed_code);
                             $('#extra-large-modal-body').addClass( "text-center" );

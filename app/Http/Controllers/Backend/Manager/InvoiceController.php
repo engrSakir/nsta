@@ -57,11 +57,11 @@ class InvoiceController extends Controller
            'receiver_email'     =>  'nullable|email',
            'branch'             =>  'required|exists:branches,id',
            'description'        =>  'required|string',
-           'quantity'           =>  'required|string|min:0',
-           'price'              =>  'required|string|min:0',
-           'advance'            =>  'required|string|min:0',
-           'home'               =>  'required|string|min:0',
-           'labour'             =>  'required|string|min:0',
+//            'quantity'           =>  'string|min:0',
+            'price'              =>  'required|string|min:0',
+//            'advance'            =>  'string|min:0',
+//            'home'               =>  'string|min:0',
+//            'labour'             =>  'string|min:0',
         ]);
 
         //# Step 0 CHECK TO_BRANCH IS VALID OR NOT
@@ -228,11 +228,11 @@ class InvoiceController extends Controller
             'receiver_email'     =>  'nullable|email',
             'branch'             =>  'required|exists:branches,id',
             'description'        =>  'required|string',
-            'quantity'           =>  'required|string|min:0',
+//            'quantity'           =>  'string|min:0',
             'price'              =>  'required|string|min:0',
-            'advance'            =>  'required|string|min:0',
-            'home'               =>  'required|string|min:0',
-            'labour'             =>  'required|string|min:0',
+//            'advance'            =>  'string|min:0',
+//            'home'               =>  'string|min:0',
+//            'labour'             =>  'string|min:0',
         ]);
 
         //# Step 0 CHECK TO_BRANCH IS VALID OR NOT
