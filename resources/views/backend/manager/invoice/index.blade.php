@@ -104,7 +104,13 @@
                                 </td>
                                 <td style="font-size: 16px;">
                                     {{ $invoice->toBranch->name ?? '' }}<br>
-                                    <b>{{ en_to_bn($invoice->created_at->format('d/m/Y')) }}</b>
+                                    <b>{{ en_to_bn($invoice->created_at->format('d/m/Y')) }}</b><br>
+                                    @if($invoice->chalan_id)
+                                        <button type="button" class="btn btn-outline-success btn-rounded show-chalan" value="{{ route('manager.chalan.show', $invoice->chalan) }}">
+                                            <i class="mdi mdi-receipt"></i>
+                                            এন্ট্রি চালান: {{ $invoice->chalan->custom_counter ?? '--' }}
+                                        </button>
+                                    @endif
                                 </td>
                                 <td style="font-size: 16px;">
                                     <span class="text-danger">বাকি টাকা: <b style="font-size: 18px;">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b></span><br>
@@ -209,6 +215,14 @@
                 $('#extra-large-modal-body').html(html_embed_code);
                 $('#extra-large-modal-body').addClass( "text-center" );
                 $('#extra-large-modal-title').text( "ভাউচার" );
+                $('#extra-large-modal').modal('show');
+            });
+
+            $(".show-chalan").click( function (){
+                var html_embed_code = `<embed type="text/html" src="`+$(this).val()+`" width="750" height="500">`;
+                $('#extra-large-modal-body').html(html_embed_code);
+                $('#extra-large-modal-body').addClass( "text-center" );
+                $('#extra-large-modal-title').text( "এন্ট্রি চালান" );
                 $('#extra-large-modal').modal('show');
             });
 
@@ -334,6 +348,9 @@
                         success: function (data) {
                             if (data.type == 'success'){
                                 $('#inv-modal').modal('hide');
+                                $('.invoice-table input:checkbox[name=invoice]:checked')
+                                    .parentsUntil('td')
+                                    .html( "<h3><b>On Going ...</b></h3>" );
                                 var html_embed_code = `<embed type="text/html" src="`+data.url+`" width="750" height="800">`;
                                 $('#extra-large-modal-body').html(html_embed_code);
                                 $('#extra-large-modal-body').addClass( "text-center" );
