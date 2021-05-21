@@ -123,7 +123,7 @@
                                 <label for="custom_inv_counter_max_value" class="col-sm-2 col-form-label">Custom counter maximum</label>
                                 <div class="col-sm-10">
                                     <input value="{{ old('custom_inv_counter_max_value') }}" name="custom_inv_counter_max_value" type="number" min="0" class="form-control"
-                                           id="custom_inv_counter_max_value" placeholder="1" required>
+                                           id="custom_inv_counter_max_value" placeholder="9999" required>
                                     @error('custom_inv_counter_max_value')
                                     <div class="alert alert-danger" role="alert">
                                         {{ $message }}
@@ -135,7 +135,7 @@
                                 <label for="custom_inv_counter_min_value" class="col-sm-2 col-form-label">Custom counter minimum</label>
                                 <div class="col-sm-10">
                                     <input value="{{ old('custom_inv_counter_min_value')  }}" name="custom_inv_counter_min_value" type="number" min="0" class="form-control"
-                                           id="custom_inv_counter_min_value" placeholder="9999" required>
+                                           id="custom_inv_counter_min_value" placeholder="1" required>
                                     @error('custom_inv_counter_min_value')
                                     <div class="alert alert-danger" role="alert">
                                         {{ $message }}
