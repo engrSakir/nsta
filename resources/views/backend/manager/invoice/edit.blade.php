@@ -78,7 +78,7 @@
                             <input type="hidden" value="receiver-phone">
                             <input type="text" class="form-control search-item" id="receiver-phone" name="receiver-phone" placeholder="Receiver phone" value="{{ $invoice->receiver->phone ?? '' }}">
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-3" style="display:none;">
                             <label for="receiver-email">প্রাপকের ইমেইল</label>
                             <input type="hidden" value="receiver-email">
                             <input type="email" class="form-control search-item" id="receiver-email" name="receiver-email" placeholder="Receiver Email" value="{{ $invoice->receiver->email ?? '' }}">
