@@ -215,7 +215,7 @@
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             type: 'POST',
-                            url: '{{ route("backend.admin.removePortfolioImages") }}',
+                            url: '{{ route("admin.removePortfolioImages") }}',
                             data: {image: image, portfolio: portfolio},
                             success: function (data) {
                                 Swal.fire(
