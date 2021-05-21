@@ -172,7 +172,9 @@
             </div>
         </div>
     </div>
-
+    @include('layouts.backend.includes.modal')
+    <script src="{{ asset('assets/backend/node_modules/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('assets/backend/node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
@@ -385,11 +387,6 @@
                     success: function (data) {
                         if (data.type == 'success'){
                             $('#edit-inv-form').trigger("reset");
-                            var html_embed_code = `<embed type="text/html" src="`+data.url+`" width="750" height="500">`;
-                            $('#extra-large-modal-body').html(html_embed_code);
-                            $('#extra-large-modal-body').addClass( "text-center" );
-                            $('#extra-large-modal-title').text( "INVOICE" );
-                            $('#extra-large-modal').modal('show');
                             Swal.fire({
                                 icon: data.type,
                                 title: 'INVOICE',
