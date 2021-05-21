@@ -161,19 +161,25 @@ class InvoiceController extends Controller
         //# Step 4 SMS
         try {
             $invoice->save();
-
+            if($invoice->receiver->phone != null && sms($invoice->receiver->phone, $invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter) == true){
+                return response()->json([
+                    'type' => 'success',
+                    'message' => 'ভাউচার তৈরি এবং কাস্টমারকে মেসেজে জানানো হয়েছে।',
+                    'url' => route('manager.invoice.show', $invoice),
+                ]);
+            }else{
+                return response()->json([
+                    'type' => 'success',
+                    'message' => 'ভাউচার তৈরি এবং কাস্টমারকে মেসেজ দেওয়া সম্ভব হয়নি।',
+                    'url' => route('manager.invoice.show', $invoice),
+                ]);
+            }
         }catch (\Exception $exception){
             return response()->json([
                 'type' => 'error',
                 'message' => $exception->getMessage(),
             ]);
         }
-
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Successfully done',
-            'url' => route('manager.invoice.show', $invoice),
-        ]);
     }
 
     /**

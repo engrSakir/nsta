@@ -18,8 +18,10 @@ class CompanyController extends Controller
     public function update(Request $request){
         $request->validate([
            'name'   =>  'required|string',
-           'reporting_email'    =>  'required|email',
+           'reporting_email'    =>  'nullable|email',
            'logo'   =>  'nullable|image|max:800',
+           'sms_api_key'   =>  'nullable|string',
+           'sms_api_pass'   =>  'nullable|string',
         ]);
 
         $company = auth()->user()->company;
@@ -40,6 +42,9 @@ class CompanyController extends Controller
             $company->logo = $folder_path.$image_new_name;
         }
         try {
+            update_static_option('sms_api_key', $request->sms_api_key);
+            update_static_option('sms_api_pass', $request->sms_api_pass);
+
             $company->save();
             return back()->withSuccess('Company successfully updated');
         } catch (\Exception $exception) {

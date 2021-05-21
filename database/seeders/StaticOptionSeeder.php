@@ -32,6 +32,9 @@ class StaticOptionSeeder extends Seeder
         set_static_option('company_instagram_link', 'https://www.instagram.com/');
         set_static_option('company_linkedin_link', 'https://www.linkedin.com/');
 
+        set_static_option('sms_api_key', null);
+        set_static_option('sms_api_pass', null);
+
         set_static_option('note_for_social_network', 'Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies');
 
         set_static_option('custom_head_code', null);

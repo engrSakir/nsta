@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="reporting_email" class="col-sm-2 col-form-label">Email</label>
+                                <label for="reporting_email" class="col-sm-2 col-form-label">Reporting Email</label>
                                 <div class="col-sm-10">
                                     <input value="{{ $company->reporting_email }}" name="reporting_email" type="text" class="form-control"
                                            id="reporting_email" placeholder="Reporting email address">
@@ -66,6 +66,31 @@
                                     <input name="logo" type="file" accept="image/*" class="form-control"
                                            id="logo" placeholder="logo">
                                     @error('logo')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <hr class="bg-success">
+                            <div class="form-group row">
+                                <label for="sms_api_key" class="col-sm-2 col-form-label">SMS API Key</label>
+                                <div class="col-sm-10">
+                                    <input value="{{ get_static_option('sms_api_key') }}" name="sms_api_key" type="text" class="form-control"
+                                           id="sms_api_key" placeholder="SMS API Key">
+                                    @error('sms_api_key')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="sms_api_pass" class="col-sm-2 col-form-label">SMS API Password</label>
+                                <div class="col-sm-10">
+                                    <input value="{{ get_static_option('sms_api_pass') }}" name="sms_api_pass" type="text" class="form-control"
+                                           id="sms_api_pass" placeholder="SMS API Password">
+                                    @error('sms_api_pass')
                                     <div class="alert alert-danger" role="alert">
                                         {{ $message }}
                                     </div>
