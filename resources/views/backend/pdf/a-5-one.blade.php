@@ -115,7 +115,7 @@
         <table class="table table-bordered table-striped" style="width: 100%;">
             <tr>
                 <td style="width: 50%; text-align: left" >
-                    প্রেরকঃ <b>{{ $invoice->sender->name ?? '---' }}</b>
+                    প্রেরকঃ <b>{{ $invoice->sender_name ?? '---' }}</b>
                 </td>
                 <td class="" style=" width: 0%; text-align: center">
                     <!--Time-->
