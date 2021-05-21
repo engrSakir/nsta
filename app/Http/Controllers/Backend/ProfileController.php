@@ -46,18 +46,21 @@ class ProfileController extends Controller
     public function profileInfoUpdate(Request $request){
         $request->validate([
             'avatar' => 'nullable|image',
-            'phone' => 'nullable',
             'address' => 'nullable',
             'facebook' => 'nullable',
             'twitter' => 'nullable',
             'youtube' => 'nullable',
             'map' => 'nullable',
-
             'name' => 'required|string',
-            'email' => 'required|string|unique:users,email,'.Auth::user()->id,
-            'username' => 'required|string|unique:users,username,'.Auth::user()->id
+            'phone' => 'nullable|unique:users,phone,'.Auth::user()->id,
+            'email' => 'nullable|string|unique:users,email,'.Auth::user()->id,
+            'username' => 'nullable|string|max:50|alpha_dash|unique:users,username,'.Auth::user()->id,
         ]);
 
+        if($request->phone == null && $request->email == null && $request->username == null){
+            return back()->withErrors( 'Required phone/email/username');
+        }
+        
         $user = Auth::user();
         $user->name = $request->name;
         $user->email = $request->email;
