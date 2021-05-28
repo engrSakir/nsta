@@ -89,6 +89,11 @@
                                 @endif
                                 <th>তারিখ</th>
                                 <th>অফিস</th>
+                                @if (Request::is('*/manager/condition-invoice'))
+                                    <th>
+                                        পরিমাণ
+                                    </th>
+                                @endif
                                 <th>কাস্টোমার</th>
                                 <th>মোবাইল</th>
                                 <th>স্টাফ</th>
@@ -125,6 +130,11 @@
                                 <td>
                                     {{ $invoice->toBranch->name ?? '' }}
                                 </td>
+                                @if (Request::is('*/manager/condition-invoice'))
+                                    <td>
+                                        {{ en_to_bn($invoice->condition_amount) }}
+                                    </td>
+                                @endif
                                 <td>
                                   {{ $invoice->receiver->name ?? '' }}
                                 </td>
@@ -156,6 +166,11 @@
                                 @endif
                                 <th>তারিখ</th>
                                 <th>অফিস</th>
+                                @if (Request::is('*/manager/condition-invoice'))
+                                    <th>
+                                        পরিমাণ
+                                    </th>
+                                @endif
                                 <th>কাস্টোমার</th>
                                 <th>মোবাইল</th>
                                 <th>স্টাফ</th>
