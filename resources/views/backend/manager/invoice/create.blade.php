@@ -114,9 +114,16 @@
                         </div>
                         @endforeach
                     </div>
+                    @if(Request::is('*/manager/condition-invoice/create'))
+                        <div class="form-group">
+                            <label class="form-control-label" for="condition-amount">কন্ডিশন টাকার পরিমান</label>
+                            <input type="text" class="form-control is-valid" id="condition-amount" name="condition-amount">
+                        </div>
+                    @endif
                     <div class="form-group">
-                        <textarea class="form-control" rows="5" id="description" name="description" placeholder="Description"></textarea>
+                        <textarea class="form-control is-valid" rows="5" id="description" name="description" placeholder="Description"></textarea>
                     </div>
+
                     <div class="row">
                         <div class="form-group col-md-3">
                             <div class="input-group mb-3">
@@ -280,7 +287,7 @@
                                     label: obj.name + '<br>' + obj.phone + '<br>' + obj.email,  //Show as label of input field
                                     phone: obj.phone,
                                     email: obj.email,
-                                    sender_branch: obj.to_branch_id
+                                    sender_branch: obj.to_branch_id,
                                 }
                             })
                             response($.ui.autocomplete.filter(array, request.term));
@@ -387,6 +394,10 @@
                 formData.append('advance', $('#advance').val());
                 formData.append('home', $('#home').val());
                 formData.append('labour', $('#labour').val());
+                @if(Request::is('*/manager/condition-invoice/create'))
+                formData.append('condition', true);
+                formData.append('condition_amount', $('#condition-amount').val());
+                @endif
                 $.ajax({
                     method: 'POST',
                     url: '{{ route('manager.invoice.store') }}',

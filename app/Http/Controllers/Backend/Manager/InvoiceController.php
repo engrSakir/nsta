@@ -50,19 +50,13 @@ class InvoiceController extends Controller
 
     public function store(Request $request)
     {
-        if (auth()->user()->company->purchasePackage->package->invoice <= Invoice::whereIn('from_branch_id', auth()->user()->company->branches->pluck('id'))->count()){
-            return response()->json([
-                'type' => 'error',
-                'message' => 'You need to upgrade your package for add more invoice.',
-            ]);
-        }
-
         $request->validate([
            'sender_name'        =>  'required|string',
            'receiver_name'      =>  'required|string',
            'receiver_phone'     =>  'nullable|string',
            'receiver_email'     =>  'nullable|email',
            'branch'             =>  'required|exists:branches,id',
+           'condition_amount' => 'required_with_all:condition',
            'description'        =>  'required|string',
 //            'quantity'           =>  'string|min:0',
             'price'              =>  'required|string|min:0',
@@ -134,7 +128,10 @@ class InvoiceController extends Controller
         $invoice->price             = bn_to_en($request->price);
         $invoice->home              = bn_to_en($request->home);
         $invoice->labour            = bn_to_en($request->labour);
-        $invoice->paid              = bn_to_en($request->advance);
+
+        if($request->condition){
+            $invoice->condition_amount              = bn_to_en($request->condition_amount);
+        }
 
         $invoice->creator_id        = auth()->user()->id;
 
@@ -447,15 +444,15 @@ class InvoiceController extends Controller
         foreach(explode(',', $request->invoices) as $invoice_id){
             $invoice = Invoice::findOrFail($invoice_id);
             //ইনভয়েসের ভ্যালিডেশন চেক হচ্ছে যে ইনভয়েস টি এই ব্রাঞ্চ থেকেই তৈরি করা হয়েছে কিনা
-            if ($invoice !=null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'Received'){
+            if ($invoice !=null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'On Going'){
                 $invoice_counter++;
             }
         }
 
-        if($invoice_counter >! 0){
+        if($invoice_counter < 1){
             return response()->json([
                 'type' => 'error',
-                'message' => 'Chose your invoice items.',
+                'message' => 'দয়া করে গাড়িতে থাকা ভাউচার সমূহ থেকে পছন্দ করেন.',
             ]);
         }
 
@@ -471,6 +468,51 @@ class InvoiceController extends Controller
         return response()->json([
             'type' => 'success',
             'message' => 'Successfully status changed',
+        ]);
+    }
+
+    //Only for conditional invoice
+    public function makeAsBreak(Request $request)
+    {
+        $request->validate([
+            'invoices' => 'required',
+        ]);
+
+        $invoice_counter = 0;
+        foreach(explode(',', $request->invoices) as $invoice_id){
+            $invoice = Invoice::findOrFail($invoice_id);
+            //ইনভয়েসের ভ্যালিডেশন চেক হচ্ছে যে ইনভয়েস টি এই ব্রাঞ্চ থেকেই তৈরি করা হয়েছে কিনা
+            if ($invoice !=null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'Delivered' && $invoice->condition_amount > 0){
+                $invoice_counter++;
+            }
+        }
+
+        if($invoice_counter  < 1){
+            return response()->json([
+                'type' => 'error',
+                'message' => 'কন্ডিশন ব্রেক করার জন্য দয়া করে ডেলিভারি সম্পন্ন হওয়া ভাউচার গুলো পছন্দ করুন।',
+            ]);
+        }
+
+        $sent_sms_counter = 0;
+        $condition_break_counter = 0;
+        foreach(explode(',', $request->invoices) as $invoice_id){
+            $invoice = Invoice::findOrFail($invoice_id);
+            //ইনভয়েসের ভ্যালিডেশন চেক হচ্ছে যে ইনভয়েস টি এই ব্রাঞ্চ থেকেই তৈরি করা হয়েছে কিনা
+            if ($invoice != null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'Delivered' && $invoice->condition_amount > 0){
+                $invoice->status = 'Break';
+                $invoice->save();
+                $condition_break_counter ++;
+                // কন্ডিশন ভাঙ্গার সাথে সাথে মেসেজ পাঠানো
+                if($invoice->receiver->phone != null && sms($invoice->receiver->phone, 'নিউ শাপলা ট্রান্সপোর্ট এজেন্সি থেকে আপনার কন্ডিশন টি সম্পূর্ণভাবে ভাঙ্গা হয়েছে। বুকিং নং- '. $invoice->custom_counter) == true){
+                    $sent_sms_counter ++;
+                }
+            }
+        }
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'কন্ডিশন ভাঙ্গা হয়েছে '.$condition_break_counter.' এবং মেসেজ পাঠানো হয়েছে '.$sent_sms_counter.' জনকে',
         ]);
     }
 
@@ -510,8 +552,18 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function conditionInvoice(){
+
+
+    public function conditionInvoiceCreate(){
         $linked_branches = auth()->user()->branch->fromLinkedBranchs;
         return view('backend.manager.invoice.create', compact('linked_branches'));
+    }
+
+    public function conditionInvoiceGet()
+    {
+        $status = 'All';
+        $branch_name = 'All';
+        $invoices = auth()->user()->branch->fromInvoices()->where('condition_amount', '>', '0')->orderBy('id', 'desc')->paginate(100);
+        return view('backend.manager.invoice.index', compact('invoices', 'status', 'branch_name'));
     }
 }

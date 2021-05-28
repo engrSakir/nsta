@@ -14,6 +14,11 @@
     </a>
 </li>
 <li>
+    <a class="waves-effect waves-dark" href="{{ route('manager.conditionInvoice.get') }}">
+        <i class="far fa-circle text-success"></i><span class="hide-menu">সকল কন্ডিশন</span>
+    </a>
+</li>
+<li>
     <a class="waves-effect waves-dark" href="{{ route('manager.invoice.index') }}">
         <i class="far fa-circle text-success"></i><span class="hide-menu">সকল ভাউচার</span>
     </a>

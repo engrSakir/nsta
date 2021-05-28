@@ -16,7 +16,6 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
-            $table->string('type')->default('Regular')->comment('Regular|Conditional');
             $table->string('barcode')->nullable()->comment('barcode');
             $table->string('status')->default('Received')->comment('Received|On Going|Delivered|Break');
 
@@ -34,6 +33,8 @@ class CreateInvoicesTable extends Migration
             $table->double('home')->default(0)->comment('Home delivery charge');
             $table->double('labour')->default(0)->comment('Labour charge');
             $table->double('paid')->default(0)->comment('Paid amount');
+
+            $table->double('condition_amount')->default(0)->comment('Only for condition type inv');
 
             $table->integer('custom_counter')->nullable()->comment('Custom ID like 1-999');
 

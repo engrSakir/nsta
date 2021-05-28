@@ -70,12 +70,23 @@
                             <button type="button" class="btn waves-effect waves-light btn-block btn-info make-as-delivered-btn">মালামাল পৌঁছে গেছে</button>
                         </div>
                         @endif
+                        @if (Request::is('*/manager/condition-invoice'))
+                        <div class="col-lg-2 col-md-4">
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-info make-as-break-btn">কন্ডিশন ভাঙ্গন</button>
+                        </div>
+                        @endif
+
                     </div>
                     <div class="invoice-table table-responsive">
                         <table class="table color-bordered-table primary-bordered-table">
                             <thead>
                             <tr>
                                 <th>#</th>
+                                @if (Request::is('*/manager/condition-invoice'))
+                                    <th>
+                                        অবস্থা
+                                    </th>
+                                @endif
                                 <th>তারিখ</th>
                                 <th>অফিস</th>
                                 <th>কাস্টোমার</th>
@@ -103,6 +114,11 @@
                                         </button>
                                     @endif
                                 </td>
+                                @if (Request::is('*/manager/condition-invoice'))
+                                    <td>
+                                        {{ $invoice->status ?? '' }}
+                                    </td>
+                                @endif
                                 <td>
                                     <b>{{ en_to_bn($invoice->created_at->format('d/m/Y')) }}</b><br>
                                 </td>
@@ -133,6 +149,11 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                @if (Request::is('*/manager/condition-invoice'))
+                                    <th>
+                                        অবস্থা
+                                    </th>
+                                @endif
                                 <th>তারিখ</th>
                                 <th>অফিস</th>
                                 <th>কাস্টোমার</th>
@@ -483,5 +504,88 @@
             });
         });
     </script>
+    @endif
+    @if (Request::is('*/manager/condition-invoice'))
+        <script>
+            $(document).ready(function(){
+                $(".make-as-break-btn").click( function (){
+                    Swal.fire({
+                        title: 'আপনি কি নিশ্চিত?',
+                        text: "কন্ডিশন ভাঙলে মেসেজ যাবে !",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#2ba809',
+                        cancelButtonColor: '#003cef',
+                        confirmButtonText: 'হ্যাঁ ডকন্ডিশন ভাঙ্গন!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            if($('.invoice-table input:checkbox[name=invoice]:checked').length < 1){
+                                alert('দয়া করে কিছু সংখ্যক ভাউচার পছন্দ করুন');
+                            }else{
+                                var invoices = []
+                                $('.invoice-table input:checkbox[name=invoice]:checked').each(function()
+                                {
+                                    invoices.push($(this).val())
+                                });
+
+                                var this_btn = $(this);
+                                var formData = new FormData();
+                                formData.append('invoices', invoices);
+                                $.ajax({
+                                    method: 'POST',
+                                    url: '{{ route('manager.invoice.makeAsBreak') }}',
+                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    beforeSend: function (){
+                                        //this_btn.html('Please wait ---- ');
+                                        this_btn.prop("disabled",true);
+                                    },
+                                    complete: function (){
+                                        //this_btn.html('Edit now');
+                                        this_btn.prop("disabled",false);
+                                    },
+                                    success: function (data) {
+                                        if (data.type == 'success'){
+                                            Swal.fire({
+                                                icon: data.type,
+                                                title: 'কন্ডিশন ভাঙ্গন সম্পন্ন',
+                                                text: data.message,
+                                            });
+                                            location.reload();
+                                        }else{
+                                            Swal.fire({
+                                                icon: data.type,
+                                                title: 'দুঃখিত...',
+                                                text: data.message,
+                                                footer: 'কোথাও কিছু একটা সমস্যা হয়েছে!'
+                                            });
+                                        }
+                                    },
+                                    error: function (xhr) {
+                                        var errorMessage = '<div class="card bg-danger">\n' +
+                                            '                        <div class="card-body text-center p-5">\n' +
+                                            '                            <span class="text-white">';
+                                        $.each(xhr.responseJSON.errors, function(key,value) {
+                                            errorMessage +=(''+value+'<br>');
+                                        });
+                                        errorMessage +='</span>\n' +
+                                            '                        </div>\n' +
+                                            '                    </div>';
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'দুঃখিত...',
+                                            footer: errorMessage
+                                        });
+                                    },
+                                });
+                            }
+                        }
+                    })
+
+                });
+            });
+        </script>
     @endif
 @endpush

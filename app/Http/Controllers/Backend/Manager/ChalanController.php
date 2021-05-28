@@ -64,10 +64,10 @@ class ChalanController extends Controller
             }
         }
 
-        if($invoice_counter >! 0){
+        if($invoice_counter < 1){
             return response()->json([
                 'type' => 'error',
-                'message' => 'Chose your invoice items.',
+                'message' => 'দয়া করে রিসিভ হওয়া ভাউচার সমূহ পছন্দ করুন',
             ]);
         }
 
