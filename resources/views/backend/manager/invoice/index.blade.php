@@ -76,8 +76,11 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>কাস্টমার</th>
-                                <th>শাখা অফিস</th>
+                                <th>তারিখ</th>
+                                <th>অফিস</th>
+                                <th>কাস্টোমার</th>
+                                <th>মোবাইল</th>
+                                <th>স্টাফ</th>
                                 <th>পেমেন্ট</th>
                                 <th>প্রিন্ট/এডিট/ডিলিট</th>
                             </tr>
@@ -92,30 +95,33 @@
                                             <label class="custom-control-label font-weight-bold" for="invoice-{{ $loop->iteration }}"># {{ en_to_bn($invoice->custom_counter) }}</label>
                                         </div>
                                     </label>
-
-                                </td>
-                                <td>
-                                    <b style="font-size: 18px;">{{ $invoice->receiver->name ?? '' }}</b><br>
-                                    {{ $invoice->receiver->phone ?? '' }}<br>
-                                    {{ $invoice->receiver->email ?? '' }}<br>
-                                    <span class="badge badge-success">
-                                        {{ $invoice->sender_name ?? '' }}
-                                    </span>
-                                </td>
-                                <td style="font-size: 16px;">
-                                    {{ $invoice->toBranch->name ?? '' }}<br>
-                                    <b>{{ en_to_bn($invoice->created_at->format('d/m/Y')) }}</b><br>
+                                    <br>
                                     @if($invoice->chalan_id)
                                         <button type="button" class="btn btn-outline-success btn-rounded show-chalan" value="{{ route('manager.chalan.show', $invoice->chalan) }}">
                                             <i class="mdi mdi-receipt"></i>
-                                            এন্ট্রি চালান: {{ $invoice->chalan->custom_counter ?? '--' }}
+                                            {{ $invoice->chalan->custom_counter ?? '--' }}
                                         </button>
                                     @endif
                                 </td>
+                                <td>
+                                    <b>{{ en_to_bn($invoice->created_at->format('d/m/Y')) }}</b><br>
+                                </td>
+                                <td>
+                                    {{ $invoice->toBranch->name ?? '' }}
+                                </td>
+                                <td>
+                                  {{ $invoice->receiver->name ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $invoice->receiver->phone ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $invoice->creator->name ?? '' }}
+                                </td>
                                 <td style="font-size: 16px;">
-                                    <span class="text-danger">বাকি টাকা: <b style="font-size: 18px;">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b></span><br>
-                                    <span class="text-info">পরিশোধিত টাকা: <b style="font-size: 18px;">{{ en_to_bn($invoice->paid) }}</b></span><br>
-                                    <span class="text-success">মোট টাকা: <b style="font-size: 18px;">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></span>
+                                    <span class="text-danger">বাকি: <b style="font-size: 18px;">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b></span><br>
+                                    <span class="text-info">পরিশোধিত: <b style="font-size: 18px;">{{ en_to_bn($invoice->paid) }}</b></span><br>
+                                    <span class="text-success">মোট: <b style="font-size: 18px;">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></span>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-info btn-circle btn-lg show-inv" value="{{ route('manager.invoice.show', $invoice) }}"><i class="mdi mdi-cloud-print"></i> </button>
@@ -127,8 +133,11 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>কাস্টমার</th>
-                                <th>শাখা অফিস</th>
+                                <th>তারিখ</th>
+                                <th>অফিস</th>
+                                <th>কাস্টোমার</th>
+                                <th>মোবাইল</th>
+                                <th>স্টাফ</th>
                                 <th>পেমেন্ট</th>
                                 <th>প্রিন্ট/এডিট/ডিলিট</th>
                             </tr>

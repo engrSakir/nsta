@@ -509,4 +509,9 @@ class InvoiceController extends Controller
             'message' => 'Successfully deleted',
         ]);
     }
+
+    public function conditionInvoice(){
+        $linked_branches = auth()->user()->branch->fromLinkedBranchs;
+        return view('backend.manager.invoice.create', compact('linked_branches'));
+    }
 }

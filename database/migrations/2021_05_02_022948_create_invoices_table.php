@@ -16,8 +16,9 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
+            $table->string('type')->default('Regular')->comment('Regular|Conditional');
             $table->string('barcode')->nullable()->comment('barcode');
-            $table->string('status')->default('Received')->comment('Received|On Going|Delivered');
+            $table->string('status')->default('Received')->comment('Received|On Going|Delivered|Break');
 
             $table->foreignId('chalan_id')->nullable()->comment('Chalan Paper ID');
             $table->foreignId('creator_id')->nullable()->comment('Admin/manager who create invoice');

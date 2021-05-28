@@ -3,7 +3,11 @@
         <i class="far fa-circle text-success"></i><span class="hide-menu">ড্যাশবোর্ড</span>
     </a>
 </li>
-
+<li>
+    <a class="waves-effect waves-dark" href="{{ route('manager.conditionInvoice.create') }}">
+        <i class="far fa-circle text-success"></i><span class="hide-menu">কন্ডিশন তৈরি</span>
+    </a>
+</li>
 <li>
     <a class="waves-effect waves-dark" href="{{ route('manager.invoice.create') }}">
         <i class="far fa-circle text-success"></i><span class="hide-menu">ভাউচার তৈরি</span>
