@@ -163,7 +163,8 @@
                                 {{ $invoice->quantity }}
                             </th>
                             <td class="left-right-bottom-color inv-description">
-                                <pre style="text-align: left; font-family: bengali_englisg;"> {{ $invoice->description }}</pre>
+                                <pre style="text-align: left; font-family: bengali_englisg;"> @if($invoice->condition_amount > 0) <b>টাকার পরিমানঃ {{ en_to_bn($invoice->condition_amount) }}</b>
+                                    <hr> @endif {{ $invoice->description }}</pre>
                             </td>
                             <td  style="text-align: center; font-size: 22px;" class="right-color bottom-color @if(($invoice->price + $invoice->home + $invoice->labour) >= $invoice->paid)  inv-due-seal @else inv-paid-seal @endif">
                                 {{ en_to_bn($invoice->price)  }}
