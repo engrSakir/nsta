@@ -320,6 +320,7 @@
                             return{
                                 value: obj.custom_counter + '-' + obj.date, //Filable in input field
                                 label: obj.custom_counter + '-' + obj.date + ' #' + obj.status,  //Show as label of input field
+                                id: obj.id,
                             }
                         })
                         response($.ui.autocomplete.filter(array, request.term));
@@ -327,6 +328,20 @@
                 })
             },
             minLength: 1,
+            select:function(event, ui){
+                //console.log(ui.item);
+                $('#searched-invoice').val(ui.item.id);
+            }
+        });
+
+        // Search find
+        $('#searched-invoice').click(function (){
+            var this_btn = $(this);
+            var html_embed_code = `<embed type="text/html" src="`+location.protocol + '//' + location.host +"/backend/manager/invoice/"+this_btn.val()+`" width="750" height="500">`;
+            $('#extra-large-modal-body').html(html_embed_code);
+            $('#extra-large-modal-body').addClass( "text-center" );
+            $('#extra-large-modal-title').text( "ভাউচার" );
+            $('#extra-large-modal').modal('show');
         });
     });
 

@@ -26,12 +26,12 @@
                         href="javascript:void(0)"><i class="icon-menu"></i></a></li>
                 <li class="nav-item">
                     <div class="input-group app-search mt-3">
+                        <input type="hidden" id="searching-inv-id">
                         <input type="text" class="form-control invoice-search-field" placeholder="Invoice Search" aria-label="" aria-describedby="basic-addon1">
                         <div class="input-group-append">
-                            <button class="btn btn-info" type="button">Go!</button>
+                            <button class="btn btn-info" type="button" id="searched-invoice">Go!</button>
                         </div>
                     </div>
-
                 </li>
                 <!-- ============================================================== -->
             </ul>
