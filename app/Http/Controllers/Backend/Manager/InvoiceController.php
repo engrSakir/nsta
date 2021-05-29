@@ -392,6 +392,12 @@ class InvoiceController extends Controller
                     ->where('email', 'LIKE', '%'. $request->email. '%')
                     ->select('name', 'phone', 'email', 'to_branch_id')
                     ->get();
+            }else if($request->search_type == 'custom_counter'){
+                return Invoice::where('from_branch_id', auth()->user()->branch->id)
+                    ->join('users', 'invoices.receiver_id', '=', 'users.id')
+                    ->where('custom_counter', 'LIKE', '%'. $request->custom_counter. '%')
+                    ->select('invoices.id as id', 'invoices.created_at as date', 'custom_counter', 'status')
+                    ->get();
             }
         }else{
             return redirect()->back()->withErrors('Request no allowed');

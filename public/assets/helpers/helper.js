@@ -299,6 +299,35 @@
                 },
             })
         });
+
+        // invoice dearch now
+        $('.invoice-search-field').autocomplete({
+            source: function(request, response) {
+                console.log(request.term);
+                var formData = new FormData();
+                formData.append('custom_counter', request.term)
+                formData.append('search_type','custom_counter')
+                $.ajax({
+                    method: 'POST',
+                    url: "/backend/manager/ui-autocomplete/receiver-info",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success:function(data){
+                        console.log(data)
+                        var array = $.map(data,function(obj){
+                            return{
+                                value: obj.custom_counter + '-' + obj.date, //Filable in input field
+                                label: obj.custom_counter + '-' + obj.date + ' #' + obj.status,  //Show as label of input field
+                            }
+                        })
+                        response($.ui.autocomplete.filter(array, request.term));
+                    },
+                })
+            },
+            minLength: 1,
+        });
     });
 
 
