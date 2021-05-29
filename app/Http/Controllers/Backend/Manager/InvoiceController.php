@@ -56,7 +56,8 @@ class InvoiceController extends Controller
            'receiver_phone'     =>  'nullable|string',
            'receiver_email'     =>  'nullable|email',
            'branch'             =>  'required|exists:branches,id',
-           'condition_amount' => 'required_with_all:condition',
+           'condition_amount'   => 'required_with_all:condition',
+           'condition_charge'   => 'required_with_all:condition',
            'description'        =>  'required|string',
 //            'quantity'           =>  'string|min:0',
             'price'              =>  'required|string|min:0',
@@ -131,6 +132,7 @@ class InvoiceController extends Controller
 
         if($request->condition){
             $invoice->condition_amount              = bn_to_en($request->condition_amount);
+            $invoice->condition_charge              = bn_to_en($request->condition_charge);
         }
 
         $invoice->creator_id        = auth()->user()->id;
@@ -237,6 +239,8 @@ class InvoiceController extends Controller
             'receiver_phone'     =>  'nullable|string',
             'receiver_email'     =>  'nullable|email',
             'branch'             =>  'required|exists:branches,id',
+            'condition_amount'   => 'required_with_all:condition',
+            'condition_charge'   => 'required_with_all:condition',
             'description'        =>  'required|string',
 //            'quantity'           =>  'string|min:0',
             'price'              =>  'required|string|min:0',
@@ -309,6 +313,11 @@ class InvoiceController extends Controller
         $invoice->paid              = bn_to_en($request->advance);
 
         $invoice->updater_id        = auth()->user()->id;
+
+        if($request->condition){
+            $invoice->condition_amount              = bn_to_en($request->condition_amount);
+            $invoice->condition_charge              = bn_to_en($request->condition_charge);
+        }
 
         //# Step 4 SMS
         try {

@@ -35,6 +35,7 @@ class CreateInvoicesTable extends Migration
             $table->double('paid')->default(0)->comment('Paid amount');
 
             $table->double('condition_amount')->default(0)->comment('Only for condition type inv');
+            $table->double('condition_charge')->default(0)->comment('Only for condition type inv');
 
             $table->integer('custom_counter')->nullable()->comment('Custom ID like 1-999');
 

@@ -119,6 +119,10 @@
                             <label class="form-control-label" for="condition-amount">কন্ডিশন টাকার পরিমান</label>
                             <input type="text" class="form-control is-valid" id="condition-amount" name="condition-amount">
                         </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="condition-charge">কন্ডিশন চার্জ</label>
+                            <input type="text" class="form-control is-valid" id="condition-charge" name="condition-charge">
+                        </div>
                     @endif
                     <div class="form-group">
                         <textarea class="form-control is-valid" rows="5" id="description" name="description" placeholder="Description"></textarea>
@@ -397,6 +401,7 @@
                 @if(Request::is('*/manager/condition-invoice/create'))
                 formData.append('condition', true);
                 formData.append('condition_amount', $('#condition-amount').val());
+                formData.append('condition_charge', $('#condition-charge').val());
                 @endif
                 $.ajax({
                     method: 'POST',
