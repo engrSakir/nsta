@@ -22,19 +22,11 @@
 @section('content')
     <div class="row">
         <!-- Column 1-->
-        <div class="col-md-6 col-lg-4 col-xlg-2">
-            <div class="card">
-                <div class="box bg-info text-center">
-                    <h1 class="font-light text-white">{{ $data['usable_message_amount'] }} </h1>
-                    <h6 class="text-white"> মেসেজ </h6>
-                </div>
-            </div>
-        </div>
         <!-- Column 2-->
         <div class="col-md-6 col-lg-4 col-xlg-2">
             <div class="card">
                 <div class="box bg-info text-center">
-                    <h1 class="font-light text-white">{{ $data['used_branch_amount'] }} <b>/</b> <small>{{ $data['permitted_branch_amount'] }}</small> </h1>
+                    <h1 class="font-light text-white">{{ $data['used_branch_amount'] }}</h1>
                     <h6 class="text-white">ব্রাঞ্চ</h6>
                 </div>
             </div>
@@ -43,7 +35,7 @@
         <div class="col-md-6 col-lg-4 col-xlg-2">
             <div class="card">
                 <div class="box bg-info text-center">
-                    <h1 class="font-light text-white">{{ $data['used_admin_amount'] }} <b>/</b> <small>{{ $data['permitted_admin_amount'] }}</small> </h1>
+                    <h1 class="font-light text-white">{{ $data['used_admin_amount'] }}</h1>
                     <h6 class="text-white">এডমিন</h6>
                 </div>
             </div>
@@ -52,7 +44,7 @@
         <div class="col-md-6 col-lg-4 col-xlg-2">
             <div class="card">
                 <div class="box bg-info text-center">
-                    <h1 class="font-light text-white">{{ $data['used_manager_amount'] }} <b>/</b> <small>{{ $data['permitted_manager_amount'] }}</small> </h1>
+                    <h1 class="font-light text-white">{{ $data['used_manager_amount'] }}</h1>
                     <h6 class="text-white">ম্যানেজার</h6>
                 </div>
             </div>
@@ -61,7 +53,7 @@
         <div class="col-md-6 col-lg-4 col-xlg-2">
             <div class="card">
                 <div class="box bg-info text-center">
-                    <h1 class="font-light text-white">{{ $data['used_customer_amount'] }} <b>/</b> <small>{{ $data['permitted_customer_amount'] }}</small> </h1>
+                    <h1 class="font-light text-white">{{ $data['used_customer_amount'] }}</h1>
                     <h6 class="text-white">কাস্টমার</h6>
                 </div>
             </div>
@@ -70,7 +62,7 @@
         <div class="col-md-6 col-lg-4 col-xlg-2">
             <div class="card">
                 <div class="box bg-info text-center">
-                    <h1 class="font-light text-white">{{ $data['used_invoice_amount'] }} <b>/</b> <small>{{ $data['permitted_invoice_amount'] }}</small> </h1>
+                    <h1 class="font-light text-white">{{ $data['used_invoice_amount'] }}</h1>
                     <h6 class="text-white">ভাউচার</h6>
                 </div>
             </div>

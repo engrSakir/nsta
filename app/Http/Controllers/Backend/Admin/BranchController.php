@@ -44,10 +44,6 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        if (auth()->user()->company->purchasePackage->package->branch <= auth()->user()->company->branches->count()){
-            return back()->withErrors('You need to upgrade your package for add more branch');
-        }
-
         $request->validate([
             'name' => 'required|string',
             'email' => 'nullable|email',

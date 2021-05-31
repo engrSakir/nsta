@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend\SuperAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Package;
-use App\Models\PurchasePackage;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -32,8 +31,6 @@ class CompanyController extends Controller
                     }else{
                         return '<span class="badge badge-pill badge-danger">Inactive</span>';
                     }
-                })->addColumn('package', function($data) {
-                    return $data->purchasePackage->package->name;
                 })->addColumn('logo', function($data) {
                     return '<img class="rounded-circle" height="70px;" src="'.asset($data->logo ?? get_static_option('no_image')).'" width="70px;" class="rounded-circle" />';
                 })->addColumn('action', function($data) {
@@ -89,10 +86,6 @@ class CompanyController extends Controller
         }
         try {
             $company->save();
-            $purchase_package = new PurchasePackage();
-            $purchase_package->company_id   =   $company->id;
-            $purchase_package->package_id   =   $request->package;
-            $purchase_package->save();
             return back()->withSuccess('Company successfully added');
         } catch (\Exception $exception) {
             return back()->withErrors( $exception->getMessage());
@@ -156,12 +149,6 @@ class CompanyController extends Controller
         }
         try {
             $company->save();
-            if($request->package){
-                $purchase_package = new PurchasePackage();
-                $purchase_package->company_id   =   $company->id;
-                $purchase_package->package_id   =   $request->package;
-                $purchase_package->save();
-            }
             return back()->withSuccess('Company successfully updated');
         } catch (\Exception $exception) {
             return back()->withErrors( $exception->getMessage());

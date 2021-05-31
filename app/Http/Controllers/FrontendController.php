@@ -14,7 +14,6 @@ use App\Models\Partner;
 use App\Models\Portfolio;
 use App\Models\PortfolioCategory;
 use App\Models\Price;
-use App\Models\PurchasePackage;
 use App\Models\Service;
 use App\Models\Strength;
 use App\Models\Team;
@@ -149,15 +148,6 @@ class FrontendController extends Controller
             $company->save();
         }catch (\Exception $exception){
             return back()->withErrors('এই মুহূর্তে কোম্পানী রেজিষ্ট্রেশন সম্পন্ন হচ্ছে না');
-        }
-
-        $purchase_package = new PurchasePackage();
-        $purchase_package->company_id   =   $company->id;
-        $purchase_package->package_id   =   1;
-        try {
-            $purchase_package->save();
-        }catch (\Exception $exception){
-            return back()->withErrors('এই মুহূর্তে অ্যাডমিন প্যাঁকেজ রেজিষ্ট্রেশন সম্পন্ন হচ্ছে না');
         }
 
         Auth::login($admin = User::create([

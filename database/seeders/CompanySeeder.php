@@ -9,7 +9,7 @@ use App\Models\Company;
 use App\Models\CustomerAndBranch;
 use App\Models\Package;
 use App\Models\PurchaseMessage;
-use App\Models\PurchasePackage;
+
 use App\Models\User;
 use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Model;
@@ -43,23 +43,7 @@ class CompanySeeder extends Seeder
                 $company = new Company();
                 $company->name = 'Company ' . $company_counter;
                 $company->save();
-                // 10 * 10 * 3 = 300 purchase package
-                for ($purchase_package_counter = 1; $purchase_package_counter <= 3; $purchase_package_counter++) {
-                    $purchase_package = new PurchasePackage();
-                    $purchase_package->company_id = $company->id;
-                    $purchase_package->package_id = $package->id;
-                    $purchase_package->save();
-                }
-                // 10 * 10 * 3 = 300 time purchase message
-                for ($purchase_message_counter = 1; $purchase_message_counter <= 3; $purchase_message_counter++) {
-                    $purchase_message = new PurchaseMessage();
-                    $purchase_message->company_id = $company->id;
-                    $purchase_message->purchaser_id = $package->id;
-                    $purchase_message->message_amount = Package::find($purchase_message_counter)->free_sms;
-                    $purchase_message->price_per_message = Package::find($purchase_message_counter)->price_per_message;
-                    $purchase_message->package_id = $purchase_package->id;
-                    $purchase_message->save();
-                }
+
                 // 10 * 10 * 10 = 1000 branches
                 for ($branch_counter = 1; $branch_counter <= 10; $branch_counter++) {
                     $branch = new Branch();
