@@ -28,16 +28,6 @@ class CompanySeeder extends Seeder
         $faker = Faker::create();
         //10 package
         for ($package_counter = 1; $package_counter <= 2; $package_counter++) {
-            $package = new Package();
-            $package->name = 'Package - '.$package_counter;
-            $package->branch = $faker->numberBetween(1,10);
-            $package->admin = $faker->numberBetween(1,10);
-            $package->manager = $faker->numberBetween(1,10);
-            $package->customer = $faker->numberBetween(50,500);
-            $package->invoice = $faker->numberBetween(50,500);
-            $package->free_sms = $faker->numberBetween(50,500);
-            $package->price_per_message =  $faker->numberBetween(0.30,0.60);
-            $package->save();
             //10 * 10 = 100 company
             for ($company_counter = 1; $company_counter <= 5; $company_counter++) {
                 $company = new Company();

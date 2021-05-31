@@ -28,7 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PortfolioCategorySeeder::class);
         $this->call(PortfolioSeeder::class);
         $this->call(TeamSeeder::class);
-        $this->call(PackageSeeder::class);
         $this->call(CompanySeeder::class);
 
         \App\Models\Invoice::factory(50)->create();
