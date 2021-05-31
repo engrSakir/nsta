@@ -186,10 +186,10 @@ class BranchController extends Controller
         $branch->is_active = $request->status;
         $branch->is_head_office = $request->head_office;
 
-        if($request->hasFile('invoice_watermark')){
-            if ($branch->invoice_watermark != null)
-                File::delete(public_path($branch->invoice_watermark)); //Old image delete
-            $image             = $request->file('invoice_watermark');
+        if($request->hasFile('invoice_due_watermark')){
+            if ($branch->invoice_due_watermark != null)
+                File::delete(public_path($branch->invoice_due_watermark)); //Old image delete
+            $image             = $request->file('invoice_due_watermark');
             $folder_path       = 'uploads/images/branch/watermark/';
             if (!file_exists($folder_path)) {
                 mkdir($folder_path, 0777, true);
@@ -197,8 +197,23 @@ class BranchController extends Controller
             $image_new_name    = Str::random(20).'-'.now()->timestamp.'.'.$image->getClientOriginalExtension();
             //resize and save to server
             Image::make($image->getRealPath())->save($folder_path.$image_new_name);
-            $branch->invoice_watermark = $folder_path.$image_new_name;
+            $branch->invoice_due_watermark = $folder_path.$image_new_name;
         }
+
+        if($request->hasFile('invoice_paid_watermark')){
+            if ($branch->invoice_paid_watermark != null)
+                File::delete(public_path($branch->invoice_paid_watermark)); //Old image delete
+            $image             = $request->file('invoice_paid_watermark');
+            $folder_path       = 'uploads/images/branch/watermark/';
+            if (!file_exists($folder_path)) {
+                mkdir($folder_path, 0777, true);
+            }
+            $image_new_name    = Str::random(20).'-'.now()->timestamp.'.'.$image->getClientOriginalExtension();
+            //resize and save to server
+            Image::make($image->getRealPath())->save($folder_path.$image_new_name);
+            $branch->invoice_paid_watermark = $folder_path.$image_new_name;
+        }
+
         try {
             $branch->save();
 

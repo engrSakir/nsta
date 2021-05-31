@@ -166,7 +166,8 @@
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="custom_inv_counter_min_value" class="col-form-label">Custom counter minimum (invoice)</label>
+                                        <label for="custom_inv_counter_min_value" class="col-form-label">Custom counter
+                                            minimum (invoice)</label>
                                         <input value="{{ $branch->custom_inv_counter_min_value }}"
                                                name="custom_inv_counter_min_value" type="number" min="0"
                                                class="form-control"
@@ -184,7 +185,8 @@
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="custom_chalan_counter_max_value" class="col-form-label">Custom counter
+                                        <label for="custom_chalan_counter_max_value" class="col-form-label">Custom
+                                            counter
                                             maximum (Chalan)</label>
                                         <input value="{{ $branch->custom_chalan_counter_max_value }}"
                                                name="custom_chalan_counter_max_value" type="number" min="0"
@@ -200,7 +202,8 @@
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="custom_chalan_counter_min_value" class="col-form-label">Custom counter minimum (Chalan)</label>
+                                        <label for="custom_chalan_counter_min_value" class="col-form-label">Custom
+                                            counter minimum (Chalan)</label>
                                         <input value="{{ $branch->custom_chalan_counter_min_value }}"
                                                name="custom_chalan_counter_min_value" type="number" min="0"
                                                class="form-control"
@@ -218,7 +221,8 @@
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="invoice_heading_one" class="col-form-label">Invoice heading one</label>
+                                        <label for="invoice_heading_one" class="col-form-label">Invoice heading
+                                            one</label>
                                         <input value="{{ $branch->invoice_heading_one }}" name="invoice_heading_one"
                                                type="text" min="0" class="form-control"
                                                id="invoice_heading_one" placeholder="Address ...........">
@@ -232,7 +236,8 @@
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="invoice_heading_two" class="col-form-label">Invoice heading two</label>
+                                        <label for="invoice_heading_two" class="col-form-label">Invoice heading
+                                            two</label>
                                         <input value="{{ $branch->invoice_heading_two }}" name="invoice_heading_two"
                                                type="text" min="0" class="form-control"
                                                id="invoice_heading_two" placeholder="Motto ...........">
@@ -249,7 +254,8 @@
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="chalan_heading_one" class="col-form-label">Chalan heading one</label>
+                                        <label for="chalan_heading_one" class="col-form-label">Chalan heading
+                                            one</label>
                                         <input value="{{ $branch->chalan_heading_one }}" name="chalan_heading_one"
                                                type="text" min="0" class="form-control"
                                                id="chalan_heading_one" placeholder="Address ...........">
@@ -263,7 +269,8 @@
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="chalan_heading_two" class="col-form-label">Chalan heading two</label>
+                                        <label for="chalan_heading_two" class="col-form-label">Chalan heading
+                                            two</label>
                                         <input value="{{ $branch->chalan_heading_two }}" name="chalan_heading_two"
                                                type="text" min="0" class="form-control"
                                                id="chalan_heading_two" placeholder="Motto ...........">
@@ -276,7 +283,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="chalan_heading_three" class="col-form-label">Chalan heading three</label>
+                                        <label for="chalan_heading_three" class="col-form-label">Chalan heading
+                                            three</label>
                                         <input value="{{ $branch->chalan_heading_three }}" name="chalan_heading_three"
                                                type="text" min="0" class="form-control"
                                                id="chalan_heading_three" placeholder="Cantact ...........">
@@ -327,14 +335,32 @@
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="invoice_watermark" class="col-form-label">Invoice watermark</label>
+                                        <label for="invoice_due_watermark" class="col-form-label">Invoice due
+                                            watermark</label>
                                         <img
-                                            src="{{ asset($branch->invoice_watermark ?? get_static_option('no_image')) }}"
+                                            src="{{ asset($branch->invoice_due_watermark ?? get_static_option('no_image')) }}"
                                             alt="" width="70px" class="img-circle">
-                                        <input name="invoice_watermark" accept="image/*" type="file"
+                                        <input name="invoice_due_watermark" accept="image/*" type="file"
                                                class="form-control"
-                                               id="invoice_watermark" placeholder="invoice_watermark">
-                                        @error('invoice_watermark')
+                                               id="invoice_due_watermark" placeholder="invoice due watermark">
+                                        @error('invoice_due_watermark')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="invoice_paid_watermark" class="col-form-label">Invoice paid
+                                            watermark</label>
+                                        <img
+                                            src="{{ asset($branch->invoice_paid_watermark ?? get_static_option('no_image')) }}"
+                                            alt="" width="70px" class="img-circle">
+                                        <input name="invoice_paid_watermark" accept="image/*" type="file"
+                                               class="form-control"
+                                               id="invoice_paid_watermark" placeholder="invoice paid watermark">
+                                        @error('invoice_paid_watermark')
                                         <div class="alert alert-danger" role="alert">
                                             {{ $message }}
                                         </div>

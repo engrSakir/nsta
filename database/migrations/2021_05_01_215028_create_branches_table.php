@@ -34,7 +34,8 @@ class CreateBranchesTable extends Migration
             $table->text('chalan_heading_one')->nullable();
             $table->text('chalan_heading_two')->nullable();
             $table->text('chalan_heading_three')->nullable();
-            $table->string('invoice_watermark')->nullable()->comment('Invoice watermark image');
+            $table->string('invoice_due_watermark')->nullable()->comment('Invoice due watermark image');
+            $table->string('invoice_paid_watermark')->nullable()->comment('Invoice paid watermark image');
             $table->string('invoice_style')->default('A5')->comment('A5|A4');
             $table->timestamps();
         });

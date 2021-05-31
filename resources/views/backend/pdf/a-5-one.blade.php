@@ -24,7 +24,11 @@
 
         .inv-description {
             /* The image used */
-            background-image: url("{{ asset($invoice->fromBranch->invoice_watermark ?? get_static_option('no_image')) }}");
+            @if(($invoice->price + $invoice->home + $invoice->labour) >= $invoice->paid)
+                background-image: url("{{ asset($invoice->fromBranch->invoice_due_watermark ?? get_static_option('no_image')) }}");
+            @else
+                background-image: url("{{ asset($invoice->fromBranch->invoice_paid_watermark ?? get_static_option('no_image')) }}");
+            @endif
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;

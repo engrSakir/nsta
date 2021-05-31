@@ -27,7 +27,7 @@
         <!-- Start row -->
         <div class="row">
             @foreach($branches as $branch)
-            <div class="col-md-6 border-top-0">
+            <div class="col-md-6 border-top-0 mb-5">
                 <div class="card border-info">
                     <a href="{{ route('admin.branch.edit', $branch) }}">
                          <div class="card-header text-center bg-info">
