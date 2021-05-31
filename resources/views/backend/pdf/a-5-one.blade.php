@@ -24,7 +24,7 @@
 
         .inv-description {
             /* The image used */
-            @if(($invoice->price + $invoice->home + $invoice->labour) >= $invoice->paid)
+            @if(($invoice->price + $invoice->home + $invoice->labour) > $invoice->paid)
                 background-image: url("{{ asset($invoice->fromBranch->invoice_due_watermark ?? get_static_option('no_image')) }}");
             @else
                 background-image: url("{{ asset($invoice->fromBranch->invoice_paid_watermark ?? get_static_option('no_image')) }}");
@@ -170,7 +170,7 @@
                                 <pre style="text-align: left; font-family: bengali_englisg;"> @if($invoice->condition_amount > 0) <b>কন্ডিশনঃ {{ en_to_bn($invoice->condition_amount) }} + চার্জঃ {{ en_to_bn($invoice->condition_charge) }} = মোটঃ {{ en_to_bn($invoice->condition_amount + $invoice->condition_charge) }}</b>
                                     <hr> @endif {{ $invoice->description }}</pre>
                             </td>
-                            <td  style="text-align: center; font-size: 22px;" class="right-color bottom-color @if(($invoice->price + $invoice->home + $invoice->labour) >= $invoice->paid)  inv-due-seal @else inv-paid-seal @endif">
+                            <td  style="text-align: center; font-size: 22px;" class="right-color bottom-color @if(($invoice->price + $invoice->home + $invoice->labour) > $invoice->paid)  inv-due-seal @else inv-paid-seal @endif">
                                 {{ en_to_bn($invoice->price)  }}
 
                             </td>
