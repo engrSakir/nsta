@@ -89,15 +89,15 @@
                                 @endif
                                 <th>তারিখ</th>
                                 <th>অফিস</th>
-                                @if (Request::is('*/manager/condition-invoice'))
-                                    <th>
-                                        পরিমাণ
-                                    </th>
-                                @endif
                                 <th>কাস্টোমার</th>
                                 <th>মোবাইল</th>
                                 <th>স্টাফ</th>
                                 <th>পেমেন্ট</th>
+                                @if (Request::is('*/manager/condition-invoice'))
+                                    <th>
+                                        কন্ডিশন
+                                    </th>
+                                @endif
                                 <th>প্রিন্ট/এডিট/ডিলিট</th>
                             </tr>
                             </thead>
@@ -130,11 +130,6 @@
                                 <td>
                                     {{ $invoice->toBranch->name ?? '' }}
                                 </td>
-                                @if (Request::is('*/manager/condition-invoice'))
-                                    <td>
-                                        {{ en_to_bn($invoice->condition_amount) }}
-                                    </td>
-                                @endif
                                 <td>
                                   {{ $invoice->receiver->name ?? '' }}
                                 </td>
@@ -149,6 +144,13 @@
                                     <span class="text-info">পরিশোধিত: <b style="font-size: 18px;">{{ en_to_bn($invoice->paid) }}</b></span><br>
                                     <span class="text-success">মোট: <b style="font-size: 18px;">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></span>
                                 </td>
+                                @if (Request::is('*/manager/condition-invoice'))
+                                    <td>
+                                        <span class="text-danger">কন্ডিশন: <b style="font-size: 18px;">{{ en_to_bn($invoice->condition_amount) }}</b></span><br>
+                                        <span class="text-info">চার্জ: <b style="font-size: 18px;">{{ en_to_bn($invoice->condition_charge) }}</b></span><br>
+                                        <span class="text-success">মোট: <b style="font-size: 18px;">{{ en_to_bn($invoice->condition_amount + $invoice->condition_charge) }}</b></span>
+                                    </td>
+                                @endif
                                 <td>
                                     <button type="button" class="btn btn-info btn-circle btn-lg show-inv" value="{{ route('manager.invoice.show', $invoice) }}"><i class="mdi mdi-cloud-print"></i> </button>
                                     <button type="button" class="btn btn-warning btn-circle btn-lg edit-inv" value="{{ route('manager.invoice.edit', $invoice) }}"><i class="mdi mdi-tooltip-edit"></i> </button>
@@ -166,15 +168,15 @@
                                 @endif
                                 <th>তারিখ</th>
                                 <th>অফিস</th>
-                                @if (Request::is('*/manager/condition-invoice'))
-                                    <th>
-                                        পরিমাণ
-                                    </th>
-                                @endif
                                 <th>কাস্টোমার</th>
                                 <th>মোবাইল</th>
                                 <th>স্টাফ</th>
                                 <th>পেমেন্ট</th>
+                                @if (Request::is('*/manager/condition-invoice'))
+                                    <th>
+                                        কন্ডিশন
+                                    </th>
+                                @endif
                                 <th>প্রিন্ট/এডিট/ডিলিট</th>
                             </tr>
                             </thead>

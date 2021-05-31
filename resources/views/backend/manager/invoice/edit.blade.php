@@ -96,6 +96,16 @@
                             </div>
                         @endforeach
                     </div>
+                    @if($invoice->condition_amount > 0)
+                        <div class="form-group">
+                            <label class="form-control-label" for="condition-amount">কন্ডিশন টাকার পরিমান</label>
+                            <input type="text" class="form-control is-valid" id="condition-amount" name="condition-amount" value="{{ $invoice->condition_amount }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="condition-charge">কন্ডিশন চার্জ</label>
+                            <input type="text" class="form-control is-valid" id="condition-charge" name="condition-charge" value="{{ $invoice->condition_charge }}">
+                        </div>
+                    @endif
                     <div class="form-group">
                         <textarea class="form-control" rows="5" id="description" name="description" placeholder="Description">{!! $invoice->description !!}</textarea>
                     </div>
@@ -375,6 +385,11 @@
                         advance:$('#edit-inv-form #advance').val(),
                         home:$('#edit-inv-form #home').val(),
                         labour:$('#edit-inv-form #labour').val(),
+                        @if($invoice->condition_amount > 0)
+                        condition: true,
+                        condition_amount: $('#condition-amount').val(),
+                        condition_charge: $('#condition-charge').val(),
+                        @endif
                     },
                     beforeSend: function (){
                         //this_btn.html('Please wait ---- ');
