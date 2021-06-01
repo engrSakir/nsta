@@ -22,6 +22,7 @@ class CreateChalansTable extends Migration
             $table->string('driver_name')->nullable();
             $table->string('driver_phone')->nullable();
             $table->string('car_number')->nullable();
+            $table->longText('chalan_note')->nullable();
             $table->timestamps();
         });
     }

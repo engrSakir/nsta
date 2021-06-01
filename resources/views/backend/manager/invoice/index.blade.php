@@ -202,11 +202,9 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Hello {{ auth()->user()->name }} !!</h4>
-                                        <h6 class="card-subtitle"> Make a chalan sheet </h6>
                                         <div class="mt-4">
                                             <div class="form-group">
-                                                <label for="branch-office">Branch office</label>
+                                                <label for="branch-office">ব্রাঞ্চ অফিস</label>
                                                 <select class="form-control custom-select" id="branch-office">
                                                     <option selected value="">--Select your branch office--</option>
                                                     @foreach($invoices->groupBy('to_branch_id') as $branch_id => $invoice_items)
@@ -215,16 +213,20 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="driver-name">Driver-name</label>
+                                                <label for="driver-name">ড্রাইভারের নাম </label>
                                                 <input type="text" class="form-control" id="driver-name" placeholder="Driver name">
                                             </div>
                                             <div class="form-group">
-                                                <label for="driver-phone">Driver-phone</label>
+                                                <label for="driver-phone">ড্রাইভারের ফোন</label>
                                                 <input type="text" class="form-control" id="driver-phone" placeholder="Driver phone">
                                             </div>
                                             <div class="form-group">
-                                                <label for="car-number">Car-number</label>
+                                                <label for="car-number">গাড়ির নাম্বার</label>
                                                 <input type="text" class="form-control" id="car-number" placeholder="car-number">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="description">চালান নোট</label>
+                                                <textarea name="description" type="text" class="form-control" id="description"></textarea>
                                             </div>
                                             <button id="make-as-on-going-submit-btn" type="button" class="btn btn-primary">Submit</button>
                                         </div>
@@ -377,6 +379,7 @@
                     formData.append('driver_name', $('#driver-name').val());
                     formData.append('driver_phone', $('#driver-phone').val());
                     formData.append('car_number', $('#car-number').val());
+                    formData.append('chalan_note', $('#description').val());
                     $.ajax({
                         method: 'POST',
                         url: '{{ route('manager.chalan.store') }}',
@@ -605,4 +608,21 @@
             });
         </script>
     @endif
+@endpush
+@push('summer-note')
+    <script>
+        $('#description').summernote({
+            placeholder: 'Hello stand alone ui',
+            tabsize: 2,
+            height: 300,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link']],
+                ['view', ['fullscreen',]]
+            ]
+        });
+    </script>
 @endpush
