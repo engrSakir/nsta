@@ -12,9 +12,61 @@
             header: page-header;
             footer: page-footer;
         }
+
+        @page  { sheet-size: 8.3in 11.7in; }
+        @page {
+            /* 20.5cm 14cm <length>{1,2} | auto | portrait | landscape */
+            /* 'em' 'ex' and % are not allowed; length values are width height */
+            /*margin: 20%;  <any of the usual CSS values for margins> */
+            vertical-align: top;
+            margin-top: 1cm; /* <any of the usual CSS values for margins> */
+            margin-left: .5cm; /* <any of the usual CSS values for margins> */
+            margin-right: .5cm; /* <any of the usual CSS values for margins> */
+            margin-bottom: .5cm; /* <any of the usual CSS values for margins> */
+            /* For half of A*/
+            /*background-color: rgba(187, 237, 241, 0.7);*/
+            /*(% of page-box width for LR, of height for TB) */
+            margin-header: 0; /* <any of the usual CSS values for margins> */
+            margin-footer: 0; /* <any of the usual CSS values for margins> */
+            marks: none;/*crop | cross | none*/
+            /*
+            background: ...
+            background-image: ...
+            background-position ...
+            background-position ...
+            background-repeat ...
+            background-color ...
+            background-gradient: ...
+
+             */
+        }
+        body{
+            font-family: bengali_englisg, sans-serif;
+            /*
+            font-family: bengali_englisg, sans-serif;
+            font-family: bengali, sans-serif;
+            font-family: english, sans-serif;
+             */
+        }
+
+        .english{
+            font-family: english, sans-serif;
+        }
+
+        .bengali{
+            font-family: bengali, sans-serif;
+        }
+
+        .rcorners{
+            border: 2px solid #0a0a0a;
+        }
+
+
+
+
         body {
             font-family: bengali_englisg, sans-serif;
-            font-size: 10pt;
+
         }
     </style>
 </head>
