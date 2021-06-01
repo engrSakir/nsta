@@ -1,132 +1,181 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <title> চালানঃ {{ $chalan->custom_counter }}  </title>
+    <link href="{{ asset('assets/pdf-css/chalan.css') }}" rel="stylesheet" type="text/css">
     <style>
+        @page  {
+            background-color: #ffffff;
+        }
+
+        @page {
+            header: page-header;
+            footer: page-footer;
+        }
         body {
             font-family: bengali_englisg, sans-serif;
             font-size: 10pt;
         }
-
-        p {
-            margin: 0pt;
-        }
-
-        table.items {
-            border: 0.1mm solid #000000;
-        }
-
-        td {
-            vertical-align: top;
-        }
-
-        .items td {
-            border-left: 0.1mm solid #000000;
-            border-right: 0.1mm solid #000000;
-        }
-
-        table thead td {
-            background-color: #EEEEEE;
-            text-align: center;
-            border: 0.1mm solid #000000;
-            font-variant: small-caps;
-        }
-
-        .items td.blanktotal {
-            background-color: #EEEEEE;
-            border: 0.1mm solid #000000;
-            background-color: #FFFFFF;
-            border: 0mm none #000000;
-            border-top: 0.1mm solid #000000;
-            border-right: 0.1mm solid #000000;
-        }
-
-        .items td.totals {
-            text-align: right;
-            border: 0.1mm solid #000000;
-        }
-
-        .items td.cost {
-            text-align: "." center;
-        }
-        .m-5 {
-            margin: -5px;
-        }
-        .m-1 {
-            margin: -1px;
-        }
     </style>
 </head>
-<body>
-<!--mpdf
-<htmlpagefooter name="myfooter">
-<div style="border-top: 1px solid #000000; font-size: 9pt; text-align: center; padding-top: 3mm; ">
-Page {PAGENO} of {nb}
-</div>
-</htmlpagefooter>
-<sethtmlpagefooter name="myfooter" value="on" />
-mpdf-->
-<div style="text-align: center">
-    <h4 class="m-1"><b>এন্টি চালান</b></h4>
-    <img src="{{ asset($chalan->fromBranch->company->logo ?? get_static_option('no_image')) }}" width="17%" height="50px">
-    <h2 class="m-1"><b>{{ $chalan->fromBranch->company->name ?? '' }}</b></h2>
-    <b class="m-5">{!! $chalan->fromBranch->chalan_heading_one ?? '' !!}</b>
-    <p class="m-5">{!! $chalan->fromBranch->chalan_heading_two ?? ''  !!}</p>
-    <p class="m-5">{!! $chalan->fromBranch->chalan_heading_three ?? ''  !!}</p>
-</div>
-<br>
+<body class="vertical-layout">
 
-<table width="100%" style="font-family: serif;" cellpadding="10">
-    <tr>
-        <td width="45%" style="border: 0.1mm solid #888888; ">
-            No.: {{ $chalan->custom_counter ?? '--' }}<br/>
-            Date: {{ $chalan->created_at->format('d/m/Y') ?? '--' }}<br/>
-            Office: {{ $chalan->toBranch->name ?? '--' }}
-        </td>
-        <td width="10%">&nbsp;</td>
-        <td width="45%" style="border: 0.1mm solid #888888;">
-            Driver Name: {{ $chalan->driver_name ?? '--' }}<br/>
-            Phone: {{ $chalan->driver_phone ?? '--' }}<br/>
-            Car: {{ $chalan->car_number ?? '--' }}
-        </td>
-    </tr>
-</table>
-<br/>
-<table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8">
-    <thead>
-    <tr>
-        <td width="5%">#</td>
-        <td width="20%">Sender</td>
-        <td width="15%">Number</td>
-        <td width="32%">Description</td>
-        <td width="8%">QT</td>
-        <td width="10%">Advance</td>
-        <td width="10%">Due</td>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- ITEMS HERE -->
-    @foreach($chalan->invoices as $invoice)
-        <tr @if($loop->even) style="background-color:rgba(156,156,156,0.2)" @endif>
-            <td align="center">{{ $loop->iteration }}</td>
-            <td align="center">{{ $invoice->sender_name ?? '--' }}</td>
-            <td align="center">{{ $invoice->custom_counter ?? '--' }}/{{ $invoice->created_at->format('d/m/Y') }}</td>
-            <td>{{ $invoice->description ?? '--' }}</td>
-            <td align="center">{{ $invoice->quantity ?? '--' }}</td>
-            <td class="cost">{{ $invoice->paid ?? '--' }}</td>
-            <td class="cost">{{  $invoice->price +  $invoice->home +  $invoice->labour - $invoice->paid }}</td>
+<!-- Start Containerbar  -->
+<div class="row">
+    <table style="width: 100%;">
+        <tr>
+            <td style="text-align: center">
+                <label style=" border-radius: 5px; padding: 10px;"><b>এন্ট্রি চালান</b></label>
+            </td>
         </tr>
-    @endforeach
-    <!-- END ITEMS HERE -->
-    <tr>
-        <td class="blanktotal" colspan="3" rowspan="1"></td>
-        <td class="totals"><b>TOTAL:</b></td>
-        <td class="totals"><b>{{ $chalan->invoices->sum('quantity') }}</b></td>
-        <td class="totals"><b>{{ $chalan->invoices->sum('paid') }}</b></td>
-        <td class="totals cost">
-            <b>{{ $chalan->invoices->sum('price') + $chalan->invoices->sum('home') + $chalan->invoices->sum('labour') - $chalan->invoices->sum('paid') }}</b>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<div style="text-align: center; font-style: italic;">Payment terms: payment due in 30 days</div>
+    </table>
+    <!-- office & company info -->
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 30%">
+                <table style="width: 100%; ">
+
+                </table>
+            </td>
+            <td style="width: 60%; text-align: center;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td>
+                            <img src="{{ asset($chalan->fromBranch->company->logo ?? get_static_option('no_image')) }}" width="20%" height="50px" class="img-fluid" alt="">
+                            <h1><b>{{ $chalan->fromBranch->company->name ?? '' }}</b></h1>
+                            <h2 style=" border-radius: 8px; ">{{ $chalan->fromBranch->chalan_heading_one ?? '' }}</h2>
+                            <h6 style="font-size: 80%;">{{ $chalan->fromBranch->chalan_heading_two ?? '' }}</h6>
+                            <p>{{ $chalan->fromBranch->chalan_heading_three ?? '' }} </p>
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 30%; ">
+
+            </td>
+        </tr>
+    </table>
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 100%; text-align: left; ">
+                <p> <b> ক্রমিক নং- {{ $chalan->custom_counter }}</b></p>
+            </td>
+        </tr>
+    </table>
+
+    <table style="width: 100%; background-color: rgba(195,193,212,0.48) ">
+        <tr style="width: 100%">
+            <td style="width: 50%; text-align: left;">
+                <p> <b> ড্রাইভারের নাম- {{ $chalan->driver_name ?? ''  }}</b></p>
+            </td>
+            <td style="width: 25%; text-align: left; ">
+                <p> <b> গাড়ী নং- {{ $chalan->car_number ?? '' }}</b></p>
+            </td>
+            <td style="width: 25%; text-align: right; ">
+                <p> <b> তারিখ- {{ $chalan->created_at->format('d/m/Y') ?? '--' }}</b></p>
+            </td>
+        </tr>
+    </table>
+    <table style="width: 100%; background-color: rgba(195,193,212,0.48) ">
+        <tr style="width: 100%">
+            <td style="width: 60%; text-align: left; ">
+                <p> <b> স্থান- {{ $chalan->toBranch->name ?? '--' }}</b></p>
+            </td>
+            <td style="width: 40%; text-align: right; ">
+                <p> <b> মোবাইল নং-{{ $chalan->driver_phone ?? '' }}</b></p>
+            </td>
+        </tr>
+    </table>
+</div>
+<hr>
+<div class="row">
+    <table style="text-align: center;">
+        <tr style="width: 100%;">
+            <th style="width: 1cm;">
+                ক্র নং
+            </th style="width: 4cm;">
+            <th style="width: 6cm;">
+                প্রাপকের নাম
+            </th>
+            <th style="width: 8cm;">
+                বিল নং
+            </th>
+            <th style="width: 10cm;">
+                মালের নাম
+            </th style="width: 1cm;">
+            <th>
+                সংখ্যা
+            </th>
+            <th style="width: 2cm;">
+                অগ্রীম ভাড়া
+            </th>
+            <th style="width: 2cm;">
+                বাকি ভাড়া
+            </th>
+            <th style="width: 1cm;">
+                মন্তব্য
+            </th>
+        </tr>
+        @foreach($chalan->invoices as $invoice)
+            <tr @if($loop->even) style="width: 100%; background-color: #cec5c5" @else style="width: 100%; background-color: rgba(206,197,197,0.21)" @endif>
+                <td>
+                    {{ $loop->iteration }}
+                </td>
+                <td style="font-size: 22px; text-align: left;">
+                    {{ $invoice->receiver->name ?? '' }}
+                </td>
+                <td>
+                    <b style="font-size: 30px;">{{ en_to_bn($invoice->custom_counter) }}/{{ en_to_bn($invoice->created_at->format('d/m/Y')) }}</b>
+                </td>
+                <td style="text-align: left; font-size: 22px;"><pre style="text-align: left;">{{ $invoice->description ?? '' }}</pre></td>
+                <td  style="font-size: 22px;">
+                    {{ en_to_bn($invoice->quantity) }}
+                </td>
+                <td style="font-size: 22px;">
+                    {{ en_to_bn($invoice->paid) }}
+                </td>
+                <td style="font-size: 22px;">
+                    {{  en_to_bn($invoice->price +  $invoice->home +  $invoice->labour - $invoice->paid) }}
+                </td>
+                <td>
+                </td>
+            </tr>
+        @endforeach
+    </table>
+    <div style="text-align: right; width:100%;">
+        <b>মোটঃ  {{ en_to_bn($chalan->invoices->sum('paid')) }} &nbsp; {{ en_to_bn($chalan->invoices->sum('price') + $chalan->invoices->sum('home') + $chalan->invoices->sum('labour') - $chalan->invoices->sum('paid')) }} &nbsp; <br>   সর্ব মোটঃ {{ $chalan->invoices->sum('paid') + $chalan->invoices->sum('price') + $chalan->invoices->sum('home') + $chalan->invoices->sum('labour') - $chalan->invoices->sum('paid') }}&nbsp; </b>
+    </div>
+
+    <table style="width:100%; margin-top: 5px;">
+        <tr style="width: 100%;">
+            <td style="background-color: rgba(139,0,0,0.04); width: 100%; text-align: center;">
+                <i>বিঃ দ্রঃ- দস্তখতকারী ড্রাইভার মালামালের জন্য দায়ী রহিলাম ।</i>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%; margin-top: 5px;">
+        <tr style="width: 100%;">
+            <td style=" width: 50%; text-align: left;">
+                ড্রাইভারের স্বাক্ষর
+            </td>
+            <td style="width: 50%; text-align: right;">
+                ভারপ্রাপ্ত কর্মকর্তার স্বাক্ষর
+            </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <table style="width:100%; margin-top: 5px;">
+        <tr style="width: 100%;">
+            <td style="background-color: rgba(139,0,0,0.04); width: 100%;">
+                {!! $chalan->chalan_note ?? '' !!}
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
+
+
+
