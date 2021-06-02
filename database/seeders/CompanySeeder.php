@@ -26,16 +26,13 @@ class CompanySeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        //10 package
-        for ($package_counter = 1; $package_counter <= 2; $package_counter++) {
-            //10 * 10 = 100 company
-            for ($company_counter = 1; $company_counter <= 5; $company_counter++) {
+
                 $company = new Company();
-                $company->name = 'Company ' . $company_counter;
+                $company->name = 'NSTA';
                 $company->save();
 
                 // 10 * 10 * 10 = 1000 branches
-                for ($branch_counter = 1; $branch_counter <= 10; $branch_counter++) {
+                for ($branch_counter = 1; $branch_counter <= 2; $branch_counter++) {
                     $branch = new Branch();
                     $branch->company_id = $company->id;
                     $branch->name = 'Branch -'. $branch_counter . ' of '. $company->name;
@@ -50,32 +47,6 @@ class CompanySeeder extends Seeder
                     $manager->branch_id = $branch->id;
                     $manager->save();
 
-                    // 10 * 10 * 10 * 10 = 10000 links branches
-                    for ($linked_branch_counter = 1; $linked_branch_counter <= 10; $linked_branch_counter++) {
-                        $linked_branch = new BranchLink();
-                        $linked_branch->from_branch_id = $branch->id;
-                        $linked_branch->to_branch_id = $linked_branch_counter;
-                        $linked_branch->save();
-                    }
-
-                    // 10 * 10 * 10 * 10 = 10000 customers and linked with branch
-                    for ($branch_customer_counter = 1; $branch_customer_counter <= 10; $branch_customer_counter++) {
-                        $customer = new User();
-                        $customer->type = 'Customer';
-                        $customer->name = 'Customer v-'.$company->id.'-'.$branch->id.'-'.$branch_customer_counter;
-                        $customer->email = $company->id.'-'.$branch->id.'-'.$branch_customer_counter.'-customer@gmail.com';
-                        $customer->password = Hash::make('password');
-                        $customer->save();
-
-                        $customer_and_branch = new CustomerAndBranch();
-                        $customer_and_branch->branch_id = $branch->id;
-                        $customer_and_branch->user_id = $customer->id;
-                        $customer_and_branch->save();
-                    }
-
                 }
-
-            }
-        }
     }
 }
