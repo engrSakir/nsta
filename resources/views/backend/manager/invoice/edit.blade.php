@@ -68,6 +68,14 @@
                             <input type="hidden" value="sender-name">
                             <input type="text" class="form-control search-item" id="sender-name" name="sender-name" placeholder="Sender name" value="{{ $invoice->sender_name }}">
                         </div>
+                        @if($invoice->condition_amount > 0)
+{{--                            This id condition type invoice--}}
+                            <div class="form-group col-md-3">
+                                <label for="sender-phone">প্রেরকের ফোন</label>
+                                <input type="hidden" value="sender-phone">
+                                <input type="text" class="form-control search-item" id="sender-phone" name="sender-phone" placeholder="Sender phone" value="">
+                            </div>
+                        @endif
                         <div class="form-group col-md-3">
                             <label for="receiver-name">প্রাপকের নাম</label>
                             <input type="hidden" value="receiver-name">
@@ -97,6 +105,7 @@
                         @endforeach
                     </div>
                     @if($invoice->condition_amount > 0)
+                        {{--                            This id condition type invoice--}}
                         <div class="form-group">
                             <label class="form-control-label" for="condition-amount">কন্ডিশন টাকার পরিমান</label>
                             <input type="text" class="form-control is-valid" id="condition-amount" name="condition-amount" value="{{ $invoice->condition_amount }}">
@@ -243,7 +252,8 @@
                             var array = $.map(data,function(obj){
                                 return{
                                     value: obj.sender_name, //Fillable in input field
-                                    label: obj.sender_name  //Show as label of input field
+                                    label: obj.sender_name + ' '+obj.sender_phone,  //Show as label of input field
+                                    phone: obj.sender_phone,
                                 }
                             })
                             response($.ui.autocomplete.filter(array, request.term));
@@ -251,7 +261,46 @@
                     })
                 },
                 minLength: 1,
+                select:function(event, ui){
+                    //console.log(ui.item);
+                    $('#sender-phone').val(ui.item.phone);
+                }
             });
+
+            @if($invoice->condition_amount > 0)
+            {{--                            This id condition type invoice--}}
+            $( "#edit-inv-form #sender-phone" ).autocomplete({
+                source: function(request, response) {
+                    // console.log(request.term);
+                    var formData = new FormData();
+                    formData.append('phone', request.term)
+                    $.ajax({
+                        method: 'POST',
+                        url: "{{ route('manager.senderPhone') }}",
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success:function(data){
+                            // console.log(data)
+                            var array = $.map(data,function(obj){
+                                return{
+                                    value: obj.sender_phone, //Fillable in input field
+                                    label: obj.sender_phone + ' '+obj.sender_name,  //Show as label of input field
+                                    phone: obj.sender_name,
+                                }
+                            })
+                            response($.ui.autocomplete.filter(array, request.term));
+                        },
+                    })
+                },
+                minLength: 1,
+                select:function(event, ui){
+                    //console.log(ui.item);
+                    $('#sender-name').val(ui.item.phone);
+                }
+            });
+            @endif
 
             $( "#edit-inv-form #receiver-name" ).autocomplete({
                 source: function(request, response) {
@@ -389,6 +438,7 @@
                         condition: true,
                         condition_amount: $('#condition-amount').val(),
                         condition_charge: $('#condition-charge').val(),
+                        sender_phone: $('#sender-phone').val(),
                         @endif
                     },
                     beforeSend: function (){

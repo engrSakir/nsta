@@ -375,46 +375,6 @@
                     $('#branch-'+ui.item.sender_branch).attr('checked', true);
                 }
             });
-            @if(Request::is('*/manager/condition-invoice/create'))
-            $( "#create-inv-form #receiver-email" ).autocomplete({
-                source: function(request, response) {
-                    // console.log(request.term);
-                    var formData = new FormData();
-                    formData.append('email', request.term)
-                    formData.append('search_type','email')
-                    $.ajax({
-                        method: 'POST',
-                        url: "{{ route('manager.receiverInfo') }}",
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success:function(data){
-                            // console.log(data)
-                            var array = $.map(data,function(obj){
-                                return{
-                                    value: obj.email, //Filable in input field
-                                    label: obj.name + '-' + obj.phone + '-' + obj.email,  //Show as label of input field
-                                    phone: obj.phone,
-                                    name: obj.name,
-                                    sender_branch: obj.to_branch_id
-                                }
-                            })
-                            response($.ui.autocomplete.filter(array, request.term));
-                        },
-                    })
-                },
-                minLength: 1,
-                select:function(event, ui){
-                    //console.log(ui.item);
-                    $('#receiver-phone').val(ui.item.phone);
-                    $('#receiver-name').val(ui.item.name);
-                    $('.branch').attr('checked', false);
-                    $('#branch-'+ui.item.sender_branch).attr('checked', true);
-                }
-            });
-            @endif
-
 
             $('#create-inv-form #save-invoice').click( function (){
                 var formData = new FormData();
