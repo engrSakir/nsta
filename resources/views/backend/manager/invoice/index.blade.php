@@ -48,7 +48,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">ভাউচার তৈরি</h4>
+{{--                    <h4 class="card-title">ভাউচার লিস্ট</h4>--}}
 {{--                    <h6 class="card-subtitle">Add class <code>.color-bordered-table .primary-bordered-table</code></h6>--}}
                     <div class="row button-group">
                         <div class="col-lg-2 col-md-4">
