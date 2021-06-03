@@ -115,28 +115,30 @@
         </table>
     </div>
     <div class="col-12">
-        <table class="table table-bordered table-striped" style="width: 100%;">
+        <table class="table table-bordered table-striped" style="width: 100%; margin: -5px; ">
             <tr>
-                <td style="width: 50%; text-align: left" >
+                <td style="width: 30%; text-align: left" >
                     প্রেরকঃ <b>{{ $invoice->sender_name ?? '---' }}</b>
                 </td>
-                <td class="" style=" width: 0%; text-align: center">
+                <td class="" style="width: 30%; text-align: center">
                     <!--Time-->
+                    সময়- {{ en_to_bn($invoice->created_at->format('h:i A')) }}
                 </td>
-                <td class="" style=" width: 50%; text-align: right">
+                <td class="" style="width: 30%; text-align: right">
                     প্রাপকঃ <b> {{ $invoice->receiver->name ?? '---' }}</b> <br> মোবাইলঃ<b> {{ $invoice->receiver->phone ?? '---' }}</b>
                 </td>
             </tr>
         </table>
         <table class="table table-bordered table-striped" style="width: 100%; margin: -5px; ">
             <tr>
-                <td class="" style="width: 50%; text-align: left;" >
+                <td style="width: 30%; text-align: left" >
                     ঠিকানাঃ {{ $invoice->fromBranch->name ?? '---' }}
                 </td>
-                <td class="" style=" width: 0%; text-align: center">
+                <td class="" style="width: 30%; text-align: center">
                     <!--Date-->
+                    তারিখ- {{ en_to_bn($invoice->created_at->format('d/m/Y')) }}
                 </td>
-                <td class="" style=" width: 50%; text-align: right;">
+                <td class="" style="width: 30%; text-align: right">
                     ঠিকানাঃ {{ $invoice->toBranch->name ?? '---' }}
                 </td>
             </tr>
@@ -176,45 +178,37 @@
                             </td>
                         </tr>
                     </table>
-                    <table class="background" style="width: 100%; font-size: 105%; ">
+                    <table class="background" style="width: 100%;">
                         <tbody>
                         <tr>
-                            <th style="text-align: center; width:5%"> </th>
-                            <td style="text-align: center; width:30%"> </td>
-                            <td style="text-align: right; width:10%">হোম ডেলিভারি- </td>
+                            <td style="text-align: left; width:25%">1. প্রধান কার্যালয় ঢাকা</td>
+                            <td style="text-align: left; width:25%">2. কিশোরগঞ্জ অফিস</td>
+                            <td style="text-align: right; width:27%">হোম ডেলিভারি- </td>
                             <td style="text-align: center; width:22%; border: 1px solid black;"><b>{{ en_to_bn($invoice->home) }}</b></td>
                         </tr>
                         <tr>
-                            <th> </th>
-                            <th> www.nsta.com.bd </th>
-                            <td style="text-align: right;">লেবার- </td>
-                            <td style="text-align: center; ; border: 1px solid black;"><b>{{ en_to_bn($invoice->labour) }}</b></td>
+                            <td style="text-align: left;">3. পকুড়িগ্রাম অফিস</td>
+                            <td style="text-align: left;">4. কিসৈয়দপুর</td>
+                            <td style="text-align: right;">লেবার - </td>
+                            <td style="text-align: center; border: 1px solid black;"><b>{{ en_to_bn($invoice->labour) }}</b></td>
                         </tr>
                         <tr>
-                            <th style="text-align: center"> </th>
-                            <th style="text-align: center">
-                                বুকিং তারিখ- {{ en_to_bn($invoice->created_at->format('d/m/Y')) }}
-                            </th>
-                            <td style="text-align: right">মোট- </td>
-                            <td style="text-align: center; background-color: rgba(11,198,145,0.5); border: 1px solid black;"><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></td>
+                            <td style="text-align: left;">5. রংপুর অফিস</td>
+                            <td style="text-align: left;">6. কিশোরগঞ্জ অফিস</td>
+                            <td style="text-align: right; ">মোট - </td>
+                            <td style="text-align: center; border: 1px solid black;"><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></td>
                         </tr>
                         <tr>
-                            <th></th>
-                            <th>
-                                বুকিং সময়- {{ en_to_bn($invoice->created_at->format('H:i A')) }}
-                            </th>
-                            <td style="text-align: right">
-                                অগ্রীম-
-                            </td>
-                            <td  style="text-align: center; background-color: rgba(11,198,145,0.5); border: 1px solid black;"  style="text-align: center; border: 1px solid black;" ><b>{{ en_to_bn($invoice->paid) }}</b></td>
+                            <td style="text-align: left;">7. গাইবান্ধাা</td>
+                            <td style="text-align: left;">8. বগুড়া</td>
+                            <td style="text-align: right; ">অগ্রীম - </td>
+                            <td style="text-align: center; border: 1px solid black;"><b>{{ en_to_bn($invoice->paid) }}</b></td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td style="text-align: right; width: 50%;" class="">
-                                বাকী-
-                            </td>
-                            <td style="text-align: center; border: 1px solid black; background-color: rgba(11,198,145,0.5);" class=""><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b></td>
+                            <td style="text-align: left;">9. গোবিন্ধগঞ্জ</td>
+                            <td style="text-align: left;">10. কশঠি বাড়ি</td>
+                            <td style="text-align: right; ">বাকী - </td>
+                            <td style="text-align: center; border: 1px solid black;"><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b></td>
                         </tr>
                         </tbody>
                     </table>
