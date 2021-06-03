@@ -32,6 +32,13 @@
                             <input type="hidden" value="sender-name">
                             <input type="text" class="form-control search-item" id="sender-name" name="sender-name" placeholder="Sender name" value="">
                         </div>
+                        @if(Request::is('*/manager/condition-invoice/create'))
+                            <div class="form-group col-md-3">
+                                <label for="sender-phone">প্রেরকের ফোন</label>
+                                <input type="hidden" value="sender-phone">
+                                <input type="text" class="form-control search-item" id="sender-phone" name="sender-phone" placeholder="Sender phone" value="">
+                            </div>
+                        @endif
                         <div class="form-group col-md-3">
                             <label for="receiver-name">প্রাপকের নাম</label>
                             <input type="hidden" value="receiver-name">
@@ -205,7 +212,8 @@
                             var array = $.map(data,function(obj){
                                 return{
                                     value: obj.sender_name, //Fillable in input field
-                                    label: obj.sender_name  //Show as label of input field
+                                    label: obj.sender_name + ' '+obj.sender_phone,  //Show as label of input field
+                                    phone: obj.sender_phone,
                                 }
                             })
                             response($.ui.autocomplete.filter(array, request.term));
@@ -213,7 +221,46 @@
                     })
                 },
                 minLength: 1,
+                select:function(event, ui){
+                    //console.log(ui.item);
+                    $('#sender-phone').val(ui.item.phone);
+                }
             });
+
+            @if(Request::is('*/manager/condition-invoice/create'))
+            $( "#create-inv-form #sender-phone" ).autocomplete({
+                source: function(request, response) {
+                    // console.log(request.term);
+                    var formData = new FormData();
+                    formData.append('phone', request.term)
+                    $.ajax({
+                        method: 'POST',
+                        url: "{{ route('manager.senderPhone') }}",
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success:function(data){
+                            // console.log(data)
+                            var array = $.map(data,function(obj){
+                                return{
+                                    value: obj.sender_phone, //Fillable in input field
+                                    label: obj.sender_phone + ' '+obj.sender_name,  //Show as label of input field
+                                    phone: obj.sender_name,
+                                }
+                            })
+                            response($.ui.autocomplete.filter(array, request.term));
+                        },
+                    })
+                },
+                minLength: 1,
+                select:function(event, ui){
+                    //console.log(ui.item);
+                    $('#sender-name').val(ui.item.phone);
+                }
+            });
+            @endif
+
 
             $( "#create-inv-form #receiver-name" ).autocomplete({
                 source: function(request, response) {
@@ -328,6 +375,46 @@
                     $('#branch-'+ui.item.sender_branch).attr('checked', true);
                 }
             });
+            @if(Request::is('*/manager/condition-invoice/create'))
+            $( "#create-inv-form #receiver-email" ).autocomplete({
+                source: function(request, response) {
+                    // console.log(request.term);
+                    var formData = new FormData();
+                    formData.append('email', request.term)
+                    formData.append('search_type','email')
+                    $.ajax({
+                        method: 'POST',
+                        url: "{{ route('manager.receiverInfo') }}",
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success:function(data){
+                            // console.log(data)
+                            var array = $.map(data,function(obj){
+                                return{
+                                    value: obj.email, //Filable in input field
+                                    label: obj.name + '-' + obj.phone + '-' + obj.email,  //Show as label of input field
+                                    phone: obj.phone,
+                                    name: obj.name,
+                                    sender_branch: obj.to_branch_id
+                                }
+                            })
+                            response($.ui.autocomplete.filter(array, request.term));
+                        },
+                    })
+                },
+                minLength: 1,
+                select:function(event, ui){
+                    //console.log(ui.item);
+                    $('#receiver-phone').val(ui.item.phone);
+                    $('#receiver-name').val(ui.item.name);
+                    $('.branch').attr('checked', false);
+                    $('#branch-'+ui.item.sender_branch).attr('checked', true);
+                }
+            });
+            @endif
+
 
             $('#create-inv-form #save-invoice').click( function (){
                 var formData = new FormData();
@@ -347,6 +434,7 @@
                 formData.append('condition', true);
                 formData.append('condition_amount', $('#condition-amount').val());
                 formData.append('condition_charge', $('#condition-charge').val());
+                formData.append('sender_phone', $('#sender-phone').val());
                 @endif
                 $.ajax({
                     method: 'POST',

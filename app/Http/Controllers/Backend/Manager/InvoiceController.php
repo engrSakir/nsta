@@ -58,6 +58,7 @@ class InvoiceController extends Controller
            'branch'             =>  'required|exists:branches,id',
            'condition_amount'   => 'required_with_all:condition',
            'condition_charge'   => 'required_with_all:condition',
+           'sender_phone'       =>  'nullable|string',
            'description'        =>  'required|string',
 //            'quantity'           =>  'string|min:0',
             'price'              =>  'required|string|min:0',
@@ -131,8 +132,9 @@ class InvoiceController extends Controller
         $invoice->labour            = bn_to_en($request->labour);
 
         if($request->condition){
-            $invoice->condition_amount              = bn_to_en($request->condition_amount);
-            $invoice->condition_charge              = bn_to_en($request->condition_charge);
+            $invoice->condition_amount          = bn_to_en($request->condition_amount);
+            $invoice->condition_charge          = bn_to_en($request->condition_charge);
+            $invoice->sender_phone              = bn_to_en($request->sender_phone);
         }
 
         $invoice->creator_id        = auth()->user()->id;
@@ -241,6 +243,7 @@ class InvoiceController extends Controller
             'branch'             =>  'required|exists:branches,id',
             'condition_amount'   => 'required_with_all:condition',
             'condition_charge'   => 'required_with_all:condition',
+            'sender_phone'       =>  'nullable|string',
             'description'        =>  'required|string',
 //            'quantity'           =>  'string|min:0',
             'price'              =>  'required|string|min:0',
@@ -317,6 +320,7 @@ class InvoiceController extends Controller
         if($request->condition){
             $invoice->condition_amount              = bn_to_en($request->condition_amount);
             $invoice->condition_charge              = bn_to_en($request->condition_charge);
+            $invoice->sender_phone              = bn_to_en($request->sender_phone);
         }
 
         //# Step 4 SMS
@@ -370,7 +374,20 @@ class InvoiceController extends Controller
             return Invoice::groupBy('sender_name')
                 ->where('from_branch_id', auth()->user()->branch->id)
                 ->where('sender_name', 'LIKE', '%'. $request->name. '%')
-                ->select('sender_name')
+                ->select('sender_name', 'sender_phone')
+                ->get();
+        }else{
+            return redirect()->back()->withErrors('Request no allowed');
+        }
+    }
+
+    public function senderPhone(Request $request)
+    {
+        if ($request->ajax()){
+            return Invoice::groupBy('sender_phone')
+                ->where('from_branch_id', auth()->user()->branch->id)
+                ->where('sender_phone', 'LIKE', '%'. $request->phone. '%')
+                ->select('sender_name', 'sender_phone')
                 ->get();
         }else{
             return redirect()->back()->withErrors('Request no allowed');
@@ -519,7 +536,7 @@ class InvoiceController extends Controller
                 $invoice->save();
                 $condition_break_counter ++;
                 // কন্ডিশন ভাঙ্গার সাথে সাথে মেসেজ পাঠানো
-                if($invoice->receiver->phone != null && sms($invoice->receiver->phone, 'নিউ শাপলা ট্রান্সপোর্ট এজেন্সি থেকে আপনার কন্ডিশন টি সম্পূর্ণভাবে ভাঙ্গা হয়েছে। বুকিং নং- '. $invoice->custom_counter) == true){
+                if($invoice->receiver->phone != null && sms($invoice->sender_phone, 'নিউ শাপলা ট্রান্সপোর্ট এজেন্সি থেকে আপনার কন্ডিশন টি সম্পূর্ণভাবে ভাঙ্গা হয়েছে। বুকিং নং- '. $invoice->custom_counter) == true){
                     $sent_sms_counter ++;
                 }
             }

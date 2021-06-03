@@ -7,6 +7,7 @@ Route::group(['middleware' => 'manager', 'as' => 'manager.', 'prefix' => 'backen
 
     Route::get('/dashboard', [Manager\DashboardController::class, 'index'])->name('dashboard');
     Route::post('/ui-autocomplete/sender-name', [Manager\InvoiceController::class, 'senderName'])->name('senderName');
+    Route::post('/ui-autocomplete/sender-phone', [Manager\InvoiceController::class, 'senderPhone'])->name('senderPhone');
     Route::post('/ui-autocomplete/receiver-info', [Manager\InvoiceController::class, 'receiverInfo'])->name('receiverInfo');
 
 //    Route::get('/invoice/received', [Manager\InvoiceController::class, 'received'])->name('invoice.received');
