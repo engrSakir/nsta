@@ -73,7 +73,7 @@
                             <div class="form-group col-md-3">
                                 <label for="sender-phone">প্রেরকের ফোন</label>
                                 <input type="hidden" value="sender-phone">
-                                <input type="text" class="form-control search-item" id="sender-phone" name="sender-phone" placeholder="Sender phone" value="">
+                                <input type="text" class="form-control search-item" id="sender-phone" name="sender-phone" placeholder="Sender phone" value="{{ $invoice->sender_phone }}">
                             </div>
                         @endif
                         <div class="form-group col-md-3">
