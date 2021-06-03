@@ -29,7 +29,7 @@
             <a href="{{ route('manager.invoice.statusAndBranchConstant', [\Illuminate\Support\Str::slug($status, '-'), $branch_id]) }}">
                 <div class="card">
                     <div class="box bg-info text-center">
-                        <h4 class="font-light text-white font-weight-bold"> {{ \App\Models\Branch::find($branch_id)->name }}</h4>
+                        <h4 class="font-light text-white font-weight-bold"> {{ \App\Models\Branch::find($branch_id)->name ?? '#'}}</h4>
                         <h6 class="text-white"> ভাউচার: {{ en_to_bn($invoice_items->count()) }} </h6>
                         <h6 class="text-white">
                             মোট টাকা : {{ en_to_bn($invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour')) }}
@@ -92,10 +92,16 @@
                                 <th>কাস্টোমার</th>
                                 <th>মোবাইল</th>
                                 <th>স্টাফ</th>
-                                <th>পেমেন্ট</th>
+                                <th>
+                                    <span class="badge badge-pill badge-danger">বাকি</span>
+                                    <span class="badge badge-pill badge-success">পরিশোধিত</span>
+                                    <span class="badge badge-pill badge-secondary">মোট</span>
+                                </th>
                                 @if (Request::is('*/manager/condition-invoice'))
                                     <th>
-                                        কন্ডিশন
+                                        <span class="badge badge-pill badge-danger">কন্ডিশন</span>
+                                        <span class="badge badge-pill badge-success">চার্জ</span>
+                                        <span class="badge badge-pill badge-secondary">মোট</span>
                                     </th>
                                 @endif
                                 <th>প্রিন্ট/এডিট/ডিলিট</th>
@@ -140,15 +146,15 @@
                                     {{ $invoice->creator->name ?? '' }}
                                 </td>
                                 <td style="font-size: 16px;">
-                                    <span class="text-danger">বাকি: <b style="font-size: 18px;">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b></span><br>
-                                    <span class="text-info">পরিশোধিত: <b style="font-size: 18px;">{{ en_to_bn($invoice->paid) }}</b></span><br>
-                                    <span class="text-success">মোট: <b style="font-size: 18px;">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></span>
+                                    <span class="badge badge-pill badge-danger">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</span>
+                                    <span class="badge badge-pill badge-success">{{ en_to_bn($invoice->paid) }}</span>
+                                    <span class="badge badge-pill badge-secondary">{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</span>
                                 </td>
                                 @if (Request::is('*/manager/condition-invoice'))
                                     <td>
-                                        <span class="text-danger">কন্ডিশন: <b style="font-size: 18px;">{{ en_to_bn($invoice->condition_amount) }}</b></span><br>
-                                        <span class="text-info">চার্জ: <b style="font-size: 18px;">{{ en_to_bn($invoice->condition_charge) }}</b></span><br>
-                                        <span class="text-success">মোট: <b style="font-size: 18px;">{{ en_to_bn($invoice->condition_amount + $invoice->condition_charge) }}</b></span>
+                                        <span class="badge badge-pill badge-danger">{{ en_to_bn($invoice->condition_amount) }}</span>
+                                        <span class="badge badge-pill badge-success">{{ en_to_bn($invoice->condition_charge) }}</span>
+                                        <span class="badge badge-pill badge-secondary">{{ en_to_bn($invoice->condition_amount + $invoice->condition_charge) }}</span>
                                     </td>
                                 @endif
                                 <td>
@@ -171,10 +177,16 @@
                                 <th>কাস্টোমার</th>
                                 <th>মোবাইল</th>
                                 <th>স্টাফ</th>
-                                <th>পেমেন্ট</th>
+                                <th>
+                                    <span class="badge badge-pill badge-danger">বাকি</span>
+                                    <span class="badge badge-pill badge-success">পরিশোধিত</span>
+                                    <span class="badge badge-pill badge-secondary">মোট</span>
+                                </th>
                                 @if (Request::is('*/manager/condition-invoice'))
                                     <th>
-                                        কন্ডিশন
+                                        <span class="badge badge-pill badge-danger">কন্ডিশন</span>
+                                        <span class="badge badge-pill badge-success">চার্জ</span>
+                                        <span class="badge badge-pill badge-secondary">মোট</span>
                                     </th>
                                 @endif
                                 <th>প্রিন্ট/এডিট/ডিলিট</th>
@@ -208,7 +220,7 @@
                                                 <select class="form-control custom-select" id="branch-office">
                                                     <option selected value="">--Select your branch office--</option>
                                                     @foreach($invoices->groupBy('to_branch_id') as $branch_id => $invoice_items)
-                                                        <option value="{{ $branch_id }}">{{ \App\Models\Branch::find($branch_id)->name }}</option>
+                                                        <option value="{{ $branch_id }}">{{ \App\Models\Branch::find($branch_id)->name ?? '#'}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
