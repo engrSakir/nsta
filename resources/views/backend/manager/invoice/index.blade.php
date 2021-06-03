@@ -95,8 +95,8 @@
                                         প্রেরক ফোন
                                     </th>
                                 @endif
-                                <th>কাস্টোমার</th>
-                                <th>মোবাইল</th>
+                                <th>প্রাপক</th>
+                                <th>প্রাপক মোবাইল</th>
                                 <th>স্টাফ</th>
                                 <th>
                                     <span class="badge badge-pill badge-danger">বাকি</span>
@@ -190,8 +190,8 @@
                                         প্রেরক ফোন
                                     </th>
                                 @endif
-                                <th>কাস্টোমার</th>
-                                <th>মোবাইল</th>
+                                <th>প্রাপক</th>
+                                <th>প্রাপক মোবাইল</th>
                                 <th>স্টাফ</th>
                                 <th>
                                     <span class="badge badge-pill badge-danger">বাকি</span>
