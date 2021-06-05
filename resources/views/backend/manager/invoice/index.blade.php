@@ -128,7 +128,13 @@
                                             <i class="mdi mdi-receipt"></i>
                                             {{ $invoice->chalan->custom_counter ?? '--' }}
                                         </button>
+                                        @else
+                                        <button type="button" class="btn btn-outline-danger btn-rounded show-chalan" value="">
+                                            <i class="mdi mdi-receipt"></i>
+                                            {{ 'নাই' }}
+                                        </button>
                                     @endif
+
                                 </td>
                                 @if (Request::is('*/manager/condition-invoice'))
                                     <td>
