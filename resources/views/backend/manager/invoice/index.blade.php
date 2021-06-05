@@ -129,9 +129,9 @@
                                             {{ $invoice->chalan->custom_counter ?? '--' }}
                                         </button>
                                         @else
-                                        <button type="button" class="btn btn-outline-danger btn-rounded show-chalan" value="">
+                                        <button type="button" class="btn btn-outline-danger btn-rounded show-chalan" disabled value="">
                                             <i class="mdi mdi-receipt"></i>
-                                            {{ 'নাই' }}
+                                            {{ '0' }}
                                         </button>
                                     @endif
 
