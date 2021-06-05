@@ -78,7 +78,7 @@
 
                     </div>
                     <div class="invoice-table table-responsive">
-                        <table class="table color-bordered-table primary-bordered-table">
+                        <table class="table color-bordered-table primary-bordered-table text-center">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -123,7 +123,6 @@
                                             <label class="custom-control-label font-weight-bold" for="invoice-{{ $loop->iteration }}"># {{ en_to_bn($invoice->custom_counter) }}</label>
                                         </div>
                                     </label>
-                                    <br>
                                     @if($invoice->chalan_id)
                                         <button type="button" class="btn btn-outline-success btn-rounded show-chalan" value="{{ route('manager.chalan.show', $invoice->chalan) }}">
                                             <i class="mdi mdi-receipt"></i>
