@@ -175,7 +175,7 @@
                                 <input type="text" class="form-control bg-success total" min="0" id="total" disabled readonly value="{{ $invoice->price + $invoice->home + $invoice->labour }}">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-3"  style="display:none">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">স্বাক্ষর</span>
