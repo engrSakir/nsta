@@ -78,7 +78,7 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-info btn-circle btn-lg show-chalan" value="{{ route('manager.chalan.show', $chalan) }}"><i class="mdi mdi-cloud-print"></i> </button>
-                                    <button type="button" class="btn btn-warning btn-circle btn-lg"><i class="mdi mdi-tooltip-edit"></i> </button>
+
                                     <button type="button" class="btn btn-danger btn-circle btn-lg" onclick="delete_function(this)" value="{{ route('manager.chalan.destroy', $chalan) }}"><i class="mdi mdi-delete-circle"></i> </button>
                                 </td>
                             </tr>
