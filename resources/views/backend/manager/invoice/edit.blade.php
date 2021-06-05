@@ -457,6 +457,7 @@
                                 title: 'INVOICE',
                                 text: data.message,
                             });
+                            location.reload();
                         }else{
                             Swal.fire({
                                 icon: data.type,
