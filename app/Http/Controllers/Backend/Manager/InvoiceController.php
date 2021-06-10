@@ -263,16 +263,14 @@ class InvoiceController extends Controller
         //# Step 1 CUSTOMER
         $customer = null;
         //যদি এই তথ্যের সাথে মিলে কাস্টমার না থাকে তাহলে নতুন কাস্টমার তৈরি হবে
+        if($request->receiver_name){ //যদি ফোন নাম্বার এবং ইমেইল না পায় তাহলে নামের আন্ডারে হওয়ার চেষ্টা করবে
+            $customer = User::where('name', $request->receiver_name)->first();
+        }
         if ($request->receiver_phone){  // ফোন নাম্বার পায় তাহলে সেই ফোন নাম্বারের আন্ডারে হবে
             $customer = User::where('phone', $request->receiver_phone)->first();
         }
-
-        if(!$customer && $request->receiver_email){ // যদি ফোন নাম্বার না পেয়ে ইমেইল পায় তাহলে সেই ইমেইল এর আন্ডারে হবে
+        if($request->receiver_email){ // যদি ফোন নাম্বার না পেয়ে ইমেইল পায় তাহলে সেই ইমেইল এর আন্ডারে হবে
             $customer = User::where('email', $request->receiver_email)->first();
-        }
-
-        if(!$customer && $request->receiver_name){ //যদি ফোন নাম্বার এবং ইমেইল না পায় তাহলে নামের আন্ডারে হওয়ার চেষ্টা করবে
-            $customer = User::where('name', $request->receiver_name)->where('phone', null)->where('email', null)->first();
         }
 
         if(!$customer){ //যদি কোন নাম্বার ইমেইল এবং নাম কোনটির সাথে মিলে না পাওয়া যায় তাহলে নতুন তৈরি হবে
