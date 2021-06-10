@@ -419,11 +419,22 @@
                             $('#extra-large-modal-body').addClass( "text-center" );
                             $('#extra-large-modal-title').text( "INVOICE" );
                             $('#extra-large-modal').modal('show');
+                            $.getJSON('/backend/manager/get-last-five-invoice', function (data) {
+                                //console.log(data)
+                                var lastFiveInvoice='';
+                                data.forEach(function(invoice){
+                                    lastFiveInvoice += `<a type="button" target="_blank" class="btn btn-secondary text-danger" href="`+location.protocol + '//' + location.host +"/backend/manager/invoice/"+invoice.id+`">`+invoice.custom_counter+`</a>`;
+                                })
+                                $("#last-five-invoice").html(lastFiveInvoice)
+                            })
                             Swal.fire({
+                                position: 'top-end',
                                 icon: data.type,
                                 title: 'INVOICE',
+                                showConfirmButton: false,
                                 text: data.message,
-                            });
+                                timer: 1500
+                            })
                         }else{
                             Swal.fire({
                                 icon: data.type,

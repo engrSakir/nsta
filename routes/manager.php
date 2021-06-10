@@ -10,6 +10,8 @@ Route::group(['middleware' => 'manager', 'as' => 'manager.', 'prefix' => 'backen
     Route::post('/ui-autocomplete/sender-phone', [Manager\InvoiceController::class, 'senderPhone'])->name('senderPhone');
     Route::post('/ui-autocomplete/receiver-info', [Manager\InvoiceController::class, 'receiverInfo'])->name('receiverInfo');
 
+    Route::get('/get-last-five-invoice', [Manager\InvoiceController::class, 'getLastFiveInvoice'])->name('getLastFiveInvoice');
+
 //    Route::get('/invoice/received', [Manager\InvoiceController::class, 'received'])->name('invoice.received');
 //    Route::post('/invoice/received', [Manager\InvoiceController::class, 'makeAsOngoing'])->name('invoice.makeAsOngoing');
 //    Route::get('/invoice/going', [Manager\InvoiceController::class, 'going'])->name('invoice.going');

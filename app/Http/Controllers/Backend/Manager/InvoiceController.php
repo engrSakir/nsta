@@ -598,4 +598,10 @@ class InvoiceController extends Controller
         $invoices = auth()->user()->branch->fromInvoices()->where('condition_amount', '>', '0')->orderBy('id', 'desc')->paginate(100);
         return view('backend.manager.invoice.index', compact('invoices', 'status', 'branch_name'));
     }
+
+    public function getLastFiveInvoice()
+    {
+        $invoices = auth()->user()->invoices()->orderBy('id', 'desc')->take(5)->get();
+        return $invoices;
+    }
 }

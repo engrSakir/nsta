@@ -56,4 +56,9 @@ class User extends Authenticatable
         return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
 
+
+    public function invoices(){
+        return $this->hasMany(Invoice::class, 'creator_id', 'id');
+    }
+
 }

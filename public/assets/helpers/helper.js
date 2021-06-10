@@ -335,13 +335,21 @@
         });
 
         // Search find
-        $('#searched-invoice').click(function (){
+        $('#show-invoice-use-btn').click(function (){
+            alert('100')
+        });
+
+        $('.show-invoice-use-btn').click(function (){
             var this_btn = $(this);
-            var html_embed_code = `<embed type="text/html" src="`+location.protocol + '//' + location.host +"/backend/manager/invoice/"+this_btn.val()+`" width="750" height="500">`;
-            $('#extra-large-modal-body').html(html_embed_code);
-            $('#extra-large-modal-body').addClass( "text-center" );
-            $('#extra-large-modal-title').text( "ভাউচার" );
-            $('#extra-large-modal').modal('show');
+            if (!this_btn.val()){
+                alert('Please select from dropdown')
+            }else{
+                var html_embed_code = `<embed type="text/html" src="`+location.protocol + '//' + location.host +"/backend/manager/invoice/"+this_btn.val()+`" width="750" height="500">`;
+                $('#extra-large-modal-body').html(html_embed_code);
+                $('#extra-large-modal-body').addClass( "text-center" );
+                $('#extra-large-modal-title').text( "ভাউচার" );
+                $('#extra-large-modal').modal('show');
+            }
         });
     });
 

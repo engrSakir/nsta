@@ -28,7 +28,7 @@
                     <div class="input-group mt-3">
                         <input type="text" class="form-control invoice-search-field" placeholder="ভাউচাার নাম্বার" aria-label="" aria-describedby="basic-addon1">
                         <div class="input-group-append">
-                            <button class="btn btn-info" type="button" id="searched-invoice">সার্চ!</button>
+                            <button class="btn btn-info show-invoice-use-btn" type="button" id="searched-invoice">সার্চ!</button>
                         </div>
                     </div>
                 </li>
@@ -38,9 +38,19 @@
             <!-- User profile and search -->
             <!-- ============================================================== -->
             <ul class="navbar-nav my-lg-0">
-
-                <li class="nav-item right-side-toggle"><a class="nav-link  waves-effect waves-light"
-                                                          href="javascript:void(0)"><i class="ti-settings"></i></a></li>
+                <li class="nav-item">
+                    <div class="btn-toolbar nav-link" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group mr-2" role="group" aria-label="First group" id="last-five-invoice">
+                            <!--Insert by ajax-->
+                            @foreach(auth()->user()->invoices()->orderBy('id', 'desc')->take(5)->get() as $inv)
+                                <a type="button" target="_blank" class="btn btn-secondary text-danger" href="{{ route('manager.invoice.show', $inv) }}">{{ $inv->custom_counter }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item right-side-toggle">
+                    <a class="nav-link  waves-effect waves-light" href="javascript:void(0)"><i class="ti-settings"></i></a>
+                </li>
             </ul>
         </div>
     </nav>
