@@ -595,7 +595,8 @@ class InvoiceController extends Controller
 
     public function conditionInvoiceCreate(){
         $linked_branches = auth()->user()->branch->fromLinkedBranchs;
-        return view('backend.manager.invoice.create', compact('linked_branches'));
+        $invoices = auth()->user()->branch->fromInvoices()->orderBy('id', 'desc')->get();
+        return view('backend.manager.invoice.create', compact('linked_branches', 'invoices'));
     }
 
     public function conditionInvoiceGet()
