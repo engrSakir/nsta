@@ -32,6 +32,7 @@ Route::group(['middleware' => 'manager', 'as' => 'manager.', 'prefix' => 'backen
     Route::resource('chalan', Manager\ChalanController::class);
     Route::resource('customers', Manager\CustomerController::class);
     Route::get('advance-search', [Manager\AdvanceSearchController::class, 'index'])->name('advanceSearch');
+    Route::post('advance-search', [Manager\AdvanceSearchController::class, 'search'])->name('advanceSearchSubmit');
 
 });
 

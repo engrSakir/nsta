@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AdvanceSearchController extends Controller
@@ -15,30 +16,73 @@ class AdvanceSearchController extends Controller
     }
 
     public function search(Request $request){
+        $request->validate([
+            'starting_date' => 'required_with_all:ending_date',
+            'ending_date' => 'required_with_all:starting_date',
+            'prerok_name' => 'nullable|string',
+            'prerok_phone' => 'nullable|string',
+            'prapok_name' => 'nullable|string',
+            'prapok_phone' => 'nullable|string',
+            'invoice_number' => 'nullable|string',
+            'branch_office' => 'nullable|string',
+        ]);
 
-        $data  = Invoice::where( function($query) use($request){
-                return $request->filter_brand ?
-                $query->from('invoices')->where('brand_id',$request->filter_brand) : '';
-            })
-            ->where(function($query) use($request){
-                return $request->year_of_manufacture ?
-                    $query->from('invoices')->where('year_of_manufacture',$request->year_of_manufacture) : '';
-            })
-            ->where(function($query) use($request){
-                return $request->owner_s_name_and_surname ?
-                    $query->from('invoices')->where('owner_s_name_and_surname',$request->owner_s_name_and_surname) : '';
-            })
-            ->where(function($query) use($request){
-                return $request->number_of_owners ?
-                    $query->from('invoices')->where('number_of_owners',$request->number_of_owners) : '';
-            })
-            ->where(function($query) use($request){
-                return $request->comments ?
-                    $query->from('invoices')->where('comments',$request->comments) : '';
-            })
-            ->get();
+        /*
+         starting_date
+        ending_date
+        prerok_name
+        prerok_phone
+        prapok_name
+        prapok_phone
+        invoice_number
+        branch_office
 
-        $invoices = $data;
-        return view('backend.manager.advance-search.index', compact('invoices'));
+        'name', 'LIKE', '%'. $request->name. '%'
+        ->whereDate('date_time', '>=', Carbon::createFromFormat('d/m/Y', $request->input('starting-date'))->format('Y-m-d'))
+                ->whereDate('date_time', '<=', Carbon::createFromFormat('d/m/Y', $request->input('ending-date'))->format('Y-m-d'))
+
+         */
+//        dd(Carbon::parse($request->starting_date)->format('Y-m-d'));
+        $invoices  = Invoice::join('users', 'invoices.receiver_id', '=', 'users.id')
+            ->where( function($query) use($request){
+                return $request->prapok_name ?
+                $query->from('users')->where('name', 'LIKE', '%'.$request->prapok_name. '%') : '';
+            })
+            ->where(function($query) use($request){
+                return $request->prapok_phone ?
+                    $query->from('users')->where('phone', 'LIKE', '%'.$request->prapok_phone. '%') : '';
+            })
+            ->where( function($query) use($request){
+                return $request->starting_date ?
+                $query->from('invoices')->whereDate('invoices.created_at', '>=', Carbon::parse($request->starting_date)->format('Y-m-d')) : '';
+            })
+            ->where(function($query) use($request){
+                return $request->ending_date ?
+                    $query->from('invoices')->whereDate('invoices.created_at', '<=', Carbon::parse($request->ending_date)->format('Y-m-d')) : '';
+            })
+            ->where( function($query) use($request){
+                return $request->prerok_name ?
+                $query->from('invoices')->where('sender_name', 'LIKE', '%'.$request->prerok_name. '%') : '';
+            })
+            ->where(function($query) use($request){
+                return $request->prerok_phone ?
+                    $query->from('invoices')->where('sender_phone', 'LIKE', '%'.$request->prerok_phone. '%') : '';
+            })
+            ->where(function($query) use($request){
+                return $request->invoice_number ?
+                    $query->from('invoices')->where('custom_counter', 'LIKE', '%'.$request->invoice_number. '%') : '';
+            })
+            ->where(function($query) use($request){
+                return $request->branch_office ?
+                    $query->from('invoices')->where('to_branch_id', 'LIKE', '%'.$request->branch_office. '%') : '';
+            })
+            ->paginate(100);
+//        dd($invoices);
+
+
+        $status = 'All';
+        $branch_name = 'All';
+        return view('backend.manager.invoice.index', compact('invoices', 'status', 'branch_name'));
+
     }
 }

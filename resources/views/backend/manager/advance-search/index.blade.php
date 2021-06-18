@@ -28,52 +28,93 @@
                     <h4 class="m-b-0 text-white">এডভান্স সার্চ করতে পছন্দ অনুযায়ী নিচের ফর্ম ফিলাপ করুন</h4>
                 </div>
                 <div class="card-body">
-                    <form action="#">
+                    <form action="{{ route('manager.advanceSearchSubmit') }}" method="post">
+                        @csrf
                         <div class="form-body">
                             <div class="row p-t-20">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">শুরু তারিখ</label>
-                                        <input type="text" id="firstName" class="form-control">
+                                        <input type="date" id="" name="starting_date" class="form-control" value="{{ old('starting_date') }}">
+                                        @error('starting_date')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">শেষ তারিখ</label>
-                                        <input type="text" id="firstName" class="form-control">
+                                        <input type="date" id="" name="ending_date" class="form-control" value="{{ old('ending_date') }}">
+                                        @error('ending_date')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">প্রেরকের নাম</label>
-                                        <input type="text" id="firstName" class="form-control">
+                                        <input type="text" id="" name="prerok_name" class="form-control" value="{{ old('prerok_name') }}">
+                                        @error('prerok_name')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">প্রেরকের ফোন নাম্বার</label>
-                                        <input type="text" id="firstName" class="form-control">
+                                        <input type="text" name="prerok_phone" class="form-control" value="{{ old('prerok_phone') }}">
+                                        @error('prerok_phone')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">প্রাপকের নাম</label>
-                                        <input type="text" id="firstName" class="form-control">
+                                        <input type="text" name="prapok_name" class="form-control" value="{{ old('prapok_name') }}">
+                                        @error('prapok_name')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">প্রাপকের ফোন নাম্বার</label>
-                                        <input type="text" id="firstName" class="form-control">
+                                        <input type="text" name="prapok_phone" class="form-control" value="{{ old('prapok_phone') }}">
+                                        @error('prapok_phone')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">ভাউচার নাম্বার</label>
-                                        <input type="text" id="firstName" class="form-control">
+                                        <input type="text" name="invoice_number" class="form-control" value="{{ old('invoice_number') }}">
+                                        @error('invoice_number')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">ব্রাঞ্চ অফিস পছন্দ করুন</label>
-                                        <select class="form-control custom-select">
+                                        <select name="branch_office" class="form-control custom-select">
                                             <option value="" selected disabled>Select one</option>
                                             @foreach(auth()->user()->branch->fromLinkedBranchs as $linked)
-                                            <option value="{{ $linked->toBranch->id }}">{{ $linked->toBranch->name ?? '#' }}</option>
+                                            <option @if(old('branch_office') == $linked->toBranch->id) selected @endif value="{{ $linked->toBranch->id }}">{{ $linked->toBranch->name ?? '#' }}</option>
                                             @endforeach
                                         </select>
+                                        @error('branch_office')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +134,7 @@
                     <div class="card-body">
                         {{--                    <h4 class="card-title">ভাউচার লিস্ট</h4>--}}
                         {{--                    <h6 class="card-subtitle">Add class <code>.color-bordered-table .primary-bordered-table</code></h6>--}}
-                        {{ $customers->links() }}
+                        {{ $invoices->links() }}
                         <div class="invoice-table table-responsive">
                             <table class="table color-bordered-table primary-bordered-table text-center">
                                 <thead>
@@ -104,11 +145,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($customers as $customer)
+                                @foreach($invoices as $invoice)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $customer->name }}</td>
-                                        <td>{{ $customer->phone }}</td>
+                                        <td>{{ $invoice->custom_counter }}</td>
+                                        <td>{{ $invoice->sender_name }}</td>
                                     </tr>
                                 @endforeach
                                 <thead>
@@ -121,7 +162,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{ $customers->links() }}
+                        {{ $invoices->links() }}
                     </div>
                 </div>
             </div>
