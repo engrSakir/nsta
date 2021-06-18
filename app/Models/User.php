@@ -61,4 +61,8 @@ class User extends Authenticatable
         return $this->hasMany(Invoice::class, 'creator_id', 'id');
     }
 
+    public function getInvoiceAsCustomer(){
+        return $this->hasMany(Invoice::class, 'receiver_id', 'id');
+    }
+
 }

@@ -24,6 +24,7 @@
                 <li class="nav-item"><a
                         class="nav-link sidebartoggler d-none d-lg-block d-md-block waves-effect waves-dark"
                         href="javascript:void(0)"><i class="icon-menu"></i></a></li>
+                @if(auth()->user()->type == 'Manager')
                 <li class="nav-item">
                     <div class="input-group mt-3">
                         <input type="text" class="form-control invoice-search-field" placeholder="ভাউচাার নাম্বার" aria-label="" aria-describedby="basic-addon1">
@@ -32,12 +33,14 @@
                         </div>
                     </div>
                 </li>
+                @endif
                 <!-- ============================================================== -->
             </ul>
             <!-- ============================================================== -->
             <!-- User profile and search -->
             <!-- ============================================================== -->
             <ul class="navbar-nav my-lg-0">
+                @if(auth()->user()->type == 'Manager')
                 <li class="nav-item">
                     <div class="btn-toolbar nav-link" role="toolbar" aria-label="Toolbar with button groups">
                         <div class="btn-group mr-2" role="group" aria-label="First group" id="last-five-invoice">
@@ -48,6 +51,7 @@
                         </div>
                     </div>
                 </li>
+                @endif
                 <li class="nav-item right-side-toggle">
                     <a class="nav-link  waves-effect waves-light" href="javascript:void(0)"><i class="ti-settings"></i></a>
                 </li>

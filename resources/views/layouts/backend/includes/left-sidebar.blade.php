@@ -15,7 +15,7 @@
                             <!-- text-->
                             <div class="dropdown-divider"></div>
                             <!-- text-->
-                            <a href="javascript:0" class="dropdown-item logout-btn"><i class="fas fa-power-off"></i> লগ আউট </a>
+                            <a href="javascript:void(0)" class="dropdown-item logout-btn"><i class="fas fa-power-off"></i> লগ আউট </a>
                             <!-- text-->
                         </div>
                     </div>
