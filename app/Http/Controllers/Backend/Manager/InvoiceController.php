@@ -40,7 +40,7 @@ class InvoiceController extends Controller
     public function create(Request $request)
     {
         $linked_branches = auth()->user()->branch->fromLinkedBranchs;
-        $invoices = auth()->user()->branch->fromInvoices()->orderBy('id', 'desc')->get();
+        $invoices = auth()->user()->branch->fromInvoices()->where('status', 'Received')->get();
         return view('backend.manager.invoice.create', compact('linked_branches', 'invoices'));
     }
 
@@ -160,14 +160,14 @@ class InvoiceController extends Controller
 
         //# Step 4 SMS and save
         //Get office wise latest information
-        $linked_branch_and_amount = [];
-        foreach(auth()->user()->branch->fromInvoices()->get()->groupBy('to_branch_id') as $invoice_group => $invoice_items){
-            $lined_branch_name = Branch::find($invoice_group)->name ?? '#';
-            $total_of_this_office = $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour');
-            array_push($linked_branch_and_amount, [$lined_branch_name ?? '#', $total_of_this_office]);
-        }
         try {
             $invoice->save();
+            $linked_branch_and_amount = [];
+            foreach(auth()->user()->branch->fromInvoices()->where('status', 'Received')->get()->groupBy('to_branch_id') as $invoice_group => $invoice_items){
+                $lined_branch_name = Branch::find($invoice_group)->name ?? '#';
+                $total_of_this_office = $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour');
+                array_push($linked_branch_and_amount, [$lined_branch_name ?? '#', $total_of_this_office]);
+            }
             if($invoice->receiver->phone != null && sms($invoice->receiver->phone, $invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter) == true){
                 return response()->json([
                     'type' => 'success',
@@ -595,7 +595,7 @@ class InvoiceController extends Controller
 
     public function conditionInvoiceCreate(){
         $linked_branches = auth()->user()->branch->fromLinkedBranchs;
-        $invoices = auth()->user()->branch->fromInvoices()->orderBy('id', 'desc')->get();
+        $invoices = auth()->user()->branch->fromInvoices()->where('status', 'Received')->get();
         return view('backend.manager.invoice.create', compact('linked_branches', 'invoices'));
     }
 
