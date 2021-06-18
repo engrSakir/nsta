@@ -43,6 +43,11 @@
         <i class="far fa-circle text-success"></i><span class="hide-menu">চালান সমূহ</span>
     </a>
 </li>
+<li>
+    <a class="waves-effect waves-dark" href="{{ route('manager.customers.index') }}">
+        <i class="far fa-circle text-success"></i><span class="hide-menu">কাস্টোমার সমূহ</span>
+    </a>
+</li>
 <hr class="bg-danger">
 <li class="text-center">
     <b class="text-success">{{ auth()->user()->branch->name ?? 'No Branch Name' }}</b>

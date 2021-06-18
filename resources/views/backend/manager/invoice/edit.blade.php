@@ -59,7 +59,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12" id="editable-area">
             <div class="card card-body">
                 <form class="form-horizontal mt-4" id="edit-inv-form">
                     <div class="row">
@@ -69,7 +69,7 @@
                             <input type="text" class="form-control search-item" id="sender-name" name="sender-name" placeholder="Sender name" value="{{ $invoice->sender_name }}">
                         </div>
                         @if($invoice->condition_amount > 0)
-{{--                            This id condition type invoice--}}
+                            {{--                            This id condition type invoice--}}
                             <div class="form-group col-md-3">
                                 <label for="sender-phone">প্রেরকের ফোন</label>
                                 <input type="hidden" value="sender-phone">
@@ -119,7 +119,7 @@
                         <textarea class="form-control" rows="5" id="description" name="description" placeholder="Description">{!! $invoice->description !!}</textarea>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-quantity">সংখ্যা</span>
@@ -127,7 +127,7 @@
                                 <input type="text" class="form-control" onClick="this.select();" min="0" id="quantity" value="{{ $invoice->quantity }}">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-price">মূল্য</span>
@@ -135,15 +135,7 @@
                                 <input type="text" class="form-control price" onClick="this.select();" min="0" id="price" value="{{ $invoice->price }}">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="input-advance">পরিশোধিত </span>
-                                </div>
-                                <input type="text" class="form-control advance" onClick="this.select();" min="0" id="advance" value="{{ $invoice->paid }}">
-                            </div>
-                        </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-home">হোম ডেলিভারি</span>
@@ -151,7 +143,7 @@
                                 <input type="text" class="form-control home" onClick="this.select();" min="0" id="home" value="{{ $invoice->home }}">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-labour">লেবার খরচ</span>
@@ -159,7 +151,15 @@
                                 <input type="text" class="form-control labour" onClick="this.select();" min="0" id="labour" value="{{ $invoice->labour }}">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="input-advance">অগ্রীম </span>
+                                </div>
+                                <input type="text" class="form-control advance" onClick="this.select();" min="0" id="advance" value="{{ $invoice->paid }}">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6" style="display:none">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-due">বাকি টাকা</span>
@@ -167,7 +167,7 @@
                                 <input type="text" class="form-control bg-danger due" id="due" disabled readonly value="{{ $invoice->price + $invoice->home + $invoice->labour - $invoice->paid }}">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-total" >মোট টাকা</span>
@@ -175,7 +175,7 @@
                                 <input type="text" class="form-control bg-success total" min="0" id="total" disabled readonly value="{{ $invoice->price + $invoice->home + $invoice->labour }}">
                             </div>
                         </div>
-                        <div class="form-group col-md-3"  style="display:none">
+                        <div class="form-group col-md-6"  style="display:none">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">স্বাক্ষর</span>
@@ -190,8 +190,14 @@
                 </form>
             </div>
         </div>
+        <div class="col-sm-12 text-center">
+            <div class="card card-body">
+                <div  id="show-after-edit"></div>
+            </div>
+        </div>
     </div>
-    @include('layouts.backend.includes.modal')
+
+{{--    @include('layouts.backend.includes.modal')--}}
     <script src="{{ asset('assets/backend/node_modules/jquery/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('assets/backend/node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -451,13 +457,16 @@
                     },
                     success: function (data) {
                         if (data.type == 'success'){
-                            $('#edit-inv-form').trigger("reset");
+                            //$('#edit-inv-form').html('<h1>dfgdsfg</h1>');
                             Swal.fire({
                                 icon: data.type,
                                 title: 'INVOICE',
                                 text: data.message,
                             });
-                            location.reload();
+                            $('#editable-area').html('');
+                            var html_embed_code = `<embed type="text/html" src="`+data.url+`" width="90%" height="500">`;
+                            $('#show-after-edit').html(html_embed_code);
+                            //location.reload();
                         }else{
                             Swal.fire({
                                 icon: data.type,

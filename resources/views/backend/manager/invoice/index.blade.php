@@ -77,6 +77,7 @@
                         @endif
 
                     </div>
+                    {{ $invoices->links() }}
                     <div class="invoice-table table-responsive">
                         <table class="table color-bordered-table primary-bordered-table text-center">
                             <thead>
@@ -216,6 +217,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {{ $invoices->links() }}
                 </div>
             </div>
         </div>
@@ -285,7 +287,7 @@
         $(document).ready(function(){
             // Get current page and set current in nav
             $(".edit-inv").click( function (){
-                var html_embed_code = `<embed type="text/html" src="`+$(this).val()+`" width="100%" height="500">`;
+                var html_embed_code = `<embed type="text/html" src="`+$(this).val()+`" width="100%" height="600">`;
                 $('#extra-large-modal-body').html(html_embed_code);
                 $('#extra-large-modal-body').addClass( "text-center" );
                 $('#extra-large-modal-title').text( "ভাউচার" );
