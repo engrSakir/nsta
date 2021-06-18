@@ -89,12 +89,14 @@ class InvoiceController extends Controller
             $customer = User::where('email', $request->receiver_email)->first();
         }
 
+        $password = null;
         if(!$customer){ //যদি কোন নাম্বার ইমেইল এবং নাম কোনটির সাথে মিলে না পাওয়া যায় তাহলে নতুন তৈরি হবে
+            $password = Str::random(4);
             $customer = new User();
             $customer->name = $request->receiver_name;
             $customer->email = $request->receiver_email;
             $customer->phone = bn_to_en($request->receiver_phone);
-            $customer->password = Str::random(20);
+            $customer->password = bcrypt($password);
             $customer->creator_id = auth()->user()->id;
             try {
                 $customer->save();
@@ -168,7 +170,13 @@ class InvoiceController extends Controller
                 $total_of_this_office = $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour');
                 array_push($linked_branch_and_amount, [$lined_branch_name ?? '#', $total_of_this_office]);
             }
-            if($invoice->receiver->phone != null && sms($invoice->receiver->phone, $invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter) == true){
+
+            if($password){
+                $message = $invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter . ' লগিন করে মালামালের অবস্থান জানতে ব্যবহার করুন মোবাইলঃ '. $invoice->receiver->phone .' এবং পাসওয়ার্ডঃ '. $password . 'লিংকঃ '.  url('/');
+            }else{
+                $message = $invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter . ' লগিন করে মালামালের অবস্থান জানতে আপনার মোবাইল নাম্বার এবং পাসওয়ার্ড ব্যবহার করুন। '.  url('/');
+            }
+            if($invoice->receiver->phone != null && sms($invoice->receiver->phone, $message) == true){
                 return response()->json([
                     'type' => 'success',
                     'message' => 'ভাউচার তৈরি এবং কাস্টমারকে মেসেজে জানানো হয়েছে।',
@@ -228,11 +236,9 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Invoice $invoice
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Invoice $invoice)
     {
@@ -281,13 +287,14 @@ class InvoiceController extends Controller
             $customer = User::where('email', $request->receiver_email)->first();
         }
 
-
+        $password = null;
         if(!$customer){ //যদি কোন নাম্বার ইমেইল এবং নাম কোনটির সাথে মিলে না পাওয়া যায় তাহলে নতুন তৈরি হবে
+            $password = Str::random(4);
             $customer = new User();
             $customer->name = $request->receiver_name;
             $customer->email = $request->receiver_email;
             $customer->phone = bn_to_en($request->receiver_phone);
-            $customer->password = Str::random(20);
+            $customer->password = bcrypt($password);
             $customer->creator_id = auth()->user()->id;
             try {
                 $customer->save();
@@ -332,9 +339,18 @@ class InvoiceController extends Controller
 
         //# Step 4 SMS
         try {
-
             $invoice->save();
 
+            if($password){
+                $message = $invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter . ' লগিন করে মালামালের অবস্থান জানতে ব্যবহার করুন মোবাইলঃ '. $invoice->receiver->phone .' এবং পাসওয়ার্ডঃ '. $password . 'লিংকঃ '.  url('/');
+                if($invoice->receiver->phone != null && sms($invoice->receiver->phone, $message) == true){
+                    return response()->json([
+                        'type' => 'success',
+                        'message' => 'ভাউচার আপডেট হয়েছে এবং কাস্টমারকে মেসেজে জানানো হয়েছে।',
+                        'url' => route('manager.invoice.show', $invoice),
+                    ]);
+                }
+            }
         }catch (\Exception $exception){
             return response()->json([
                 'type' => 'error',
@@ -344,16 +360,14 @@ class InvoiceController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'message' => 'Successfully updated',
+            'message' => 'ভাউচার আপডেট হয়েছে',
             'url' => route('manager.invoice.show', $invoice),
         ]);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
+     * @param Invoice $invoice
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Invoice $invoice)
     {
