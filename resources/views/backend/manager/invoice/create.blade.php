@@ -153,6 +153,15 @@
                 </form>
             </div>
         </div>
+        <div class="col-sm-12">
+            <div class="row button-group" id="office_wise_payment_info">
+                @foreach($invoices->groupBy('to_branch_id') as $invoice_group => $invoice_items)
+                    <div class="col-lg-2 col-md-4">
+                        <button type="button" class="btn btn-block disabled btn-outline-success">{{ \App\Models\Branch::find($invoice_group)->name ?? '#' }} ({{ $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour') }})</button>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 @endsection
 @push('script')
@@ -413,6 +422,12 @@
                     },
                     success: function (data) {
                         if (data.type == 'success'){
+                            var office_wise_payment_info = '';
+                            $.each(data.offices, function(office_index, office) {
+                                office_wise_payment_info += `<div class="col-lg-2 col-md-4"> <button type="button" class="btn btn-block disabled  btn-outline-info">`+office[0] +'('+office[1]+')'+`</button></div>`;
+                            });
+                            $('#office_wise_payment_info').html(office_wise_payment_info);
+
                             $('#create-inv-form').trigger("reset");
                             var html_embed_code = `<embed type="text/html" src="`+data.url+`" width="750" height="500">`;
                             $('#extra-large-modal-body').html(html_embed_code);
