@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-quantity">সংখ্যা</span>
@@ -90,7 +90,7 @@
                                 <input type="text" class="form-control" onClick="this.select();" min="0" id="quantity" value="0">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-price">মূল্য</span>
@@ -98,15 +98,7 @@
                                 <input type="text" class="form-control" onClick="this.select();" min="0" id="price" value="0">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="input-advance">পরিশোধিত </span>
-                                </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="advance" value="0">
-                            </div>
-                        </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-home">হোম ডেলিভারি</span>
@@ -114,7 +106,7 @@
                                 <input type="text" class="form-control" onClick="this.select();" min="0" id="home" value="0">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-labour">লেবার খরচ</span>
@@ -122,7 +114,15 @@
                                 <input type="text" class="form-control" onClick="this.select();" min="0" id="labour" value="0">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="input-advance">অগ্রীম </span>
+                                </div>
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="advance" value="0">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-2" style="display:none">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-due">বাকি টাকা</span>
@@ -130,7 +130,7 @@
                                 <input type="text" class="form-control bg-danger" id="due" disabled readonly value="0">
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-total" >মোট টাকা</span>
@@ -138,7 +138,7 @@
                                 <input type="text" class="form-control bg-success" min="0" id="total" disabled readonly value="0">
                             </div>
                         </div>
-                        <div class="form-group col-md-3" style="display:none">
+                        <div class="form-group col-md-2" style="display:none">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">স্বাক্ষর</span>

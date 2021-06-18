@@ -40,33 +40,11 @@
 
              */
         }
-        body{
-            font-family: bengali_englisg, sans-serif;
-            /*
-            font-family: bengali_englisg, sans-serif;
-            font-family: bengali, sans-serif;
-            font-family: english, sans-serif;
-             */
-        }
-
-        .english{
-            font-family: english, sans-serif;
-        }
-
-        .bengali{
-            font-family: bengali, sans-serif;
-        }
-
         .rcorners{
             border: 2px solid #0a0a0a;
         }
-
-
-
-
-        body {
+        body{
             font-family: bengali_englisg, sans-serif;
-
         }
     </style>
 </head>
@@ -180,7 +158,7 @@
                 <td>
                     <b style="font-size: 30px;">{{ en_to_bn($invoice->custom_counter) }}/{{ en_to_bn($invoice->created_at->format('d/m/Y')) }}</b>
                 </td>
-                <td style="text-align: left; font-size: 22px;"><pre style="text-align: left;">{{ $invoice->description ?? '' }}</pre></td>
+                <td style="text-align: left; font-size: 22px;"><pre style="text-align: left; font-family: bengali_englisg, sans-serif">{{ $invoice->description ?? '' }} </pre></td>
                 <td  style="font-size: 22px;">
                     {{ en_to_bn($invoice->quantity) }}
                 </td>
