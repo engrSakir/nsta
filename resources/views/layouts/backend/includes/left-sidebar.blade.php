@@ -38,10 +38,9 @@
                     @include('layouts.backend.partials.left-site-bar.customer')
                 @endif
                 <br>
-                <br>
-                <br>
-                <br>
-                <br>
+                    <li>
+                        <img src="{{ asset('assets/backend/images/truck_gif.gif') }}" alt="" width="100%">
+                    </li>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

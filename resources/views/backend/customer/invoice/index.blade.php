@@ -24,6 +24,9 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
+                <div class="card-heading text-center">
+                    <img src="{{ asset('assets/backend/images/order-track.gif') }}" alt="" width="400px">
+                </div>
                 <div class="card-body">
 {{--                    <h4 class="card-title">ভাউচার লিস্ট</h4>--}}
 {{--                    <h6 class="card-subtitle">Add class <code>.color-bordered-table .primary-bordered-table</code></h6>--}}
@@ -41,6 +44,7 @@
                                     <span class="badge badge-pill badge-secondary">মোট</span>
                                 </th>
                                 <th>ভাউচার</th>
+                                <th>অবস্থা</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -58,6 +62,15 @@
                                         <button type="button" class="btn btn-info btn-circle show-inv" value="{{ route('customer.invoice.show', $invoice) }}"><i class="mdi mdi-cloud-print"></i> </button>
                                         <a type="button" class="btn btn-info btn-circle" href="{{ route('customer.invoice.download', $invoice) }}"><i class="mdi mdi-download"></i> </a>
                                     </td>
+                                    <td>
+                                        @if($invoice->status == 'Received')
+                                        <img src="{{ asset('assets/backend/images/delivery-one.png') }}" alt="" width="300px">
+                                            @elseif($invoice->status == 'On Going')
+                                            <img src="{{ asset('assets/backend/images/delivery-two.png') }}" alt="" width="300px">
+                                        @else
+                                            <img src="{{ asset('assets/backend/images/delivery-three.png') }}" alt="" width="300px">
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                             <thead>
@@ -71,6 +84,7 @@
                                     <span class="badge badge-pill badge-secondary">মোট</span>
                                 </th>
                                 <th>ভাউচার</th>
+                                <th>অবস্থা</th>
                             </tr>
                             </thead>
                             </tbody>
