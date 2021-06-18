@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class PasswordResetLinkController extends Controller
 {
@@ -29,19 +31,19 @@ class PasswordResetLinkController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'phone' => 'required|string',
         ]);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $user = \App\Models\User::where('phone', $request->phone)->first();
+        $password = Str::random(4);
+        if(sms($request->phone, 'নিউ শাপলা ট্রান্সপোর্ট এজেন্সি সফটওয়্যারে লগইন করার নতুন পাসওয়ার্ড হচ্ছে: '. $password)){
+            $user->password = bcrypt($password);
+            $user->save();
+            return redirect()->route('login')->withSuccess('সফলভাবে নতুন পাসওয়ার্ড আপনার ফোন নাম্বারে পাঠানো হয়েছে');
+        }else{
+            return back()->withErrors('পর্যাপ্ত পরিমাণ মেসেজ না থাকায় বর্তমানে পাসওয়ার্ড পরিবর্তন করা সম্ভব হচ্ছে না');
+        }
 
-        return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+
     }
 }
