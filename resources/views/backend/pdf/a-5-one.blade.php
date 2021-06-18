@@ -122,7 +122,7 @@
                 </td>
                 <td class="" style="width: 30%; text-align: center">
                     <!--Date-->
-                    বুকিং তারিখ- {{ en_to_bn($invoice->created_at->format('d/m/Y')) }}
+                    বুকিং তারিখ- {{ $invoice->created_at->format('d/m/Y') }}
                 </td>
                 <td class="" style="width: 30%; text-align: right">
                     প্রাপকঃ <b> {{ $invoice->receiver->name ?? '---' }}</b> <br> মোবাইলঃ<b> {{ $invoice->receiver->phone ?? '---' }}</b>
@@ -136,7 +136,7 @@
                 </td>
                 <td class="" style="width: 30%; text-align: center">
                     <!--Time-->
-                    বুকিং সময়- {{ en_to_bn($invoice->created_at->format('h:i A')) }}
+                    বুকিং সময়- {{ $invoice->created_at->format('h:i A') }}
                 </td>
                 <td class="" style="width: 30%; text-align: right">
                     ঠিকানাঃ {{ $invoice->toBranch->name ?? '---' }}
