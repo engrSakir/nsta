@@ -32,7 +32,7 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            height: 5.2cm;
+            height: 5.0cm;
         }
 
         .inv-paid-seal {
