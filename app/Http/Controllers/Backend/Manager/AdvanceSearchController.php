@@ -27,24 +27,9 @@ class AdvanceSearchController extends Controller
             'branch_office' => 'nullable|string',
         ]);
 
-        /*
-         starting_date
-        ending_date
-        prerok_name
-        prerok_phone
-        prapok_name
-        prapok_phone
-        invoice_number
-        branch_office
-
-        'name', 'LIKE', '%'. $request->name. '%'
-        ->whereDate('date_time', '>=', Carbon::createFromFormat('d/m/Y', $request->input('starting-date'))->format('Y-m-d'))
-                ->whereDate('date_time', '<=', Carbon::createFromFormat('d/m/Y', $request->input('ending-date'))->format('Y-m-d'))
-
-         */
-//        dd(Carbon::parse($request->starting_date)->format('Y-m-d'));
-        $invoices  = Invoice::join('users', 'invoices.receiver_id', '=', 'users.id')
-            ->where( function($query) use($request){
+        $invoices  = Invoice::where('from_branch_id', auth()->user()->branch->id)
+            ->join('users', 'invoices.receiver_id', '=', 'users.id')
+            ->where(function($query) use($request){
                 return $request->prapok_name ?
                 $query->from('users')->where('name', 'LIKE', '%'.$request->prapok_name. '%') : '';
             })
@@ -76,9 +61,11 @@ class AdvanceSearchController extends Controller
                 return $request->branch_office ?
                     $query->from('invoices')->where('to_branch_id', 'LIKE', '%'.$request->branch_office. '%') : '';
             })
+            ->select('invoices.*')
             ->paginate(100);
-//        dd($invoices);
 
+//        dd($invoices);
+//        dd($invoices->pluck('from_branch_id'));
 
         $status = 'All';
         $branch_name = 'All';
