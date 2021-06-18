@@ -48,8 +48,8 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>তারিখ</th>
-                                <th>অফিস</th>
+                                <th>নাম</th>
+                                <th>ফোন</th>
                             </tr>
                             </thead>
                             </tbody>

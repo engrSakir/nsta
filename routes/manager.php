@@ -31,6 +31,7 @@ Route::group(['middleware' => 'manager', 'as' => 'manager.', 'prefix' => 'backen
     Route::get('condition-invoice', [Manager\InvoiceController::class, 'conditionInvoiceGet'])->name('conditionInvoice.get');
     Route::resource('chalan', Manager\ChalanController::class);
     Route::resource('customers', Manager\CustomerController::class);
+    Route::get('advance-search', [Manager\AdvanceSearchController::class, 'index'])->name('advanceSearch');
 
 });
 
