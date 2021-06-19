@@ -124,7 +124,7 @@
                                             <label class="custom-control-label font-weight-bold" for="invoice-{{ $loop->iteration }}"># {{ en_to_bn($invoice->custom_counter) }}</label>
                                         </div>
                                     </label>
-                                    @if($invoice->chalan_id)
+                                    @if($invoice->chalan)
                                         <button type="button" class="btn btn-outline-success btn-rounded show-chalan" value="{{ route('manager.chalan.show', $invoice->chalan) }}">
                                             <i class="mdi mdi-receipt"></i>
                                             {{ $invoice->chalan->custom_counter ?? '--' }}
