@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomerAndBranch;
+use App\Models\Invoice;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -23,12 +25,10 @@ class DashboardController extends Controller
             ->company->managers->count();
 
         //4
-        $used_customer_amount  = CustomerAndBranch::whereIn('branch_id', auth()->user()->company->branches->pluck('id'))
-            ->count();
+        $used_customer_amount  = User::where('type', 'Customer')->count();
 
         //5
-        $used_invoice_amount  = CustomerAndBranch::whereIn('branch_id', auth()->user()->company->branches->pluck('id'))
-            ->count();
+        $used_invoice_amount  = Invoice::all()->count();
 
         $data = array (
             "used_branch_amount"  => $used_branch_amount,
