@@ -35,6 +35,7 @@
                                 <th>#</th>
                                 <th>নাম</th>
                                 <th>ফোন</th>
+                                <th>#</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -43,6 +44,9 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $customer->name }}</td>
                                     <td>{{ $customer->phone }}</td>
+                                    <td>
+                                        <button type="button" class="btn waves-effect waves-light btn-primary" onclick="delete_function(this)" value="{{ route('manager.customers.destroy', $customer) }}"><i class="mdi mdi-delete-circle"></i> </button>
+                                    </td>
                                 </tr>
                             @endforeach
                             <thead>
@@ -50,6 +54,7 @@
                                 <th>#</th>
                                 <th>নাম</th>
                                 <th>ফোন</th>
+                                <th>#</th>
                             </tr>
                             </thead>
                             </tbody>

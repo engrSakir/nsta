@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -18,7 +19,7 @@ class CustomerController extends Controller
         $customers = Invoice::groupBy('receiver_id')
         ->where('from_branch_id', auth()->user()->branch->id)
         ->join('users', 'invoices.receiver_id', '=', 'users.id')
-        ->select('name', 'phone')
+        ->select('users.id as id','name', 'phone')
         ->paginate(100);
         return view('backend.manager.customer.index', compact('customers'));
     }
@@ -86,6 +87,18 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $customer = User::find($id);
+            $customer->delete();
+            return response()->json([
+                'type' => 'success',
+                'message' => ''
+            ]);
+        }catch (\Exception$exception){
+            return response()->json([
+                'type' => 'error',
+                'message' => ''
+            ]);
+        }
     }
 }

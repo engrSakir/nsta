@@ -61,8 +61,20 @@ class User extends Authenticatable
         return $this->hasMany(Invoice::class, 'creator_id', 'id');
     }
 
+    public function invoices_as_customer(){
+        return $this->hasMany(Invoice::class, 'receiver_id', 'id');
+    }
+
     public function getInvoiceAsCustomer(){
         return $this->hasMany(Invoice::class, 'receiver_id', 'id');
+    }
+
+    // if user is deleted than auto delete depended data
+    public static function boot() {
+        parent::boot();
+        static::deleting(function($user) {
+            $user->invoices_as_customer()->delete();
+        });
     }
 
 }
