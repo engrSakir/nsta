@@ -16,7 +16,8 @@
                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Company edit</li>
                 </ol>
-                <a href="{{ route('admin.branch.index') }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Back to list</a>
+                <a href="{{ route('admin.branch.index') }}" class="btn btn-info d-none d-lg-block m-l-15"><i
+                        class="fa fa-plus-circle"></i> Back to list</a>
             </div>
         </div>
     </div>
@@ -50,7 +51,8 @@
                             <div class="form-group row">
                                 <label for="reporting_email" class="col-sm-2 col-form-label">Reporting Email</label>
                                 <div class="col-sm-10">
-                                    <input value="{{ $company->reporting_email }}" name="reporting_email" type="text" class="form-control"
+                                    <input value="{{ $company->reporting_email }}" name="reporting_email" type="text"
+                                           class="form-control"
                                            id="reporting_email" placeholder="Reporting email address">
                                     @error('reporting_email')
                                     <div class="alert alert-danger" role="alert">
@@ -62,7 +64,8 @@
                             <div class="form-group row">
                                 <label for="logo" class="col-sm-2 col-form-label">Logo</label>
                                 <div class="col-sm-10">
-                                    <img src="{{ asset($company->logo ?? get_static_option('no_image')) }}" alt="" width="70px" class="img-circle">
+                                    <img src="{{ asset($company->logo ?? get_static_option('no_image')) }}" alt=""
+                                         width="70px" class="img-circle">
                                     <input name="logo" type="file" accept="image/*" class="form-control"
                                            id="logo" placeholder="logo">
                                     @error('logo')
@@ -76,7 +79,8 @@
                             <div class="form-group row">
                                 <label for="sms_api_key" class="col-sm-2 col-form-label">SMS API Key</label>
                                 <div class="col-sm-10">
-                                    <input value="{{ get_static_option('sms_api_key') }}" name="sms_api_key" type="text" class="form-control"
+                                    <input value="{{ get_static_option('sms_api_key') }}" name="sms_api_key" type="text"
+                                           class="form-control"
                                            id="sms_api_key" placeholder="SMS API Key">
                                     @error('sms_api_key')
                                     <div class="alert alert-danger" role="alert">
@@ -88,9 +92,69 @@
                             <div class="form-group row">
                                 <label for="sms_api_pass" class="col-sm-2 col-form-label">SMS API Password</label>
                                 <div class="col-sm-10">
-                                    <input value="{{ get_static_option('sms_api_pass') }}" name="sms_api_pass" type="text" class="form-control"
+                                    <input value="{{ get_static_option('sms_api_pass') }}" name="sms_api_pass"
+                                           type="text" class="form-control"
                                            id="sms_api_pass" placeholder="SMS API Password">
                                     @error('sms_api_pass')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="sms_api_pass" class="col-sm-2 col-form-label">SMS Content 1</label>
+                                <div class="col-sm-10">
+                                    <textarea name="regular_invoice_message_content_for_new_customer" id=""
+                                              class="form-control" cols="10"
+                                              rows="5">{!! get_static_option('regular_invoice_message_content_for_new_customer') !!}</textarea>
+                                    <p class="text-danger">
+                                        <code>[sender_name]
+                                            [custom_counter]
+                                            [receiver_phone]
+                                            [receiver_password]</code>
+                                    </p>
+                                    <b class="text-success">
+                                        <b>রফিক স্টোর থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং-
+                                            ১০ লগিন করে মালামালের অবস্থান জানতে ব্যবহার করুন মোবাইলঃ 01304734623 এবং
+                                            পাসওয়ার্ডঃ 123456 লিংকঃ www.nsta.com.bd</b>
+                                    </b>
+                                    <br>
+                                    <br>
+                                    <h4> উপরে উল্লেখিত ফরমেটে মেসেজ পাঠানোর জন্য নিম্নে একটি উদাহরণ দেয়া হলো:</h4>
+                                    <code>[sender_name] থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং
+                                        নং- [custom_counter] লগিন করে মালামালের অবস্থান জানতে ব্যবহার করুন মোবাইলঃ
+                                        [receiver_phone] এবং পাসওয়ার্ডঃ [receiver_password] লিংকঃ
+                                        www.nsta.com.bd</code>
+                                    @error('regular_invoice_message_content_for_new_customer')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="sms_api_pass" class="col-sm-2 col-form-label">SMS Content 2</label>
+                                <div class="col-sm-10">
+                                    <textarea name="regular_invoice_message_content_for_old_customer" id=""
+                                              class="form-control" cols="10"
+                                              rows="5">{!! get_static_option('regular_invoice_message_content_for_old_customer') !!}</textarea>
+                                    <p class="text-danger">
+                                        <code>[sender_name]
+                                            [custom_counter]</code>
+                                    </p>
+                                    <b class="text-success">
+                                        <b>রফিক স্টোর থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং-
+                                            ১০ লগিন করে মালামালের অবস্থান জানতে আপনার মোবাইল নাম্বার এবং পাসওয়ার্ড
+                                            ব্যবহার করুন। লিংকঃ www.nsta.com.bd</b>
+                                    </b>
+                                    <br>
+                                    <br>
+                                    <h4> উপরে উল্লেখিত ফরমেটে মেসেজ পাঠানোর জন্য নিম্নে একটি উদাহরণ দেয়া হলো:</h4>
+                                    <code>[sender_name] থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং
+                                        নং- [custom_counter] লগিন করে মালামালের অবস্থান জানতে আপনার মোবাইল নাম্বার এবং
+                                        পাসওয়ার্ড ব্যবহার করুন। লিংকঃ www.nsta.com.bd</code>
+                                    @error('regular_invoice_message_content_for_old_customer')
                                     <div class="alert alert-danger" role="alert">
                                         {{ $message }}
                                     </div>

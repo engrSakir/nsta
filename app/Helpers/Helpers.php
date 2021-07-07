@@ -141,4 +141,36 @@ if (!function_exists('random_code')){
            return false;
        }
    }
+
+   function get_regular_invoice_message_content_for_new_customer(\App\Models\Invoice $invoice, $password){
+        //$invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter . ' লগিন করে মালামালের অবস্থান জানতে ব্যবহার করুন মোবাইলঃ '. $invoice->receiver->phone .' এবং পাসওয়ার্ডঃ '. $password . 'লিংকঃ '.  url('/');
+       try {
+           $message = get_static_option('regular_invoice_message_content_for_new_customer');
+           if($invoice->sender_name ?? null)
+           $message = str_replace("[sender_name]", $invoice->sender_name, $message);
+           if($invoice->custom_counter ?? null)
+           $message = str_replace("[custom_counter]", $invoice->custom_counter, $message);
+           if($invoice->receiver->phone ?? null)
+           $message = str_replace("[receiver_phone]", $invoice->receiver->phone, $message);
+           if($password ?? null)
+           $message = str_replace("[receiver_password]", $password, $message);
+           return $message;
+       }catch (\Exception $exception){
+           return $exception->getMessage();
+       }
+   }
+
+   function get_regular_invoice_message_content_for_old_customer(\App\Models\Invoice $invoice){
+        //$invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter . ' লগিন করে মালামালের অবস্থান জানতে আপনার মোবাইল নাম্বার এবং পাসওয়ার্ড ব্যবহার করুন। '.  url('/');
+       try {
+           $message = get_static_option('regular_invoice_message_content_for_old_customer');
+           if($invoice->sender_name ?? null)
+           $message = str_replace("[sender_name]", $invoice->sender_name, $message);
+           if($invoice->custom_counter ?? null)
+           $message = str_replace("[custom_counter]", $invoice->custom_counter, $message);
+           return $message;
+       }catch (\Exception $exception){
+           return $exception->getMessage();
+       }
+   }
 }

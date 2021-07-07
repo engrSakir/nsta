@@ -44,6 +44,8 @@ class CompanyController extends Controller
         try {
             update_static_option('sms_api_key', $request->sms_api_key);
             update_static_option('sms_api_pass', $request->sms_api_pass);
+            update_static_option('regular_invoice_message_content_for_new_customer', $request->regular_invoice_message_content_for_new_customer);
+            update_static_option('regular_invoice_message_content_for_old_customer', $request->regular_invoice_message_content_for_old_customer);
 
             $company->save();
             return back()->withSuccess('Company successfully updated');

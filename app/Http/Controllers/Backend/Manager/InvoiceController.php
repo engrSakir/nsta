@@ -127,10 +127,11 @@ class InvoiceController extends Controller
         $invoice->receiver_id       = $customer->id;
 
         $invoice->description       = $request->description;
-        $invoice->quantity          = bn_to_en($request->quantity);
+        $invoice->quantity          = $request->quantity;
         $invoice->price             = bn_to_en($request->price);
         $invoice->home              = bn_to_en($request->home);
         $invoice->labour            = bn_to_en($request->labour);
+        $invoice->paid            = bn_to_en($request->advance);
 
         if($request->condition){
             $invoice->condition_amount          = bn_to_en($request->condition_amount);
@@ -146,7 +147,7 @@ class InvoiceController extends Controller
         if($custom_counter < auth()->user()->branch->custom_inv_counter_min_value){
             $custom_counter = auth()->user()->branch->custom_inv_counter_min_value;
         }
-        
+
         if ($custom_counter >= auth()->user()->branch->custom_inv_counter_max_value){
             $custom_counter = auth()->user()->branch->custom_inv_counter_min_value;
         }else{
@@ -177,9 +178,9 @@ class InvoiceController extends Controller
             }
 
             if($password){
-                $message = $invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter . ' লগিন করে মালামালের অবস্থান জানতে ব্যবহার করুন মোবাইলঃ '. $invoice->receiver->phone .' এবং পাসওয়ার্ডঃ '. $password . 'লিংকঃ '.  url('/');
+                $message = get_regular_invoice_message_content_for_new_customer($invoice, $password);
             }else{
-                $message = $invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter . ' লগিন করে মালামালের অবস্থান জানতে আপনার মোবাইল নাম্বার এবং পাসওয়ার্ড ব্যবহার করুন। '.  url('/');
+                $message = get_regular_invoice_message_content_for_old_customer($invoice);
             }
             if($invoice->receiver->phone != null && sms($invoice->receiver->phone, $message) == true){
                 return response()->json([
@@ -347,7 +348,7 @@ class InvoiceController extends Controller
             $invoice->save();
 
             if($password){
-                $message = $invoice->sender_name .' থেকে আপনার মাল নিউ শাপলা ট্রান্সপোর্টে বুকিং করা হয়েছে। বুকিং নং- '. $invoice->custom_counter . ' লগিন করে মালামালের অবস্থান জানতে ব্যবহার করুন মোবাইলঃ '. $invoice->receiver->phone .' এবং পাসওয়ার্ডঃ '. $password . 'লিংকঃ '.  url('/');
+                $message = get_regular_invoice_message_content_for_new_customer($invoice, $password);
                 if($invoice->receiver->phone != null && sms($invoice->receiver->phone, $message) == true){
                     return response()->json([
                         'type' => 'success',

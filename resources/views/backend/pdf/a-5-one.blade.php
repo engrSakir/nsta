@@ -35,16 +35,14 @@
             height: 5.0cm;
         }
 
-        .inv-paid-seal {
+        .inv-right-seal {
             /* The image used */
-            background-image: url("{{ asset('uploads/images/setting/paid.png') }}");
-            background-position: center;
-            background-repeat: no-repeat;
-        }
+            @if(($invoice->price + $invoice->home + $invoice->labour) > $invoice->paid)
+                background-image: url("{{ asset('uploads/images/setting/due.png') }}");
+            @else
+                background-image: url("{{ asset('uploads/images/setting/paid.png') }}");
+            @endif
 
-        .inv-due-seal {
-            /* The image used */
-            background-image: url("{{ asset('uploads/images/setting/due.png') }}");
             background-position: center;
             background-repeat: no-repeat;
         }
@@ -172,7 +170,7 @@
                                 <pre style="text-align: left; font-family: bengali_englisg;"> @if($invoice->condition_amount > 0) <b>কন্ডিশনঃ {{ en_to_bn($invoice->condition_amount) }} + চার্জঃ {{ en_to_bn($invoice->condition_charge) }} = মোটঃ {{ en_to_bn($invoice->condition_amount + $invoice->condition_charge) }}</b>
                                     <hr> @endif {{ $invoice->description }}</pre>
                             </td>
-                            <td  style="text-align: center; font-size: 22px;" class="right-color bottom-color @if(($invoice->price + $invoice->home + $invoice->labour) > $invoice->paid)  inv-due-seal @else inv-paid-seal @endif">
+                            <td  style="text-align: center; font-size: 22px;" class="right-color bottom-color inv-right-seal">
                                 {{ en_to_bn($invoice->price)  }}
 
                             </td>
@@ -228,7 +226,7 @@
                                         <td  style="text-align: center; width: 50%;">01407055773</td>
                                     </tr>
                                 </table>
-                                </td>
+                            </td>
                             <td style="">
                                 <table style="width: 100%;">
                                     <tr>
