@@ -62,22 +62,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="package" class="col-sm-4 col-form-label">Package</label>
-                            <div class="col-sm-8">
-                                <select name="package" id="package" class="select2-single form-control">
-                                    <option value="" selected disabled>Chose package</option>
-                                    @foreach($packages as $package)
-                                    <option @if (old('package') == $package->id) selected @endif value="{{ $package->id }}"> {{ $package->name }} </option>
-                                    @endforeach
-                                </select>
-                                @error('package')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label for="logo" class="col-sm-4 col-form-label">Logo</label>
                             <div class="col-sm-8">
                                 <input name="logo" type="file" accept="image/*" class="form-control-lg" id="logo">

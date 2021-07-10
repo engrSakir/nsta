@@ -51,8 +51,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        $packages = Package::where('is_active', true)->get();
-        return view('backend.superadmin.company.create', compact('packages'));
+        return view('backend.superadmin.company.create');
     }
 
     /**
@@ -66,7 +65,6 @@ class CompanyController extends Controller
         $request->validate([
             'name' => 'required|string|unique:companies,name' ,
             'status' => 'required|boolean',
-            'package' => 'required|exists:packages,id',
             'logo' => 'nullable|image',
         ]);
 
@@ -112,8 +110,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        $packages = Package::where('is_active', true)->get();
-        return view('backend.superadmin.company.edit', compact('company','packages'));
+        return view('backend.superadmin.company.edit', compact('company'));
     }
 
     /**
@@ -128,7 +125,6 @@ class CompanyController extends Controller
         $request->validate([
             'name' => 'required|string|unique:companies,name,'.$company->id,
             'status' => 'required|boolean',
-            'package' => 'nullable|exists:packages,id',
             'logo' => 'nullable|image',
         ]);
 
