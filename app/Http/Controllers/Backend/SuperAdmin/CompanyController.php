@@ -110,7 +110,8 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        return view('backend.superadmin.company.edit', compact('company'));
+        $admins = User::where('type', 'admin')->get();
+        return view('backend.superadmin.company.edit', compact('company', 'admins'));
     }
 
     /**
@@ -126,7 +127,17 @@ class CompanyController extends Controller
             'name' => 'required|string|unique:companies,name,'.$company->id,
             'status' => 'required|boolean',
             'logo' => 'nullable|image',
+            'admin' => 'required|exists:users,id',
         ]);
+
+        foreach($company->admins as $old_admin){
+            $old_admin->company_id = null;
+            $old_admin->save();
+        }
+
+        $admin = User::find($request->admin);
+        $admin->company_id = $company->id;
+        $admin->save();
 
         $company->name      =   $request->name;
         $company->is_active    =   $request->status;

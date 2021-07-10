@@ -49,6 +49,24 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label for="status" class="col-sm-4 col-form-label">Admin</label>
+                                <div class="col-sm-8">
+                                    @foreach($company->admins as $ad) {{ $loop->iteration}}: {{ $ad->name ?? 'No name'}}, @endforeach
+                                    <select name="admin" class="select2-single form-control">
+                                        <option selected value="">Chose admin </option>
+                                        @foreach($admins as $admin)
+                                        <option @if($admin->id == old('admin')) selected @endif value="{{ $admin->id }}"> {{ $admin->name}} </option>
+                                        @endforeach
+                                    </select>
+                                    @error('admin')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
                                 <label for="status" class="col-sm-4 col-form-label">Status</label>
                                 <div class="col-sm-8">
                                     <select name="status" class="select2-single form-control">

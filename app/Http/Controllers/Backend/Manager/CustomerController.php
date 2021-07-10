@@ -89,6 +89,12 @@ class CustomerController extends Controller
     {
         try {
             $customer = User::find($id);
+            if($customer->type == 'admin' || $customer->type == 'manager'){
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'এডমিন এবং ম্যানেজারকে ডিলিট করা যাবে না.'
+                ]);
+            }
             $customer->delete();
             return response()->json([
                 'type' => 'success',

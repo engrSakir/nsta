@@ -40,7 +40,6 @@
                                     <tr>
                                         <th>Logo</th>
                                         <th>Name</th>
-                                        <th>Package</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -52,7 +51,6 @@
                                     <tr>
                                         <th>Logo</th>
                                         <th>Name</th>
-                                        <th>Package</th>
                                         <th>Status</th>
                                     </tr>
                                 </tfoot>
@@ -85,10 +83,6 @@
                 {
                     data: 'name',
                     name: 'name'
-                },
-                {
-                    data: 'package',
-                    name: 'package.'
                 },
                 {
                     data: 'status',
