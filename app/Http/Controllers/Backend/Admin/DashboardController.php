@@ -25,7 +25,11 @@ class DashboardController extends Controller
             ->company->managers->count();
 
         //4
-        $used_customer_amount  = User::where('type', 'Customer')->count();
+        $used_customer_amount = Invoice::groupBy('receiver_id')
+        ->whereIn('from_branch_id', auth()->user()->company->branches()->select('id'))
+        ->join('users', 'invoices.receiver_id', '=', 'users.id')
+        ->select('users.id as id','name', 'phone')
+        ->count();
 
         //5
         $used_invoice_amount  = Invoice::all()->count();
