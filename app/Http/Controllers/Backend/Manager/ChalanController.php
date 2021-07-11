@@ -105,7 +105,7 @@ class ChalanController extends Controller
 
         $sms_body = 'নতুন চালান এসেছে ' . $chalan->fromBranch->name . ' থেকে। ড্রাইভারের মোবাইলঃ' . $chalan->driver_phone . ' গাড়ী নংঃ ' . $chalan->car_number;
 
-        if($chalan->toBranch->phone != null && sms($chalan->toBranch->phone, $invoice->sender_name .$sms_body) == true){
+        if($chalan->toBranch->phone != null && sms($chalan->toBranch->phone, $sms_body) == true){
             return response()->json([
                 'type' => 'success',
                 'message' => 'স্ট্যাটাস পরিবর্তন করা হয়েছে। এবং চালান তৈরি করে ম্যানেজার কে মেসেজ দেয়া হয়েছে।',
