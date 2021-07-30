@@ -46,6 +46,16 @@
         body{
             font-family: bengali_englisg, sans-serif;
         }
+
+        table, th, td {
+
+        }
+
+        .table_margin{
+            /*border: 1px solid black;*/
+            border-collapse: collapse;
+        }
+
     </style>
 </head>
 <body class="vertical-layout">
@@ -120,7 +130,7 @@
 </div>
 <hr>
 <div class="row">
-    <table style="text-align: center;">
+    <table style="text-align: center; ">
         <tr style="width: 100%;">
             <th style="width: 1cm;">
                 ক্র নং
@@ -148,33 +158,33 @@
             </th>
         </tr>
         @foreach($chalan->invoices as $invoice)
-            <tr @if($loop->even) style="width: 100%; background-color: #cec5c5" @else style="width: 100%; background-color: rgba(206,197,197,0.21)" @endif>
-                <td>
+            <tr class="" @if($loop->even) style="width: 100%; background-color: #cec5c5" @else style="width: 100%; background-color: rgba(206,197,197,0.21)" @endif>
+                <td class="table_margin">
                     {{ $loop->iteration }}
                 </td>
-                <td style="font-size: 22px; text-align: left;">
+                <td class="table_margin" style="font-size: 22px; text-align: left;">
                     {{ $invoice->receiver->name ?? '' }}
                 </td>
-                <td>
+                <td class="table_margin">
                     <b style="font-size: 30px;">{{ en_to_bn($invoice->custom_counter) }}/{{ en_to_bn($invoice->created_at->format('d/m/Y')) }}</b>
                 </td>
-                <td style="text-align: left; font-size: 22px;"><pre style="text-align: left; font-family: bengali_englisg, sans-serif">{{ $invoice->description ?? '' }} </pre></td>
-                <td  style="font-size: 22px;">
+                <td class="table_margin" style="text-align: left; font-size: 22px;"><pre style="text-align: left; font-family: bengali_englisg, sans-serif">{{ $invoice->description ?? '' }} </pre></td>
+                <td class="table_margin"  style="font-size: 22px;">
                     {{ en_to_bn($invoice->quantity) }}
                 </td>
-                <td style="font-size: 22px;">
+                <td class="table_margin" style="font-size: 22px;">
                     {{ en_to_bn($invoice->paid) }}
                 </td>
-                <td style="font-size: 22px;">
+                <td class="table_margin" style="font-size: 22px;">
                     {{  en_to_bn($invoice->price +  $invoice->home +  $invoice->labour - $invoice->paid) }}
                 </td>
-                <td>
+                <td class="table_margin">
                 </td>
             </tr>
         @endforeach
     </table>
     <div style="text-align: right; width:100%;">
-        <b>মোটঃ  {{ en_to_bn($chalan->invoices->sum('paid')) }} &nbsp; {{ en_to_bn($chalan->invoices->sum('price') + $chalan->invoices->sum('home') + $chalan->invoices->sum('labour') - $chalan->invoices->sum('paid')) }} &nbsp; <br>   সর্ব মোটঃ {{ $chalan->invoices->sum('paid') + $chalan->invoices->sum('price') + $chalan->invoices->sum('home') + $chalan->invoices->sum('labour') - $chalan->invoices->sum('paid') }}&nbsp; </b>
+        <b>মোটঃ  {{ en_to_bn($chalan->invoices->sum('paid')) }} &nbsp; {{ en_to_bn($chalan->invoices->sum('price') + $chalan->invoices->sum('home') + $chalan->invoices->sum('labour') - $chalan->invoices->sum('paid')) }} &nbsp; <br>   সর্ব মোটঃ {{ en_to_bn($chalan->invoices->sum('paid') + $chalan->invoices->sum('price') + $chalan->invoices->sum('home') + $chalan->invoices->sum('labour') - $chalan->invoices->sum('paid')) }}&nbsp; </b>
     </div>
 
     <table style="width:100%; margin-top: 5px;">
