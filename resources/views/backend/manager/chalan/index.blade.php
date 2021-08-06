@@ -29,6 +29,9 @@
                     <h4 class="card-title">এন্ট্রি চালান তালিকা</h4>
 {{--                    <h6 class="card-subtitle">Add class <code>.color-bordered-table .primary-bordered-table</code></h6>--}}
                     <div class="row button-group">
+                        <div class="col-lg-1 col-md-2">
+                            <button type="button" disabled class="btn waves-effect waves-light btn-block btn-info counter_display">0</button>
+                        </div>
                         <div class="col-lg-2 col-md-4">
                             <button type="button" class="btn waves-effect waves-light btn-block btn-info select-all">সবগুলো পছন্দ</button>
                         </div>
@@ -104,6 +107,18 @@
     <script>
         $(document).ready(function(){
             // Get current page and set current in nav
+            $('input[type="checkbox"]').change(function() {
+                $('.counter_display').html($("[name='chalan']:checked").length)
+            });
+
+            $('.select-all').click(function(event) {
+                $('.counter_display').html($("[name='chalan']:checked").length)
+            });
+
+            $('.un-select-all').click(function(event) {
+                $('.counter_display').html($("[name='chalan']:checked").length)
+            });
+
             $(".show-chalan").click( function (){
                 var html_embed_code = `<embed type="text/html" src="`+$(this).val()+`" width="750" height="500">`;
                 $('#extra-large-modal-body').html(html_embed_code);
