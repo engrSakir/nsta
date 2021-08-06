@@ -55,7 +55,16 @@
             /*border: 1px solid black;*/
             border-collapse: collapse;
         }
+         #main_content_table {
+         //font-family: Arial, Helvetica, sans-serif;
+             border-collapse: collapse;
+             width: 100%;
+         }
 
+        #main_content_table td, #main_content_table th {
+            border: 1px solid #000000;
+            padding: 8px;
+        }
     </style>
 </head>
 <body class="vertical-layout">
@@ -130,11 +139,11 @@
 </div>
 <hr>
 <div class="row">
-    <table style="text-align: center; ">
+    <table id="main_content_table" style="text-align: center;">
         <tr style="width: 100%;">
             <th style="width: 1cm;">
                 ক্র নং
-            </th style="width: 4cm;">
+            </th>
             <th style="width: 6cm;">
                 প্রাপকের নাম
             </th>
@@ -143,7 +152,7 @@
             </th>
             <th style="width: 10cm;">
                 মালের নাম
-            </th style="width: 1cm;">
+            </th>
             <th>
                 সংখ্যা
             </th>
