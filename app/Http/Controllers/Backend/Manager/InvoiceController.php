@@ -459,15 +459,18 @@ class InvoiceController extends Controller
 
     public function statusConstant($status)
     {
+        $paginate = 100;
+
         if ($status == 'received'){
             $status = 'Received';
+            $paginate = 1000;
         }elseif ($status == 'on-going'){
             $status = 'On Going';
         }elseif ($status == 'delivered'){
             $status = 'Delivered';
         }
         $branch_name = 'All';
-        $invoices = auth()->user()->branch->fromInvoices()->where('status', $status)->orderBy('id', 'desc')->paginate(100);
+        $invoices = auth()->user()->branch->fromInvoices()->where('status', $status)->orderBy('id', 'desc')->paginate($paginate);
         return view('backend.manager.invoice.index', compact('invoices', 'status', 'branch_name'));
     }
 
@@ -477,19 +480,21 @@ class InvoiceController extends Controller
             return back()->withErrors('Your are not permitted to access.');
         }
         $branch_name = $branch->name;
+        $paginate = 100;
         if ($status == 'received'){
             $status = 'Received';
+            $paginate = 1000;
         }elseif ($status == 'on-going'){
             $status = 'On Going';
         }elseif ($status == 'delivered'){
             $status = 'Delivered';
         }elseif ($status == 'all'){
-            $invoices = auth()->user()->branch->fromInvoices()->where('to_branch_id', $branch->id)->orderBy('id', 'desc')->paginate(100);
+            $invoices = auth()->user()->branch->fromInvoices()->where('to_branch_id', $branch->id)->orderBy('id', 'desc')->paginate($paginate);
             return view('backend.manager.invoice.index', compact('invoices', 'status', 'branch_name'));
         }else{
             return back()->withErrors('Invalid status.');
         }
-        $invoices = auth()->user()->branch->fromInvoices()->where('status', $status)->where('to_branch_id', $branch->id)->orderBy('id', 'desc')->paginate(100);
+        $invoices = auth()->user()->branch->fromInvoices()->where('status', $status)->where('to_branch_id', $branch->id)->orderBy('id', 'desc')->paginate($paginate);
         return view('backend.manager.invoice.index', compact('invoices', 'status', 'branch_name'));
     }
 
