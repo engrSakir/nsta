@@ -9,7 +9,7 @@
                     <h2>{{ get_static_option('banner_description') }}</h2>
                     <div class="d-flex justify-content-center justify-content-lg-start">
                         <a href="#about" class="btn-get-started scrollto">Get Started</a>
-                        <a href="{{ get_static_option('banner_url') ?? 'javascript:0' }}" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+                        <a href="{{ get_static_option('banner_url') ?? 'javascript:void(0)' }}" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
                     </div>
                 </div>
                 <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
@@ -118,7 +118,7 @@
                     <div class="col-xl-3 col-md-6 mb-4 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="{{ $loop->iteration }}00">
                         <div class="icon-box">
                             <div class="icon"><h1><b>{!! $service->icon !!}</b></h1></div>
-                            <h4><a href="javascript:0">{{ $service->name }}</a></h4>
+                            <h4><a href="javascript:void(0)">{{ $service->name }}</a></h4>
                             <p>{{ $service->description }}</p>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                         </p>
                     </div>
                     <div class="col-lg-3 cta-btn-container text-center">
-                        <a class="cta-btn align-middle" target="_blank" href="{{ $callToAction->action_url ?? 'javascript:0' }}">{{ $callToAction->action_name }}</a>
+                        <a class="cta-btn align-middle" target="_blank" href="{{ $callToAction->action_url ?? 'javascript:void(0)' }}">{{ $callToAction->action_name }}</a>
                     </div>
                 </div>
                 <hr class="bg-danger">
@@ -330,7 +330,7 @@
 
                     <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
                         <div  class="php-email-form" id="">
-                            <form action="javascript:0" id="contact-form">
+                            <form action="javascript:void(0)" id="contact-form">
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="name">Your Name</label>

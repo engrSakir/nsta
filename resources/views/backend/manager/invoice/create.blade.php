@@ -219,9 +219,14 @@
                         success:function(data){
                             // console.log(data)
                             var array = $.map(data,function(obj){
+                                if(obj.sender_phone){
+                                    s_phone = ' #'+obj.sender_phone;
+                                }else{
+                                    s_phone = " ";
+                                }
                                 return{
                                     value: obj.sender_name, //Fillable in input field
-                                    label: obj.sender_name + ' '+obj.sender_phone,  //Show as label of input field
+                                    label: obj.sender_name + s_phone,  //Show as label of input field
                                     phone: obj.sender_phone,
                                 }
                             })
@@ -287,9 +292,21 @@
                         success:function(data){
                             // console.log(data)
                             var array = $.map(data,function(obj){
+                                if(obj.phone){
+                                    r_phone = ' #'+obj.phone;
+                                }else{
+                                    r_phone = " ";
+                                }
+
+                                if(obj.email){
+                                    r_email = ' #'+obj.email;
+                                }else{
+                                    r_email = " ";
+                                }
+
                                 return{
                                     value: obj.name, //Filable in input field
-                                    label: obj.name + '<br>' + obj.phone + '<br>' + obj.email,  //Show as label of input field
+                                    label: obj.name + r_phone + r_email,  //Show as label of input field
                                     phone: obj.phone,
                                     email: obj.email,
                                     sender_branch: obj.to_branch_id,
@@ -304,8 +321,8 @@
                     //console.log(ui.item);
                     $('#receiver-phone').val(ui.item.phone);
                     $('#receiver-email').val(ui.item.email);
-                    $('.branch').attr('checked', false);
-                    $('#branch-'+ui.item.sender_branch).attr('checked', true);
+                    $('.branch').prop('checked', false); //first false all
+                    $('#branch-'+ui.item.sender_branch).prop('checked', true);
                 }
             });
 

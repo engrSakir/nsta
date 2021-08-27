@@ -9,7 +9,7 @@
                     <p>
                         {!! get_static_option('subscriber_description') !!}
                     </p>
-                    <form action="javascript:0" method="">
+                    <form action="javascript:void(0)" method="">
                         <input type="email"  id="subscribe-email"  name="email"><input class="subscribe-now-btn" type="submit" value="Subscribe">
                     </form>
                 </div>
@@ -56,11 +56,11 @@
                     <h4>Our Social Networks</h4>
                     <p>{{ get_static_option('note_for_social_network') }}</p>
                     <div class="social-links mt-3">
-                        <a href="{{ get_static_option('company_twitter_link') ?? 'javascript:0' }}" target="_blank" class="twitter"><i class="bx bxl-twitter"></i></a>
-                        <a href="{{ get_static_option('company_facebook_link') ?? 'javascript:0' }}" target="_blank" class="facebook"><i class="bx bxl-facebook"></i></a>
-                        <a href="{{ get_static_option('company_instagram_link') ?? 'javascript:0' }}" target="_blank" class="instagram"><i class="bx bxl-instagram"></i></a>
-                        <a href="{{ get_static_option('company_linkedin_link') ?? 'javascript:0' }}" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-                        <a href="{{ get_static_option('company_youtube_link') ?? 'javascript:0' }}" target="_blank" class="youtube"><i class="bx bxl-youtube"></i></a>
+                        <a href="{{ get_static_option('company_twitter_link') ?? 'javascript:void(0)' }}" target="_blank" class="twitter"><i class="bx bxl-twitter"></i></a>
+                        <a href="{{ get_static_option('company_facebook_link') ?? 'javascript:void(0)' }}" target="_blank" class="facebook"><i class="bx bxl-facebook"></i></a>
+                        <a href="{{ get_static_option('company_instagram_link') ?? 'javascript:void(0)' }}" target="_blank" class="instagram"><i class="bx bxl-instagram"></i></a>
+                        <a href="{{ get_static_option('company_linkedin_link') ?? 'javascript:void(0)' }}" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                        <a href="{{ get_static_option('company_youtube_link') ?? 'javascript:void(0)' }}" target="_blank" class="youtube"><i class="bx bxl-youtube"></i></a>
                     </div>
                 </div>
 
