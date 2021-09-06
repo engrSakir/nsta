@@ -190,13 +190,33 @@
                             <td style="width:25%">
                                 <table style="width: 100%;">
                                     <tr>
-                                        <td  style="text-align: center; width: 50%;">গাইবান্ধা </td>
-                                        <td  style="text-align: center; width: 50%;">01407055775</td>
+                                        <td  style="text-align: center; width: 50%;">সৈয়দপুর</td>
+                                        <td  style="text-align: center; width: 50%;">01407055774</td>
                                     </tr>
                                 </table>
                             </td>
                             <td style="text-align: right; width:27%">হোম ডেলিভারি- </td>
                             <td style="text-align: center; width:22%; border: 1px solid black;"><b>{{ en_to_bn($invoice->home) }}</b></td>
+                        </tr>
+                        <tr>
+                            <td style="">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td  style="text-align: center; width: 50%;">লালমনিরহাট</td>
+                                        <td  style="text-align: center; width: 50%;">01407055771</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td  style="text-align: center; width: 50%;">গাইবান্ধা </td>
+                                        <td  style="text-align: center; width: 50%;">01407055775</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="text-align: right;">লেবার - </td>
+                            <td style="text-align: center; border: 1px solid black;"><b>{{ en_to_bn($invoice->labour) }}</b></td>
                         </tr>
                         <tr>
                             <td style="">
@@ -215,8 +235,8 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="text-align: right;">লেবার - </td>
-                            <td style="text-align: center; border: 1px solid black;"><b>{{ en_to_bn($invoice->labour) }}</b></td>
+                            <td style="text-align: right; ">মোট - </td>
+                            <td style="text-align: center; border: 1px solid black;"><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></td>
                         </tr>
                         <tr>
                             <td style="">
@@ -230,25 +250,10 @@
                             <td style="">
                                 <table style="width: 100%;">
                                     <tr>
-                                        <td  style="text-align: center; width: 50%;">কিশোরগঞ্জ</td>
-                                        <td  style="text-align: center; width: 50%;">01407055786</td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td style="text-align: right; ">মোট - </td>
-                            <td style="text-align: center; border: 1px solid black;"><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></td>
-                        </tr>
-                        <tr>
-                            <td style="">
-                                <table style="width: 100%;">
-                                    <tr>
-                                        <td  style="text-align: center; width: 50%;">সৈয়দপুর</td>
-                                        <td  style="text-align: center; width: 50%;">01407055774</td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td style="">
-
+                                <td  style="text-align: center; width: 50%;">কিশোরগঞ্জ</td>
+                                <td  style="text-align: center; width: 50%;">01407055786</td>
+                            </tr>
+                        </table>
                             </td>
                             <td style="text-align: right; ">অগ্রীম - </td>
                             <td style="text-align: center; border: 1px solid black;"><b>{{ en_to_bn($invoice->paid) }}</b></td>

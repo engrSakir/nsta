@@ -18,7 +18,7 @@ class DashboardController extends Controller
         if($invoice->receiver_id != auth()->user()->id){
             return back()->withErrors('Your are not permitted to check this invoice.');
         }
-        $pdf = PDF::loadView('backend.pdf.a-5-one', compact('invoice'));
+        $pdf = PDF::loadView('backend.pdf.invoice', compact('invoice'));
         return $pdf->stream('Invoice-'.config('app.name').'-('.$invoice->fromBranch->company->name.'- invoice code-'.$invoice->custom_counter.').pdf');;
     }
 
@@ -26,7 +26,7 @@ class DashboardController extends Controller
         if($invoice->receiver_id != auth()->user()->id){
             return back()->withErrors('Your are not permitted to check this invoice.');
         }
-        $pdf = PDF::loadView('backend.pdf.a-5-one', compact('invoice'));
+        $pdf = PDF::loadView('backend.pdf.invoice', compact('invoice'));
         return $pdf->download('Invoice-'.config('app.name').'-('.$invoice->fromBranch->company->name.'- invoice code-'.$invoice->custom_counter.').pdf');;
     }
 }

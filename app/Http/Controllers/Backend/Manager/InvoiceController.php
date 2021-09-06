@@ -215,7 +215,7 @@ class InvoiceController extends Controller
     {
         if ($invoice->from_branch_id == auth()->user()->branch->id || $invoice->to_branch_id == auth()->user()->branch->id){
 //            if ($invoice->fromBranch->invoice_style == 'A5'){
-                $pdf = PDF::loadView('backend.pdf.a-5-one', compact('invoice'));
+                $pdf = PDF::loadView('backend.pdf.invoice', compact('invoice'));
 //            }else if ($invoice->fromBranch->invoice_style == 'A4'){
 //                $pdf = PDF::loadView('backend.pdf.a4', compact('invoice'));
 //            }

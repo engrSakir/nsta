@@ -130,7 +130,7 @@ class ChalanController extends Controller
     {
         if ($chalan->from_branch_id == auth()->user()->branch->id || $chalan->to_branch_id == auth()->user()->branch->id){
 //            if ($invoice->fromBranch->invoice_style == 'A5'){
-            $pdf = PDF::loadView('backend.pdf.a-4-one', compact('chalan'));
+            $pdf = PDF::loadView('backend.pdf.chalan', compact('chalan'));
 //            }else if ($invoice->fromBranch->invoice_style == 'A4'){
 //                $pdf = PDF::loadView('backend.pdf.a4', compact('invoice'));
 //            }
