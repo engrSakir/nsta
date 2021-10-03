@@ -348,11 +348,21 @@
                 $('#extra-large-modal-body').html(html_embed_code);
                 $('#extra-large-modal-body').addClass( "text-center" );
                 $('#extra-large-modal-title').text( "ভাউচার" );
+                $('#extra-large-modal-edit-btn').val(location.protocol + '//' + location.host +"/backend/manager/invoice/"+this_btn.val()+"/edit");
                 $('#extra-large-modal').modal('show');
             }
         });
-    });
 
+        $(".edit-inv").click( function (){
+            $('#extra-large-modal').modal('hide');
+            // var html_embed_code = `<embed type="text/html" src="`+$(this).val()+`" width="100%" height="600">`;
+            // $('#edit-extra-large-modal-body').html(html_embed_code);
+            $('#edit-extra-large-modal-body').addClass( "text-center" );
+            $('#edit-extra-large-modal-title').text( "ভাউচার" );
+            $('#edit-extra-large-modal').modal('show');
+        });
+
+    });
 
     function delete_function(objButton){
         var url = objButton.value;
@@ -398,6 +408,38 @@
                 })
             }
         })
+    }
+
+    function bind_linked_branches(){
+        $.ajax({
+            method: 'GET',
+            url: "/backend/manager/get_linked_branches",
+            success:function(branches){
+                // console.log(branches)
+                branches_html = '';
+                $.each(branches, function (index, value) {
+                    // console.log(value);
+                    branches_html +=
+                    `<div class="btn-group">
+                        <label class="btn btn-outline btn-info button-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="branch-`+value.id+`" name="branch" value="`+value.id+`" class="custom-control-input branch">
+                                <label class="custom-control-label" for="branch-`+value.id+`"> <i class="ti-check text-active" aria-hidden="true"></i>
+                                `+value.name+`
+                                </label>
+                            </div>
+                        </label>
+                    </div>`;
+                });
+                $('.linked_branches').html(branches_html);
+            },
+        })
+    }
+    bind_linked_branches();
+
+    function inv_calculation(price = 0, advance = 0, home = 0, labour = 0){
+
+
     }
 
 

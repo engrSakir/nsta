@@ -187,6 +187,7 @@ class InvoiceController extends Controller
                     'type' => 'success',
                     'message' => 'ভাউচার তৈরি এবং কাস্টমারকে মেসেজে জানানো হয়েছে।',
                     'url' => route('manager.invoice.show', $invoice),
+                    'edit_url' => route('manager.invoice.edit', $invoice),
                     'offices' => $linked_branch_and_amount,
                 ]);
             }else{
@@ -194,6 +195,7 @@ class InvoiceController extends Controller
                     'type' => 'success',
                     'message' => 'ভাউচার তৈরি এবং কাস্টমারকে মেসেজ দেওয়া সম্ভব হয়নি।',
                     'url' => route('manager.invoice.show', $invoice),
+                    'edit_url' => route('manager.invoice.edit', $invoice),
                     'offices' => $linked_branch_and_amount,
                 ]);
             }

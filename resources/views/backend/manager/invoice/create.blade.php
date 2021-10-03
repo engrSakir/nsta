@@ -448,8 +448,9 @@
                             $('#create-inv-form').trigger("reset");
                             var html_embed_code = `<embed type="text/html" src="`+data.url+`" width="750" height="500">`;
                             $('#extra-large-modal-body').html(html_embed_code);
-                            $('#extra-large-modal-body').addClass( "text-center" );
-                            $('#extra-large-modal-title').text( "INVOICE" );
+                            $('#extra-large-modal-body').addClass("text-center");
+                            $('#extra-large-modal-title').text("INVOICE");
+                            $('#extra-large-modal-edit-btn').val(data.edit_url);
                             $('#extra-large-modal').modal('show');
                             $.getJSON('/backend/manager/get-last-five-invoice', function (data) {
                                 //console.log(data)

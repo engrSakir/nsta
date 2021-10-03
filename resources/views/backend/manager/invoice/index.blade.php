@@ -301,13 +301,7 @@
                 $('.counter_display').html($("[name='invoice']:checked").length)
             });
 
-            $(".edit-inv").click( function (){
-                var html_embed_code = `<embed type="text/html" src="`+$(this).val()+`" width="100%" height="600">`;
-                $('#extra-large-modal-body').html(html_embed_code);
-                $('#extra-large-modal-body').addClass( "text-center" );
-                $('#extra-large-modal-title').text( "ভাউচার" );
-                $('#extra-large-modal').modal('show');
-            });
+
 
             $(".show-inv").click( function (){
                 var html_embed_code = `<embed type="text/html" src="`+$(this).val()+`" width="750" height="500">`;
