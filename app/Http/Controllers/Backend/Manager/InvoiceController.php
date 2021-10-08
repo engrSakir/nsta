@@ -52,24 +52,24 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'sender_name'        =>  'required|string',
-           'receiver_name'      =>  'required|string',
-           'receiver_phone'     =>  'nullable|string',
-           'receiver_email'     =>  'nullable|email',
-           'branch'             =>  'required|exists:branches,id',
-           'condition_amount'   => 'required_with_all:condition',
-           'condition_charge'   => 'required_with_all:condition',
-           'sender_phone'       =>  'nullable|string',
-           'description'        =>  'required|string',
-//            'quantity'           =>  'string|min:0',
+            'sender_name'        =>  'required|string',
+            'receiver_name'      =>  'required|string',
+            'receiver_phone'     =>  'nullable|string',
+            'receiver_email'     =>  'nullable|email',
+            'branch'             =>  'required|exists:branches,id',
+            'condition_amount'   => 'required_with_all:condition',
+            'condition_charge'   => 'required_with_all:condition',
+            'sender_phone'       =>  'nullable|string',
+            'description'        =>  'required|string',
+            //            'quantity'           =>  'string|min:0',
             'price'              =>  'required|string|min:0',
-//            'advance'            =>  'string|min:0',
-//            'home'               =>  'string|min:0',
-//            'labour'             =>  'string|min:0',
+            //            'advance'            =>  'string|min:0',
+            //            'home'               =>  'string|min:0',
+            //            'labour'             =>  'string|min:0',
         ]);
 
         //# Step 0 CHECK TO_BRANCH IS VALID OR NOT
-        if (!check_branch_link(auth()->user()->branch->id, $request->branch)){
+        if (!check_branch_link(auth()->user()->branch->id, $request->branch)) {
             return response()->json([
                 'type' => 'error',
                 'message' => 'Branch are not linked. Contact with admin.',
@@ -79,10 +79,10 @@ class InvoiceController extends Controller
         //# Step 1 CUSTOMER
         $customer = null;
         //যদি এই তথ্যের সাথে মিলে কাস্টমার না থাকে তাহলে নতুন কাস্টমার তৈরি হবে
-        if($request->receiver_name){ //যদি ফোন নাম্বার এবং ইমেইল না পায় তাহলে নামের আন্ডারে হওয়ার চেষ্টা করবে
+        if ($request->receiver_name) { //যদি ফোন নাম্বার এবং ইমেইল না পায় তাহলে নামের আন্ডারে হওয়ার চেষ্টা করবে
             $customer = User::where('name', $request->receiver_name)->whereRaw('LENGTH(phone) < 1')->first();
         }
-        if ($request->receiver_phone){  // ফোন নাম্বার পায় তাহলে সেই ফোন নাম্বারের আন্ডারে হবে
+        if ($request->receiver_phone) {  // ফোন নাম্বার পায় তাহলে সেই ফোন নাম্বারের আন্ডারে হবে
             $customer = User::where('phone', $request->receiver_phone)->first();
         }
         // if($request->receiver_email){ // যদি ফোন নাম্বার না পেয়ে ইমেইল পায় তাহলে সেই ইমেইল এর আন্ডারে হবে
@@ -90,7 +90,7 @@ class InvoiceController extends Controller
         // }
 
         $password = null;
-        if(!$customer){ //যদি কোন নাম্বার ইমেইল এবং নাম কোনটির সাথে মিলে না পাওয়া যায় তাহলে নতুন তৈরি হবে
+        if (!$customer) { //যদি কোন নাম্বার ইমেইল এবং নাম কোনটির সাথে মিলে না পাওয়া যায় তাহলে নতুন তৈরি হবে
             $password = Str::random(4);
             $customer = new User();
             $customer->name = $request->receiver_name;
@@ -100,7 +100,7 @@ class InvoiceController extends Controller
             $customer->creator_id = auth()->user()->id;
             try {
                 $customer->save();
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 return response()->json([
                     'type' => 'error',
                     'message' => $exception->getMessage(),
@@ -133,7 +133,7 @@ class InvoiceController extends Controller
         $invoice->labour            = bn_to_en($request->labour);
         $invoice->paid            = bn_to_en($request->advance);
 
-        if($request->condition){
+        if ($request->condition) {
             $invoice->condition_amount          = bn_to_en($request->condition_amount);
             $invoice->condition_charge          = bn_to_en($request->condition_charge);
             $invoice->sender_phone              = bn_to_en($request->sender_phone);
@@ -144,13 +144,13 @@ class InvoiceController extends Controller
         //Logic for custom counter
         $custom_counter = Invoice::where('from_branch_id', auth()->user()->branch->id)->orderBy('id', 'desc')->first()->custom_counter ?? auth()->user()->branch->custom_inv_counter_min_value;
 
-        if($custom_counter < auth()->user()->branch->custom_inv_counter_min_value){
+        if ($custom_counter < auth()->user()->branch->custom_inv_counter_min_value) {
             $custom_counter = auth()->user()->branch->custom_inv_counter_min_value;
         }
 
-        if ($custom_counter >= auth()->user()->branch->custom_inv_counter_max_value){
+        if ($custom_counter >= auth()->user()->branch->custom_inv_counter_max_value) {
             $custom_counter = auth()->user()->branch->custom_inv_counter_min_value;
-        }else{
+        } else {
             $custom_counter++;
         }
 
@@ -162,8 +162,7 @@ class InvoiceController extends Controller
             $invoice->creator_device    = get_client_device();
             $invoice->creator_os        = get_client_os();
             $invoice->creator_location  = geoip()->getLocation(geoip()->getClientIP())->city;
-        }catch (\Exception $exception){
-
+        } catch (\Exception $exception) {
         }
 
         //# Step 4 SMS and save
@@ -171,35 +170,35 @@ class InvoiceController extends Controller
         try {
             $invoice->save();
             $linked_branch_and_amount = [];
-            foreach(auth()->user()->branch->fromInvoices()->where('status', 'Received')->get()->groupBy('to_branch_id') as $invoice_group => $invoice_items){
+            foreach (auth()->user()->branch->fromInvoices()->where('status', 'Received')->get()->groupBy('to_branch_id') as $invoice_group => $invoice_items) {
                 $lined_branch_name = Branch::find($invoice_group)->name ?? '#';
                 $total_of_this_office = $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour');
                 array_push($linked_branch_and_amount, [$lined_branch_name ?? '#', $total_of_this_office]);
             }
 
-            if($password){
+            if ($password) {
                 $message = get_regular_invoice_message_content_for_new_customer($invoice, $password);
-            }else{
+            } else {
                 $message = get_regular_invoice_message_content_for_old_customer($invoice);
             }
-            if($invoice->receiver->phone != null && sms($invoice->receiver->phone, $message) == true){
+            if ($invoice->receiver->phone != null && sms($invoice->receiver->phone, $message) == true) {
                 return response()->json([
                     'type' => 'success',
                     'message' => 'ভাউচার তৈরি এবং কাস্টমারকে মেসেজে জানানো হয়েছে।',
                     'url' => route('manager.invoice.show', $invoice),
-                    'edit_url' => route('manager.invoice.edit', $invoice),
+                    'invoice_id' => $invoice->id,
                     'offices' => $linked_branch_and_amount,
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'type' => 'success',
                     'message' => 'ভাউচার তৈরি এবং কাস্টমারকে মেসেজ দেওয়া সম্ভব হয়নি।',
                     'url' => route('manager.invoice.show', $invoice),
-                    'edit_url' => route('manager.invoice.edit', $invoice),
+                    'invoice_id' => $invoice->id,
                     'offices' => $linked_branch_and_amount,
                 ]);
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return response()->json([
                 'type' => 'error',
                 'message' => $exception->getMessage(),
@@ -215,14 +214,14 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        if ($invoice->from_branch_id == auth()->user()->branch->id || $invoice->to_branch_id == auth()->user()->branch->id){
-//            if ($invoice->fromBranch->invoice_style == 'A5'){
-                $pdf = PDF::loadView('backend.pdf.invoice', compact('invoice'));
-//            }else if ($invoice->fromBranch->invoice_style == 'A4'){
-//                $pdf = PDF::loadView('backend.pdf.a4', compact('invoice'));
-//            }
-            return $pdf->stream('Invoice-'.config('app.name').'-('.$invoice->fromBranch->company->name.'- invoice code-'.$invoice->barcode.').pdf');
-        }else{
+        if ($invoice->from_branch_id == auth()->user()->branch->id || $invoice->to_branch_id == auth()->user()->branch->id) {
+            //            if ($invoice->fromBranch->invoice_style == 'A5'){
+            $pdf = PDF::loadView('backend.pdf.invoice', compact('invoice'));
+            //            }else if ($invoice->fromBranch->invoice_style == 'A4'){
+            //                $pdf = PDF::loadView('backend.pdf.a4', compact('invoice'));
+            //            }
+            return $pdf->stream('Invoice-' . config('app.name') . '-(' . $invoice->fromBranch->company->name . '- invoice code-' . $invoice->barcode . ').pdf');
+        } else {
             return back()->withErrors('Your are not permitted to check this invoice.');
         }
     }
@@ -235,10 +234,28 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        if ($invoice->from_branch_id == auth()->user()->branch->id){
+        if (request()->ajax()) {
+            return [
+                'invoice_id'        => $invoice->id,
+                'invoice_name'      => $invoice->sender_name,
+                'invoice_phone'     => $invoice->sender_phone,
+                'receiver_name'     => $invoice->receiver->name ?? 'Not Found',
+                'receiver_phone'    => $invoice->receiver->phone ?? 'Not Found',
+                'to_branch_id'      => $invoice->to_branch_id,
+                'condition_amount'  => $invoice->condition_amount,
+                'condition_charge'  => $invoice->condition_charge,
+                'description'       => $invoice->description,
+                'quantity'  => $invoice->quantity,
+                'price'     => $invoice->price,
+                'home'      => $invoice->home,
+                'labour'    => $invoice->labour,
+                'paid'      => $invoice->paid,
+            ];
+        }
+        if ($invoice->from_branch_id == auth()->user()->branch->id) {
             $linked_branches = auth()->user()->branch->fromLinkedBranchs;
             return view('backend.manager.invoice.edit', compact('linked_branches', 'invoice'));
-        }else{
+        } else {
             return back()->withErrors('Your are not permitted to check this invoice.');
         }
     }
@@ -250,13 +267,13 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        if ($invoice->from_branch_id != auth()->user()->branch->id){
+        if ($invoice->from_branch_id != auth()->user()->branch->id) {
             return response()->json([
                 'type' => 'error',
                 'message' => 'Your are not permitted to update this invoice.',
             ]);
         }
-
+        // return $request->input();
         $request->validate([
             'sender_name'        =>  'required|string',
             'receiver_name'      =>  'required|string',
@@ -267,15 +284,15 @@ class InvoiceController extends Controller
             'condition_charge'   => 'required_with_all:condition',
             'sender_phone'       =>  'nullable|string',
             'description'        =>  'required|string',
-//            'quantity'           =>  'string|min:0',
+            //            'quantity'           =>  'string|min:0',
             'price'              =>  'required|string|min:0',
-//            'advance'            =>  'string|min:0',
-//            'home'               =>  'string|min:0',
-//            'labour'             =>  'string|min:0',
+            //            'advance'            =>  'string|min:0',
+            //            'home'               =>  'string|min:0',
+            //            'labour'             =>  'string|min:0',
         ]);
 
         //# Step 0 CHECK TO_BRANCH IS VALID OR NOT
-        if (!check_branch_link(auth()->user()->branch->id, $request->branch)){
+        if (!check_branch_link(auth()->user()->branch->id, $request->branch)) {
             return response()->json([
                 'type' => 'error',
                 'message' => 'Branch are not linked. Contact with admin.',
@@ -285,18 +302,18 @@ class InvoiceController extends Controller
         //# Step 1 CUSTOMER
         $customer = null;
         //যদি এই তথ্যের সাথে মিলে কাস্টমার না থাকে তাহলে নতুন কাস্টমার তৈরি হবে
-        if($request->receiver_name){ //যদি ফোন নাম্বার এবং ইমেইল না পায় তাহলে নামের আন্ডারে হওয়ার চেষ্টা করবে
+        if ($request->receiver_name) { //যদি ফোন নাম্বার এবং ইমেইল না পায় তাহলে নামের আন্ডারে হওয়ার চেষ্টা করবে
             $customer = User::where('name', $request->receiver_name)->first();
         }
-        if ($request->receiver_phone){  // ফোন নাম্বার পায় তাহলে সেই ফোন নাম্বারের আন্ডারে হবে
+        if ($request->receiver_phone) {  // ফোন নাম্বার পায় তাহলে সেই ফোন নাম্বারের আন্ডারে হবে
             $customer = User::where('phone', $request->receiver_phone)->first();
         }
-        if($request->receiver_email){ // যদি ফোন নাম্বার না পেয়ে ইমেইল পায় তাহলে সেই ইমেইল এর আন্ডারে হবে
+        if ($request->receiver_email) { // যদি ফোন নাম্বার না পেয়ে ইমেইল পায় তাহলে সেই ইমেইল এর আন্ডারে হবে
             $customer = User::where('email', $request->receiver_email)->first();
         }
 
         $password = null;
-        if(!$customer){ //যদি কোন নাম্বার ইমেইল এবং নাম কোনটির সাথে মিলে না পাওয়া যায় তাহলে নতুন তৈরি হবে
+        if (!$customer) { //যদি কোন নাম্বার ইমেইল এবং নাম কোনটির সাথে মিলে না পাওয়া যায় তাহলে নতুন তৈরি হবে
             $password = Str::random(4);
             $customer = new User();
             $customer->name = $request->receiver_name;
@@ -306,7 +323,7 @@ class InvoiceController extends Controller
             $customer->creator_id = auth()->user()->id;
             try {
                 $customer->save();
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 return response()->json([
                     'type' => 'error',
                     'message' => $exception->getMessage(),
@@ -339,27 +356,35 @@ class InvoiceController extends Controller
 
         $invoice->updater_id        = auth()->user()->id;
 
-        if($request->condition){
+        if ($request->condition) {
             $invoice->condition_amount              = bn_to_en($request->condition_amount);
             $invoice->condition_charge              = bn_to_en($request->condition_charge);
             $invoice->sender_phone              = bn_to_en($request->sender_phone);
         }
 
+
+        $linked_branch_and_amount = [];
+        foreach (auth()->user()->branch->fromInvoices()->where('status', 'Received')->get()->groupBy('to_branch_id') as $invoice_group => $invoice_items) {
+            $lined_branch_name = Branch::find($invoice_group)->name ?? '#';
+            $total_of_this_office = $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour');
+            array_push($linked_branch_and_amount, [$lined_branch_name ?? '#', $total_of_this_office]);
+        }
         //# Step 4 SMS
         try {
             $invoice->save();
-
-            if($password){
+            if ($password) {
                 $message = get_regular_invoice_message_content_for_new_customer($invoice, $password);
-                if($invoice->receiver->phone != null && sms($invoice->receiver->phone, $message) == true){
+                if ($invoice->receiver->phone != null && sms($invoice->receiver->phone, $message) == true) {
                     return response()->json([
                         'type' => 'success',
                         'message' => 'ভাউচার আপডেট হয়েছে এবং কাস্টমারকে মেসেজে জানানো হয়েছে।',
                         'url' => route('manager.invoice.show', $invoice),
+                        'invoice_id' => $invoice->id,
+                        'offices' => $linked_branch_and_amount,
                     ]);
                 }
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return response()->json([
                 'type' => 'error',
                 'message' => $exception->getMessage(),
@@ -370,6 +395,8 @@ class InvoiceController extends Controller
             'type' => 'success',
             'message' => 'ভাউচার আপডেট হয়েছে',
             'url' => route('manager.invoice.show', $invoice),
+            'invoice_id' => $invoice->id,
+            'offices' => $linked_branch_and_amount,
         ]);
     }
 
@@ -379,82 +406,82 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        if ($invoice->from_branch_id == auth()->user()->branch->id || $invoice->to_branch_id == auth()->user()->branch->id){
+        if ($invoice->from_branch_id == auth()->user()->branch->id || $invoice->to_branch_id == auth()->user()->branch->id) {
             try {
                 $invoice->delete();
                 return response()->json([
                     'type' => 'success',
                     'message' => ''
                 ]);
-            }catch (\Exception$exception){
+            } catch (\Exception $exception) {
                 return response()->json([
                     'type' => 'error',
                     'message' => ''
                 ]);
             }
-        }else{
+        } else {
             return back()->withErrors('Your are not permitted to check this invoice.');
         }
     }
 
     public function senderName(Request $request)
     {
-        if ($request->ajax()){
+        if ($request->ajax()) {
             return Invoice::groupBy('sender_name')
                 ->where('from_branch_id', auth()->user()->branch->id)
-                ->where('sender_name', 'LIKE', '%'. $request->name. '%')
+                ->where('sender_name', 'LIKE', '%' . $request->name . '%')
                 ->select('sender_name', 'sender_phone')
                 ->get();
-        }else{
+        } else {
             return redirect()->back()->withErrors('Request no allowed');
         }
     }
 
     public function senderPhone(Request $request)
     {
-        if ($request->ajax()){
+        if ($request->ajax()) {
             return Invoice::groupBy('sender_phone')
                 ->where('from_branch_id', auth()->user()->branch->id)
-                ->where('sender_phone', 'LIKE', '%'. $request->phone. '%')
+                ->where('sender_phone', 'LIKE', '%' . $request->phone . '%')
                 ->select('sender_name', 'sender_phone')
                 ->get();
-        }else{
+        } else {
             return redirect()->back()->withErrors('Request no allowed');
         }
     }
 
     public function receiverInfo(Request $request)
     {
-        if ($request->ajax()){
-            if ($request->search_type == 'name'){
+        if ($request->ajax()) {
+            if ($request->search_type == 'name') {
                 return Invoice::groupBy('receiver_id')
                     ->where('from_branch_id', auth()->user()->branch->id)
                     ->join('users', 'invoices.receiver_id', '=', 'users.id')
-                    ->where('name', 'LIKE', '%'. $request->name. '%')
+                    ->where('name', 'LIKE', '%' . $request->name . '%')
                     ->select('name', 'phone', 'email', 'to_branch_id')
                     ->get();
-            }else if($request->search_type == 'phone'){
+            } else if ($request->search_type == 'phone') {
                 return Invoice::groupBy('receiver_id')
                     ->where('from_branch_id', auth()->user()->branch->id)
                     ->join('users', 'invoices.receiver_id', '=', 'users.id')
-                    ->where('phone', 'LIKE', '%'. $request->phone. '%')
+                    ->where('phone', 'LIKE', '%' . $request->phone . '%')
                     ->select('name', 'phone', 'email', 'to_branch_id')
                     ->get();
-            }else if($request->search_type == 'email'){
+            } else if ($request->search_type == 'email') {
                 return Invoice::groupBy('receiver_id')
                     ->where('from_branch_id', auth()->user()->branch->id)
                     ->join('users', 'invoices.receiver_id', '=', 'users.id')
-                    ->where('email', 'LIKE', '%'. $request->email. '%')
+                    ->where('email', 'LIKE', '%' . $request->email . '%')
                     ->select('name', 'phone', 'email', 'to_branch_id')
                     ->get();
-            }else if($request->search_type == 'custom_counter'){
+            } else if ($request->search_type == 'custom_counter') {
                 return Invoice::where('from_branch_id', auth()->user()->branch->id)
                     ->join('users', 'invoices.receiver_id', '=', 'users.id')
-                    ->where('custom_counter', 'LIKE', '%'. $request->custom_counter. '%')
+                    ->where('custom_counter', 'LIKE', '%' . $request->custom_counter . '%')
                     ->select('invoices.id as id', 'invoices.created_at as date', 'custom_counter', 'status')
                     ->get();
             }
-        }else{
+        } else {
             return redirect()->back()->withErrors('Request no allowed');
         }
     }
@@ -463,12 +490,12 @@ class InvoiceController extends Controller
     {
         $paginate = 100;
 
-        if ($status == 'received'){
+        if ($status == 'received') {
             $status = 'Received';
             $paginate = 1000;
-        }elseif ($status == 'on-going'){
+        } elseif ($status == 'on-going') {
             $status = 'On Going';
-        }elseif ($status == 'delivered'){
+        } elseif ($status == 'delivered') {
             $status = 'Delivered';
         }
         $branch_name = 'All';
@@ -478,22 +505,22 @@ class InvoiceController extends Controller
 
     public function statusAndBranchConstant($status, Branch $branch)
     {
-        if ($branch->company_id != auth()->user()->company->id){
+        if ($branch->company_id != auth()->user()->company->id) {
             return back()->withErrors('Your are not permitted to access.');
         }
         $branch_name = $branch->name;
         $paginate = 100;
-        if ($status == 'received'){
+        if ($status == 'received') {
             $status = 'Received';
             $paginate = 1000;
-        }elseif ($status == 'on-going'){
+        } elseif ($status == 'on-going') {
             $status = 'On Going';
-        }elseif ($status == 'delivered'){
+        } elseif ($status == 'delivered') {
             $status = 'Delivered';
-        }elseif ($status == 'all'){
+        } elseif ($status == 'all') {
             $invoices = auth()->user()->branch->fromInvoices()->where('to_branch_id', $branch->id)->orderBy('id', 'desc')->paginate($paginate);
             return view('backend.manager.invoice.index', compact('invoices', 'status', 'branch_name'));
-        }else{
+        } else {
             return back()->withErrors('Invalid status.');
         }
         $invoices = auth()->user()->branch->fromInvoices()->where('status', $status)->where('to_branch_id', $branch->id)->orderBy('id', 'desc')->paginate($paginate);
@@ -507,25 +534,25 @@ class InvoiceController extends Controller
         ]);
 
         $invoice_counter = 0;
-        foreach(explode(',', $request->invoices) as $invoice_id){
+        foreach (explode(',', $request->invoices) as $invoice_id) {
             $invoice = Invoice::findOrFail($invoice_id);
             //ইনভয়েসের ভ্যালিডেশন চেক হচ্ছে যে ইনভয়েস টি এই ব্রাঞ্চ থেকেই তৈরি করা হয়েছে কিনা
-            if ($invoice !=null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'On Going'){
+            if ($invoice != null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'On Going') {
                 $invoice_counter++;
             }
         }
 
-        if($invoice_counter < 1){
+        if ($invoice_counter < 1) {
             return response()->json([
                 'type' => 'error',
                 'message' => 'দয়া করে গাড়িতে থাকা ভাউচার সমূহ থেকে পছন্দ করেন.',
             ]);
         }
 
-        foreach(explode(',', $request->invoices) as $invoice_id){
+        foreach (explode(',', $request->invoices) as $invoice_id) {
             $invoice = Invoice::findOrFail($invoice_id);
             //ইনভয়েসের ভ্যালিডেশন চেক হচ্ছে যে ইনভয়েস টি এই ব্রাঞ্চ থেকেই তৈরি করা হয়েছে কিনা
-            if ($invoice !=null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'On Going'){
+            if ($invoice != null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'On Going') {
                 $invoice->status = 'Delivered';
                 $invoice->save();
             }
@@ -545,15 +572,15 @@ class InvoiceController extends Controller
         ]);
 
         $invoice_counter = 0;
-        foreach(explode(',', $request->invoices) as $invoice_id){
+        foreach (explode(',', $request->invoices) as $invoice_id) {
             $invoice = Invoice::findOrFail($invoice_id);
             //ইনভয়েসের ভ্যালিডেশন চেক হচ্ছে যে ইনভয়েস টি এই ব্রাঞ্চ থেকেই তৈরি করা হয়েছে কিনা
-            if ($invoice !=null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'Delivered' && $invoice->condition_amount > 0){
+            if ($invoice != null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'Delivered' && $invoice->condition_amount > 0) {
                 $invoice_counter++;
             }
         }
 
-        if($invoice_counter  < 1){
+        if ($invoice_counter  < 1) {
             return response()->json([
                 'type' => 'error',
                 'message' => 'কন্ডিশন ব্রেক করার জন্য দয়া করে ডেলিভারি সম্পন্ন হওয়া ভাউচার গুলো পছন্দ করুন।',
@@ -562,23 +589,23 @@ class InvoiceController extends Controller
 
         $sent_sms_counter = 0;
         $condition_break_counter = 0;
-        foreach(explode(',', $request->invoices) as $invoice_id){
+        foreach (explode(',', $request->invoices) as $invoice_id) {
             $invoice = Invoice::findOrFail($invoice_id);
             //ইনভয়েসের ভ্যালিডেশন চেক হচ্ছে যে ইনভয়েস টি এই ব্রাঞ্চ থেকেই তৈরি করা হয়েছে কিনা
-            if ($invoice != null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'Delivered' && $invoice->condition_amount > 0){
+            if ($invoice != null && $invoice->from_branch_id == auth()->user()->branch->id && $invoice->status == 'Delivered' && $invoice->condition_amount > 0) {
                 $invoice->status = 'Break';
                 $invoice->save();
-                $condition_break_counter ++;
+                $condition_break_counter++;
                 // কন্ডিশন ভাঙ্গার সাথে সাথে মেসেজ পাঠানো
-                if($invoice->receiver->phone != null && sms($invoice->sender_phone, 'নিউ শাপলা ট্রান্সপোর্ট এজেন্সি থেকে আপনার কন্ডিশন টি সম্পূর্ণভাবে ভাঙ্গা হয়েছে। বুকিং নং- '. $invoice->custom_counter) == true){
-                    $sent_sms_counter ++;
+                if ($invoice->receiver->phone != null && sms($invoice->sender_phone, 'নিউ শাপলা ট্রান্সপোর্ট এজেন্সি থেকে আপনার কন্ডিশন টি সম্পূর্ণভাবে ভাঙ্গা হয়েছে। বুকিং নং- ' . $invoice->custom_counter) == true) {
+                    $sent_sms_counter++;
                 }
             }
         }
 
         return response()->json([
             'type' => 'success',
-            'message' => 'কন্ডিশন ভাঙ্গা হয়েছে '.$condition_break_counter.' এবং মেসেজ পাঠানো হয়েছে '.$sent_sms_counter.' জনকে',
+            'message' => 'কন্ডিশন ভাঙ্গা হয়েছে ' . $condition_break_counter . ' এবং মেসেজ পাঠানো হয়েছে ' . $sent_sms_counter . ' জনকে',
         ]);
     }
 
@@ -589,25 +616,25 @@ class InvoiceController extends Controller
         ]);
 
         $invoice_counter = 0;
-        foreach(explode(',', $request->invoices) as $invoice_id){
+        foreach (explode(',', $request->invoices) as $invoice_id) {
             $invoice = Invoice::findOrFail($invoice_id);
             //ইনভয়েসের ভ্যালিডেশন চেক হচ্ছে যে ইনভয়েস টি এই ব্রাঞ্চ থেকেই তৈরি করা হয়েছে কিনা
-            if ($invoice !=null && $invoice->from_branch_id == auth()->user()->branch->id){
+            if ($invoice != null && $invoice->from_branch_id == auth()->user()->branch->id) {
                 $invoice_counter++;
             }
         }
 
-        if($invoice_counter >! 0){
+        if ($invoice_counter > !0) {
             return response()->json([
                 'type' => 'error',
                 'message' => 'Chose your invoice items.',
             ]);
         }
 
-        foreach(explode(',', $request->invoices) as $invoice_id){
+        foreach (explode(',', $request->invoices) as $invoice_id) {
             $invoice = Invoice::findOrFail($invoice_id);
             //ইনভয়েসের ভ্যালিডেশন চেক হচ্ছে যে ইনভয়েস টি এই ব্রাঞ্চ থেকেই তৈরি করা হয়েছে কিনা
-            if ($invoice !=null && $invoice->from_branch_id == auth()->user()->branch->id){
+            if ($invoice != null && $invoice->from_branch_id == auth()->user()->branch->id) {
                 $invoice->delete();
             }
         }
@@ -620,7 +647,8 @@ class InvoiceController extends Controller
 
 
 
-    public function conditionInvoiceCreate(){
+    public function conditionInvoiceCreate()
+    {
         $linked_branches = auth()->user()->branch->fromLinkedBranchs;
         $invoices = auth()->user()->branch->fromInvoices()->where('status', 'Received')->get();
         return view('backend.manager.invoice.create', compact('linked_branches', 'invoices'));

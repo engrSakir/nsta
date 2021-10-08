@@ -177,8 +177,8 @@
                                     </td>
                                 @endif
                                 <td>
-                                    <button type="button" class="btn btn-info btn-circle show-inv" value="{{ route('manager.invoice.show', $invoice) }}"><i class="mdi mdi-cloud-print"></i> </button>
-                                    <button type="button" class="btn btn-warning btn-circle edit-inv" value="{{ route('manager.invoice.edit', $invoice) }}"><i class="mdi mdi-tooltip-edit"></i> </button>
+                                    <button type="button" class="btn btn-info btn-circle show-invoice-use-btn" value="{{ $invoice->id }}"><i class="mdi mdi-cloud-print"></i> </button>
+                                    <button type="button" class="btn btn-warning btn-circle edit-inv" value="{{ $invoice->id }}"><i class="mdi mdi-tooltip-edit"></i> </button>
                                     <button type="button" class="btn btn-danger btn-circle" onclick="delete_function(this)" value="{{ route('manager.invoice.destroy', $invoice) }}"><i class="mdi mdi-delete-circle"></i> </button>
                                 </td>
                             </tr>
@@ -299,16 +299,6 @@
 
             $('.un-select-all').click(function(event) {
                 $('.counter_display').html($("[name='invoice']:checked").length)
-            });
-
-
-
-            $(".show-inv").click( function (){
-                var html_embed_code = `<embed type="text/html" src="`+$(this).val()+`" width="750" height="500">`;
-                $('#extra-large-modal-body').html(html_embed_code);
-                $('#extra-large-modal-body').addClass( "text-center" );
-                $('#extra-large-modal-title').text( "ভাউচার" );
-                $('#extra-large-modal').modal('show');
             });
 
             $(".show-chalan").click( function (){
