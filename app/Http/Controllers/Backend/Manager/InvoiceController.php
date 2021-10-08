@@ -172,8 +172,13 @@ class InvoiceController extends Controller
             $linked_branch_and_amount = [];
             foreach (auth()->user()->branch->fromInvoices()->where('status', 'Received')->get()->groupBy('to_branch_id') as $invoice_group => $invoice_items) {
                 $lined_branch_name = Branch::find($invoice_group)->name ?? '#';
+                $branch_url = url('/') . '/backend/manager/invoice/status/all/branch/' . $invoice_group;
                 $total_of_this_office = $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour');
-                array_push($linked_branch_and_amount, [$lined_branch_name ?? '#', $total_of_this_office]);
+                array_push($linked_branch_and_amount, [
+                    'name' => $lined_branch_name ?? '#',
+                    'total' => $total_of_this_office,
+                    'url' => $branch_url
+                ]);
             }
 
             if ($password) {
@@ -361,17 +366,21 @@ class InvoiceController extends Controller
             $invoice->condition_charge              = bn_to_en($request->condition_charge);
             $invoice->sender_phone              = bn_to_en($request->sender_phone);
         }
-
-
-        $linked_branch_and_amount = [];
-        foreach (auth()->user()->branch->fromInvoices()->where('status', 'Received')->get()->groupBy('to_branch_id') as $invoice_group => $invoice_items) {
-            $lined_branch_name = Branch::find($invoice_group)->name ?? '#';
-            $total_of_this_office = $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour');
-            array_push($linked_branch_and_amount, [$lined_branch_name ?? '#', $total_of_this_office]);
-        }
         //# Step 4 SMS
         try {
             $invoice->save();
+            $linked_branch_and_amount = [];
+            foreach (auth()->user()->branch->fromInvoices()->where('status', 'Received')->get()->groupBy('to_branch_id') as $invoice_group => $invoice_items) {
+                $lined_branch_name = Branch::find($invoice_group)->name ?? '#';
+                $branch_url = url('/') . '/backend/manager/invoice/status/all/branch/' . $invoice_group;
+                $total_of_this_office = $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour');
+                array_push($linked_branch_and_amount, [
+                    'name' => $lined_branch_name ?? '#',
+                    'total' => $total_of_this_office,
+                    'url' => $branch_url
+                ]);
+            }
+
             if ($password) {
                 $message = get_regular_invoice_message_content_for_new_customer($invoice, $password);
                 if ($invoice->receiver->phone != null && sms($invoice->receiver->phone, $message) == true) {

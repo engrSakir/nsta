@@ -455,14 +455,16 @@
                     if (data.type == 'success') {
                         var office_wise_payment_info = '';
                         $.each(data.offices, function(office_index, office) {
+                            console.log(office.name)
                             office_wise_payment_info +=
-                                `<div class="col-lg-2 col-md-4"> <button type="button" class="btn btn-block disabled  btn-outline-info">` +
-                                office[0] + '(' + office[1] + ')' +
-                                `</button></div>`;
+                                `<div class="col-lg-2 col-md-4"> <a href="`+office.url+`" class="btn btn-block btn-outline-warning">` +
+                                office.name + '(' + office.total + ')' +
+                                `</a></div>`;
                         });
+                        $('#office_wise_payment_info').html('<h1>Calculating ..<h1>');
                         $('#office_wise_payment_info').html(office_wise_payment_info);
 
-                        $('#create-inv-form').trigger("reset");
+                        $('#edit-inv-form').trigger("reset");
                         var html_embed_code = `<embed type="text/html" src="` + data.url +
                             `" width="750" height="500">`;
                         $('#extra-large-modal-body').html(html_embed_code);
@@ -471,19 +473,6 @@
                         $('#extra-large-modal-edit-btn').val(data.invoice_id);
                         $('#edit-extra-large-modal').modal('hide');
                         $('#extra-large-modal').modal('show');
-                        $.getJSON('/backend/manager/get-last-five-invoice', function(data) {
-                            //console.log(data)
-                            var lastFiveInvoice = '';
-                            data.forEach(function(invoice) {
-                                lastFiveInvoice +=
-                                    `<a type="button" target="_blank" class="btn btn-secondary text-danger" href="` +
-                                    location.protocol + '//' + location
-                                    .host + "/backend/manager/invoice/" +
-                                    invoice.id + `">` + invoice
-                                    .custom_counter + `</a>`;
-                            })
-                            $("#last-five-invoice").html(lastFiveInvoice)
-                        })
                         Swal.fire({
                             position: 'top-end',
                             icon: data.type,

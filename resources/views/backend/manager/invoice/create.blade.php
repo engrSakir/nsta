@@ -16,7 +16,8 @@
                     <li class="breadcrumb-item"><a href="{{ route('manager.dashboard') }}">Dashboard</a></li>
                     <li class="breadcrumb-item active">ভাউচার</li>
                 </ol>
-                <a href="{{ route('manager.invoice.index') }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>ভাউচার লিস্ট</a>
+                <a href="{{ route('manager.invoice.index') }}" class="btn btn-info d-none d-lg-block m-l-15"><i
+                        class="fa fa-plus-circle"></i>ভাউচার লিস্ট</a>
             </div>
         </div>
     </div>
@@ -30,44 +31,54 @@
                         <div class="form-group col-md-3">
                             <label for="sender-name">প্রেরকের নাম</label>
                             <input type="hidden" value="sender-name">
-                            <input type="text" class="form-control search-item" id="sender-name" name="sender-name" placeholder="Sender name" value="">
+                            <input type="text" class="form-control search-item" id="sender-name" name="sender-name"
+                                placeholder="Sender name" value="">
                         </div>
-                        @if(Request::is('*/manager/condition-invoice/create'))
+                        @if (Request::is('*/manager/condition-invoice/create'))
                             <div class="form-group col-md-3">
                                 <label for="sender-phone">প্রেরকের ফোন</label>
                                 <input type="hidden" value="sender-phone">
-                                <input type="text" class="form-control search-item" id="sender-phone" name="sender-phone" placeholder="Sender phone" value="">
+                                <input type="text" class="form-control search-item" id="sender-phone" name="sender-phone"
+                                    placeholder="Sender phone" value="">
                             </div>
                         @endif
                         <div class="form-group col-md-3">
                             <label for="receiver-name">প্রাপকের নাম</label>
                             <input type="hidden" value="receiver-name">
-                            <input type="text" class="form-control search-item" id="receiver-name" name="receiver-name" placeholder="Receiver name" value="">
+                            <input type="text" class="form-control search-item" id="receiver-name" name="receiver-name"
+                                placeholder="Receiver name" value="">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="receiver-phone">প্রাপকের ফোন</label>
                             <input type="hidden" value="receiver-phone">
-                            <input type="text" class="form-control search-item" id="receiver-phone" name="receiver-phone" placeholder="Receiver phone" value="">
+                            <input type="text" class="form-control search-item" id="receiver-phone" name="receiver-phone"
+                                placeholder="Receiver phone" value="">
                         </div>
                         <div class="form-group col-md-3" style="display:none;">
                             <label for="receiver-email">প্রাপকের ইমেইল</label>
                             <input type="hidden" value="receiver-email">
-                            <input type="email" class="form-control search-item" id="receiver-email" name="receiver-email" placeholder="Receiver Email" value="">
+                            <input type="email" class="form-control search-item" id="receiver-email" name="receiver-email"
+                                placeholder="Receiver Email" value="">
                         </div>
                     </div>
                     <div class="form-group button-group">
-                        @foreach($linked_branches as $linked_branch)
-                        <div class="btn-group">
-                            <label class="btn btn-outline btn-info button-group">
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="branch-{{ $linked_branch->toBranch->id }}" name="branch" value="{{ $linked_branch->toBranch->id }}" class="custom-control-input branch">
-                                    <label class="custom-control-label" for="branch-{{ $linked_branch->toBranch->id }}"> <i class="ti-check text-active" aria-hidden="true"></i> {{ $linked_branch->toBranch->name }} </label>
-                                </div>
-                            </label>
-                        </div>
+                        @foreach ($linked_branches as $linked_branch)
+                            <div class="btn-group">
+                                <label class="btn btn-outline btn-info button-group">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="branch-{{ $linked_branch->toBranch->id }}" name="branch"
+                                            value="{{ $linked_branch->toBranch->id }}"
+                                            class="custom-control-input branch">
+                                        <label class="custom-control-label"
+                                            for="branch-{{ $linked_branch->toBranch->id }}"> <i
+                                                class="ti-check text-active" aria-hidden="true"></i>
+                                            {{ $linked_branch->toBranch->name }} </label>
+                                    </div>
+                                </label>
+                            </div>
                         @endforeach
                     </div>
-                    @if(Request::is('*/manager/condition-invoice/create'))
+                    @if (Request::is('*/manager/condition-invoice/create'))
                         <div class="form-group">
                             <label class="form-control-label" for="condition-amount">কন্ডিশন টাকার পরিমান</label>
                             <input type="text" class="form-control is-valid" id="condition-amount" name="condition-amount">
@@ -78,7 +89,8 @@
                         </div>
                     @endif
                     <div class="form-group">
-                        <textarea class="form-control is-valid" rows="5" id="description" name="description" placeholder="Description"></textarea>
+                        <textarea class="form-control is-valid" rows="5" id="description" name="description"
+                            placeholder="Description"></textarea>
                     </div>
 
                     <div class="row">
@@ -87,7 +99,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-quantity">সংখ্যা</span>
                                 </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="quantity" value="0">
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="quantity"
+                                    value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-2">
@@ -95,7 +108,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-price">মূল্য</span>
                                 </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="price" value="0">
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="price"
+                                    value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-2">
@@ -103,7 +117,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-home">হোম ডেলিভারি</span>
                                 </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="home" value="0">
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="home"
+                                    value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-2">
@@ -111,7 +126,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-labour">লেবার খরচ</span>
                                 </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="labour" value="0">
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="labour"
+                                    value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-2">
@@ -119,7 +135,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="input-advance">অগ্রীম </span>
                                 </div>
-                                <input type="text" class="form-control" onClick="this.select();" min="0" id="advance" value="0">
+                                <input type="text" class="form-control" onClick="this.select();" min="0" id="advance"
+                                    value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-2" style="display:none">
@@ -133,9 +150,10 @@
                         <div class="form-group col-md-2">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="input-total" >মোট টাকা</span>
+                                    <span class="input-group-text" id="input-total">মোট টাকা</span>
                                 </div>
-                                <input type="text" class="form-control bg-success" min="0" id="total" disabled readonly value="0">
+                                <input type="text" class="form-control bg-success" min="0" id="total" disabled readonly
+                                    value="0">
                             </div>
                         </div>
                         <div class="form-group col-md-2" style="display:none">
@@ -143,21 +161,25 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">স্বাক্ষর</span>
                                 </div>
-                                <input type="text" class="form-control bg-secondary" value="{{ auth()->user()->name }}" readonly>
+                                <input type="text" class="form-control bg-secondary" value="{{ auth()->user()->name }}"
+                                    readonly>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 text-center">
-                        <button type="button" id="save-invoice" class="btn waves-effect waves-light btn-lg btn-primary"> ভাউচার সেভ </button>
+                        <button type="button" id="save-invoice" class="btn waves-effect waves-light btn-lg btn-primary">
+                            ভাউচার সেভ </button>
                     </div>
                 </form>
             </div>
         </div>
         <div class="col-sm-12">
             <div class="row button-group" id="office_wise_payment_info">
-                @foreach($invoices->groupBy('to_branch_id') as $invoice_group => $invoice_items)
+                @foreach ($invoices->groupBy('to_branch_id') as $invoice_group => $invoice_items)
                     <div class="col-lg-2 col-md-4">
-                        <button type="button" class="btn btn-block disabled btn-outline-success">{{ \App\Models\Branch::find($invoice_group)->name ?? '#' }} ({{ $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour') }})</button>
+                        <button type="button"
+                            class="btn btn-block disabled btn-outline-success">{{ \App\Models\Branch::find($invoice_group)->name ?? '#' }}
+                            ({{ $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour') }})</button>
                     </div>
                 @endforeach
             </div>
@@ -166,10 +188,10 @@
 @endsection
 @push('script')
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             //Auto calculation
-            var price= 0;
-            $("#create-inv-form #price" ).autocomplete({
+            var price = 0;
+            $("#create-inv-form #price").autocomplete({
                 source: function(request, response) {
                     price = parseFloat(request.term);
                     $('#create-inv-form #total').val(price + home + labour);
@@ -178,15 +200,15 @@
             });
 
             var advance = 0;
-            $("#create-inv-form #advance" ).autocomplete({
+            $("#create-inv-form #advance").autocomplete({
                 source: function(request, response) {
-                    advance  = parseFloat(request.term);
+                    advance = parseFloat(request.term);
                     $('#create-inv-form #due').val(price - advance + home + labour);
                 },
             });
 
-            var home= 0;
-            $("#create-inv-form #home" ).autocomplete({
+            var home = 0;
+            $("#create-inv-form #home").autocomplete({
                 source: function(request, response) {
                     home = parseFloat(request.term);
                     $('#create-inv-form #total').val(price + home + labour);
@@ -194,8 +216,8 @@
                 },
             });
 
-            var labour= 0;
-            $("#create-inv-form #labour" ).autocomplete({
+            var labour = 0;
+            $("#create-inv-form #labour").autocomplete({
                 source: function(request, response) {
                     labour = parseFloat(request.term);
                     $('#create-inv-form #total').val(price + home + labour);
@@ -204,7 +226,7 @@
             });
 
             //Auto Search
-            $( "#create-inv-form #sender-name" ).autocomplete({
+            $("#create-inv-form #sender-name").autocomplete({
                 source: function(request, response) {
                     // console.log(request.term);
                     var formData = new FormData();
@@ -212,21 +234,25 @@
                     $.ajax({
                         method: 'POST',
                         url: "{{ route('manager.senderName') }}",
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         data: formData,
                         processData: false,
                         contentType: false,
-                        success:function(data){
+                        success: function(data) {
                             // console.log(data)
-                            var array = $.map(data,function(obj){
-                                if(obj.sender_phone){
-                                    s_phone = ' #'+obj.sender_phone;
-                                }else{
+                            var array = $.map(data, function(obj) {
+                                if (obj.sender_phone) {
+                                    s_phone = ' #' + obj.sender_phone;
+                                } else {
                                     s_phone = " ";
                                 }
-                                return{
-                                    value: obj.sender_name, //Fillable in input field
-                                    label: obj.sender_name + s_phone,  //Show as label of input field
+                                return {
+                                    value: obj
+                                    .sender_name, //Fillable in input field
+                                    label: obj.sender_name +
+                                    s_phone, //Show as label of input field
                                     phone: obj.sender_phone,
                                 }
                             })
@@ -235,78 +261,81 @@
                     })
                 },
                 minLength: 1,
-                select:function(event, ui){
+                select: function(event, ui) {
                     //console.log(ui.item);
                     $('#sender-phone').val(ui.item.phone);
                 }
             });
 
-            @if(Request::is('*/manager/condition-invoice/create'))
-            $( "#create-inv-form #sender-phone" ).autocomplete({
+            @if (Request::is('*/manager/condition-invoice/create'))
+                $( "#create-inv-form #sender-phone" ).autocomplete({
                 source: function(request, response) {
-                    // console.log(request.term);
-                    var formData = new FormData();
-                    formData.append('phone', request.term)
-                    $.ajax({
-                        method: 'POST',
-                        url: "{{ route('manager.senderPhone') }}",
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success:function(data){
-                            // console.log(data)
-                            var array = $.map(data,function(obj){
-                                return{
-                                    value: obj.sender_phone, //Fillable in input field
-                                    label: obj.sender_phone + ' '+obj.sender_name,  //Show as label of input field
-                                    phone: obj.sender_name,
-                                }
-                            })
-                            response($.ui.autocomplete.filter(array, request.term));
-                        },
-                    })
+                // console.log(request.term);
+                var formData = new FormData();
+                formData.append('phone', request.term)
+                $.ajax({
+                method: 'POST',
+                url: "{{ route('manager.senderPhone') }}",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                data: formData,
+                processData: false,
+                contentType: false,
+                success:function(data){
+                // console.log(data)
+                var array = $.map(data,function(obj){
+                return{
+                value: obj.sender_phone, //Fillable in input field
+                label: obj.sender_phone + ' '+obj.sender_name, //Show as label of input field
+                phone: obj.sender_name,
+                }
+                })
+                response($.ui.autocomplete.filter(array, request.term));
+                },
+                })
                 },
                 minLength: 1,
                 select:function(event, ui){
-                    //console.log(ui.item);
-                    $('#sender-name').val(ui.item.phone);
+                //console.log(ui.item);
+                $('#sender-name').val(ui.item.phone);
                 }
-            });
+                });
             @endif
 
 
-            $( "#create-inv-form #receiver-name" ).autocomplete({
+            $("#create-inv-form #receiver-name").autocomplete({
                 source: function(request, response) {
                     // console.log(request.term);
                     var formData = new FormData();
                     formData.append('name', request.term)
-                    formData.append('search_type','name')
+                    formData.append('search_type', 'name')
                     $.ajax({
                         method: 'POST',
                         url: "{{ route('manager.receiverInfo') }}",
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         data: formData,
                         processData: false,
                         contentType: false,
-                        success:function(data){
+                        success: function(data) {
                             // console.log(data)
-                            var array = $.map(data,function(obj){
-                                if(obj.phone){
-                                    r_phone = ' #'+obj.phone;
-                                }else{
+                            var array = $.map(data, function(obj) {
+                                if (obj.phone) {
+                                    r_phone = ' #' + obj.phone;
+                                } else {
                                     r_phone = " ";
                                 }
 
-                                if(obj.email){
-                                    r_email = ' #'+obj.email;
-                                }else{
+                                if (obj.email) {
+                                    r_email = ' #' + obj.email;
+                                } else {
                                     r_email = " ";
                                 }
 
-                                return{
+                                return {
                                     value: obj.name, //Filable in input field
-                                    label: obj.name + r_phone + r_email,  //Show as label of input field
+                                    label: obj.name + r_phone +
+                                    r_email, //Show as label of input field
                                     phone: obj.phone,
                                     email: obj.email,
                                     sender_branch: obj.to_branch_id,
@@ -317,34 +346,37 @@
                     })
                 },
                 minLength: 1,
-                select:function(event, ui){
+                select: function(event, ui) {
                     //console.log(ui.item);
                     $('#receiver-phone').val(ui.item.phone);
                     $('#receiver-email').val(ui.item.email);
                     $('.branch').prop('checked', false); //first false all
-                    $('#branch-'+ui.item.sender_branch).prop('checked', true);
+                    $('#branch-' + ui.item.sender_branch).prop('checked', true);
                 }
             });
 
-            $( "#create-inv-form #receiver-phone" ).autocomplete({
+            $("#create-inv-form #receiver-phone").autocomplete({
                 source: function(request, response) {
                     // console.log(request.term);
                     var formData = new FormData();
-                     formData.append('search_type','phone')
+                    formData.append('search_type', 'phone')
                     formData.append('phone', request.term)
                     $.ajax({
                         method: 'POST',
                         url: "{{ route('manager.receiverInfo') }}",
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         data: formData,
                         processData: false,
                         contentType: false,
-                        success:function(data){
+                        success: function(data) {
                             // console.log(data)
-                            var array = $.map(data,function(obj){
-                                return{
+                            var array = $.map(data, function(obj) {
+                                return {
                                     value: obj.phone, //Filable in input field
-                                    label: obj.name + '-' + obj.phone + '-' + obj.email,  //Show as label of input field
+                                    label: obj.name + '-' + obj.phone + '-' + obj
+                                        .email, //Show as label of input field
                                     name: obj.name,
                                     email: obj.email,
                                     sender_branch: obj.to_branch_id
@@ -355,34 +387,37 @@
                     })
                 },
                 minLength: 1,
-                select:function(event, ui){
+                select: function(event, ui) {
                     //console.log(ui.item);
                     $('#receiver-name').val(ui.item.name);
                     $('#receiver-email').val(ui.item.email);
                     $('.branch').attr('checked', false);
-                    $('#branch-'+ui.item.sender_branch).attr('checked', true);
+                    $('#branch-' + ui.item.sender_branch).attr('checked', true);
                 }
             });
 
-            $( "#create-inv-form #receiver-email" ).autocomplete({
+            $("#create-inv-form #receiver-email").autocomplete({
                 source: function(request, response) {
                     // console.log(request.term);
                     var formData = new FormData();
                     formData.append('email', request.term)
-                     formData.append('search_type','email')
+                    formData.append('search_type', 'email')
                     $.ajax({
                         method: 'POST',
                         url: "{{ route('manager.receiverInfo') }}",
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         data: formData,
                         processData: false,
                         contentType: false,
-                        success:function(data){
+                        success: function(data) {
                             // console.log(data)
-                            var array = $.map(data,function(obj){
-                                return{
+                            var array = $.map(data, function(obj) {
+                                return {
                                     value: obj.email, //Filable in input field
-                                    label: obj.name + '-' + obj.phone + '-' + obj.email,  //Show as label of input field
+                                    label: obj.name + '-' + obj.phone + '-' + obj
+                                        .email, //Show as label of input field
                                     phone: obj.phone,
                                     name: obj.name,
                                     sender_branch: obj.to_branch_id
@@ -393,16 +428,16 @@
                     })
                 },
                 minLength: 1,
-                select:function(event, ui){
+                select: function(event, ui) {
                     //console.log(ui.item);
                     $('#receiver-phone').val(ui.item.phone);
                     $('#receiver-name').val(ui.item.name);
                     $('.branch').attr('checked', false);
-                    $('#branch-'+ui.item.sender_branch).attr('checked', true);
+                    $('#branch-' + ui.item.sender_branch).attr('checked', true);
                 }
             });
 
-            $('#create-inv-form #save-invoice').click( function (){
+            $('#create-inv-form #save-invoice').click(function() {
                 var formData = new FormData();
                 var this_btn = $(this);
                 formData.append('sender_name', $('#sender-name').val());
@@ -416,47 +451,60 @@
                 formData.append('advance', $('#advance').val());
                 formData.append('home', $('#home').val());
                 formData.append('labour', $('#labour').val());
-                @if(Request::is('*/manager/condition-invoice/create'))
-                formData.append('condition', true);
-                formData.append('condition_amount', $('#condition-amount').val());
-                formData.append('condition_charge', $('#condition-charge').val());
-                formData.append('sender_phone', $('#sender-phone').val());
+                @if (Request::is('*/manager/condition-invoice/create'))
+                    formData.append('condition', true);
+                    formData.append('condition_amount', $('#condition-amount').val());
+                    formData.append('condition_charge', $('#condition-charge').val());
+                    formData.append('sender_phone', $('#sender-phone').val());
                 @endif
                 $.ajax({
                     method: 'POST',
                     url: '{{ route('manager.invoice.store') }}',
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     data: formData,
                     processData: false,
                     contentType: false,
-                    beforeSend: function (){
+                    beforeSend: function() {
                         //this_btn.html('Please wait ---- ');
-                        this_btn.prop("disabled",true);
+                        this_btn.prop("disabled", true);
                     },
-                    complete: function (){
+                    complete: function() {
                         //this_btn.html('Edit now');
-                        this_btn.prop("disabled",false);
+                        this_btn.prop("disabled", false);
                     },
-                    success: function (data) {
-                        if (data.type == 'success'){
+                    success: function(data) {
+                        if (data.type == 'success') {
                             var office_wise_payment_info = '';
                             $.each(data.offices, function(office_index, office) {
-                                office_wise_payment_info += `<div class="col-lg-2 col-md-4"> <button type="button" class="btn btn-block disabled  btn-outline-info">`+office[0] +'('+office[1]+')'+`</button></div>`;
-                            });
-                            $('#office_wise_payment_info').html(office_wise_payment_info);
+                            console.log(office.name)
+                            office_wise_payment_info +=
+                                `<div class="col-lg-2 col-md-4"> <a href="`+office.url+`" class="btn btn-block btn-outline-info">` +
+                                office.name + '(' + office.total + ')' +
+                                `</a></div>`;
+                        });
+                        $('#office_wise_payment_info').html('<h1>Calculating ..<h1>');
+                        $('#office_wise_payment_info').html(office_wise_payment_info);
 
                             $('#create-inv-form').trigger("reset");
-                            var html_embed_code = `<embed type="text/html" src="`+data.url+`" width="750" height="500">`;
+                            var html_embed_code = `<embed type="text/html" src="` + data.url +
+                                `" width="750" height="500">`;
                             $('#extra-large-modal-body').html(html_embed_code);
                             $('#extra-large-modal-body').addClass("text-center");
                             $('#extra-large-modal-title').text("INVOICE");
                             $('#extra-large-modal-edit-btn').val(data.invoice_id);
                             $('#extra-large-modal').modal('show');
-                            $.getJSON('/backend/manager/get-last-five-invoice', function (data) {
+                            $.getJSON('/backend/manager/get-last-five-invoice', function(data) {
                                 //console.log(data)
-                                var lastFiveInvoice='';
-                                data.forEach(function(invoice){
-                                    lastFiveInvoice += `<a type="button" target="_blank" class="btn btn-secondary text-danger" href="`+location.protocol + '//' + location.host +"/backend/manager/invoice/"+invoice.id+`">`+invoice.custom_counter+`</a>`;
+                                var lastFiveInvoice = '';
+                                data.forEach(function(invoice) {
+                                    lastFiveInvoice +=
+                                        `<a type="button" target="_blank" class="btn btn-secondary text-danger" href="` +
+                                        location.protocol + '//' + location
+                                        .host + "/backend/manager/invoice/" +
+                                        invoice.id + `">` + invoice
+                                        .custom_counter + `</a>`;
                                 })
                                 $("#last-five-invoice").html(lastFiveInvoice)
                             })
@@ -468,7 +516,7 @@
                                 text: data.message,
                                 timer: 1500
                             })
-                        }else{
+                        } else {
                             Swal.fire({
                                 icon: data.type,
                                 title: 'Oops...',
@@ -477,14 +525,14 @@
                             });
                         }
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         var errorMessage = '<div class="card bg-danger">\n' +
                             '                        <div class="card-body text-center p-5">\n' +
                             '                            <span class="text-white">';
-                        $.each(xhr.responseJSON.errors, function(key,value) {
-                            errorMessage +=(''+value+'<br>');
+                        $.each(xhr.responseJSON.errors, function(key, value) {
+                            errorMessage += ('' + value + '<br>');
                         });
-                        errorMessage +='</span>\n' +
+                        errorMessage += '</span>\n' +
                             '                        </div>\n' +
                             '                    </div>';
                         Swal.fire({
