@@ -177,9 +177,9 @@
             <div class="row button-group" id="office_wise_payment_info">
                 @foreach ($invoices->groupBy('to_branch_id') as $invoice_group => $invoice_items)
                     <div class="col-lg-2 col-md-4">
-                        <button type="button"
-                            class="btn btn-block disabled btn-outline-success">{{ \App\Models\Branch::find($invoice_group)->name ?? '#' }}
-                            ({{ $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour') }})</button>
+                        <a href="{{ url('/') . '/backend/manager/invoice/status/all/branch/' . $invoice_group }}"
+                            class="btn btn-block btn-outline-success">{{ \App\Models\Branch::find($invoice_group)->name ?? '#' }}
+                            ({{ $invoice_items->sum('price') + $invoice_items->sum('home') + $invoice_items->sum('labour') }})</a>
                     </div>
                 @endforeach
             </div>
