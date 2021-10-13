@@ -334,6 +334,11 @@ class InvoiceController extends Controller
                     'message' => $exception->getMessage(),
                 ]);
             }
+        }else{
+            $customer->name = $request->receiver_name;
+            $customer->email = $request->receiver_email;
+            $customer->phone = bn_to_en($request->receiver_phone);
+            $customer->save();
         }
 
         //# Step 2 LINKED
