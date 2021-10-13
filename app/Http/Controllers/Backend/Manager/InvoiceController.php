@@ -492,7 +492,8 @@ class InvoiceController extends Controller
                 return Invoice::where('from_branch_id', auth()->user()->branch->id)
                     ->join('users', 'invoices.receiver_id', '=', 'users.id')
                     ->where('custom_counter', 'LIKE', '%' . $request->custom_counter . '%')
-                    ->select('invoices.id as id', 'invoices.created_at as date', 'custom_counter', 'status')
+                    ->select('invoices.id as id', DB::raw('DATE_FORMAT(invoices.created_at, "%d/%m/%Y") as date'), 'custom_counter', 'status')
+                    ->orderBy('id', 'desc')
                     ->get();
             }
         } else {

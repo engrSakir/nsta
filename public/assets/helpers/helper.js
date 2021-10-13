@@ -318,8 +318,8 @@ $(document).ready(function () {
                     console.log(data)
                     var array = $.map(data, function (obj) {
                         return {
-                            value: obj.custom_counter + '-' + obj.date, //Filable in input field
-                            label: obj.custom_counter + '-' + obj.date + ' #' + obj.status,  //Show as label of input field
+                            value: obj.custom_counter + '/' + obj.date, //Filable in input field
+                            label: obj.custom_counter + '/' + obj.date + ' - ' + obj.status,  //Show as label of input field
                             id: obj.id,
                         }
                     })
