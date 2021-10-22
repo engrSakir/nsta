@@ -167,8 +167,39 @@
                                     @enderror
                                 </div>
                             </div>
+                            <hr class="bg-success">
+                            <div class="row">
+                                <div class="col-3">
+                                    <input type="text" name="invoice_number_1" value="{{ get_static_option('invoice_number_1') }}" placeholder="Serrial 1" class="form-control">
+                                    <input type="text" name="invoice_number_2" value="{{ get_static_option('invoice_number_2') }}" placeholder="Serrial 2" class="form-control">
+                                    <input type="text" name="invoice_number_3" value="{{ get_static_option('invoice_number_3') }}" placeholder="Serrial 3" class="form-control">
+                                    <input type="text" name="invoice_number_4" value="{{ get_static_option('invoice_number_4') }}" placeholder="Serrial 4" class="form-control">
+                                    <input type="text" name="invoice_number_5" value="{{ get_static_option('invoice_number_5') }}" placeholder="Serrial 5" class="form-control">
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" name="invoice_number_6" value="{{ get_static_option('invoice_number_6') }}" placeholder="Serrial 6" class="form-control">
+                                    <input type="text" name="invoice_number_7" value="{{ get_static_option('invoice_number_7') }}" placeholder="Serrial 7" class="form-control">
+                                    <input type="text" name="invoice_number_8" value="{{ get_static_option('invoice_number_8') }}" placeholder="Serrial 8" class="form-control">
+                                    <input type="text" name="invoice_number_9" value="{{ get_static_option('invoice_number_9') }}" placeholder="Serrial 9" class="form-control">
+                                    <input type="text" name="invoice_number_10" value="{{ get_static_option('invoice_number_10') }}" placeholder="Serrial 10" class="form-control">
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" name="invoice_number_11" value="{{ get_static_option('invoice_number_11') }}" placeholder="Serrial 11" class="form-control">
+                                    <input type="text" name="invoice_number_12" value="{{ get_static_option('invoice_number_12') }}" placeholder="Serrial 12" class="form-control">
+                                    <input type="text" name="invoice_number_13" value="{{ get_static_option('invoice_number_13') }}" placeholder="Serrial 13" class="form-control">
+                                    <input type="text" name="invoice_number_14" value="{{ get_static_option('invoice_number_14') }}" placeholder="Serrial 14" class="form-control">
+                                    <input type="text" name="invoice_number_16" value="{{ get_static_option('invoice_number_16') }}" placeholder="Serrial 15" class="form-control">
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" name="invoice_number_16" value="{{ get_static_option('invoice_number_16') }}" placeholder="Serrial 16" class="form-control">
+                                    <input type="text" name="invoice_number_17" value="{{ get_static_option('invoice_number_17') }}" placeholder="Serrial 17" class="form-control">
+                                    <input type="text" name="invoice_number_18" value="{{ get_static_option('invoice_number_18') }}" placeholder="Serrial 18" class="form-control">
+                                    <input type="text" name="invoice_number_19" value="{{ get_static_option('invoice_number_19') }}" placeholder="Serrial 19" class="form-control">
+                                    <input type="text" name="invoice_number_20" value="{{ get_static_option('invoice_number_20') }}" placeholder="Serrial 20" class="form-control">
+                                </div>
+                            </div>
                             <div class="col-12 text-center">
-                                <button id="submit-btn" class="btn btn-primary">Update</button>
+                                <button id="submit-btn" class="btn btn-primary mt-5">Update</button>
                             </div>
                         </div>
                     </form>
