@@ -22,6 +22,7 @@ class CompanyController extends Controller
            'logo'   =>  'nullable|image|max:800',
            'sms_api_key'   =>  'nullable|string',
            'sms_api_pass'   =>  'nullable|string',
+           'conditional_password'   =>  'nullable|string',
         ]);
 
         $company = auth()->user()->company;
@@ -46,7 +47,7 @@ class CompanyController extends Controller
             update_static_option('sms_api_pass', $request->sms_api_pass);
             update_static_option('regular_invoice_message_content_for_new_customer', $request->regular_invoice_message_content_for_new_customer);
             update_static_option('regular_invoice_message_content_for_old_customer', $request->regular_invoice_message_content_for_old_customer);
-
+            update_static_option('conditional_password', $request->conditional_password);
             $company->save();
             return back()->withSuccess('Company successfully updated');
         } catch (\Exception $exception) {

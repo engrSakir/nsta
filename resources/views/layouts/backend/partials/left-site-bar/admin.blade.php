@@ -18,11 +18,11 @@
         <i class="far fa-circle text-success"></i><span class="hide-menu">Company</span>
     </a>
 </li>
-<li style="display:none;">
+{{-- <li style="display:none;">
     <a class="waves-effect waves-dark" href="{{ route('admin.package') }}">
         <i class="far fa-circle text-success"></i><span class="hide-menu">Package</span>
     </a>
-</li>
+</li> --}}
 
 {{--Super access--}}
 

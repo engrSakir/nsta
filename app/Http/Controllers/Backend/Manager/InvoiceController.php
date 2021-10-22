@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use niklasravnsborg\LaravelPdf\Facades\Pdf as PDF;
 
@@ -681,5 +682,25 @@ class InvoiceController extends Controller
     {
         $invoices = auth()->user()->invoices()->orderBy('id', 'desc')->take(5)->get();
         return $invoices;
+    }
+
+    public function conditionPassword()
+    {
+        return view('backend.manager.invoice.password');
+    }
+
+    public function conditionPasswordSet(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string'
+        ]);
+
+        if($request->password == get_static_option('conditional_password')){
+            Session::put('conditional_password', $request->password);
+            return redirect()->route('manager.conditionInvoice.get');
+        }else{
+            return back()->withErrors('কন্ডিশন দেখার পাসওয়ার্ড টি ভুল হয়েছে।');
+        }
+
     }
 }

@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Hash;
 class FrontendController extends Controller
 {
     public function index(){
-        // $x = User::where('email', 'manager@gmail.com')->first();
+        // $x = User::where('email', 'admin@gmail.com')->first();
         // $x->password = bcrypt('password');
         // $x->save();
         $partners = Partner::orderBy('id', 'desc')->get();
