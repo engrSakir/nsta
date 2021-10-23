@@ -21,6 +21,7 @@ class ConditionMiddleware
         if(Session::get('conditional_password') != get_static_option('conditional_password')){
             return redirect()->route('manager.conditionPassword');
         }
+        Session::put('conditional_password', null);
         return $next($request);
     }
 }
