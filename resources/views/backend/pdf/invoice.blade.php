@@ -224,23 +224,23 @@
                             <table id="table_margin">
                                 <tr>
                                     <td style="text-align: right">হোম ডেলিভারি</td>
-                                    <td><b>{{ en_to_bn($invoice->home) }}</b></td>
+                                    <td style="text-align: center"><b>{{ en_to_bn($invoice->home) }}</b></td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right"> লেবার</td>
-                                    <td><b>{{ en_to_bn($invoice->labour) }}</b></td>
+                                    <td style="text-align: center"><b>{{ en_to_bn($invoice->labour) }}</b></td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right"> মোট</td>
-                                    <td><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></td>
+                                    <td style="text-align: center"><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right"> অগ্রীম</td>
-                                    <td><b>{{ en_to_bn($invoice->paid) }}</b></td>
+                                    <td style="text-align: center"><b>{{ en_to_bn($invoice->paid) }}</b></td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right"> বাকী</td>
-                                    <td><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b></td>
+                                    <td style="text-align: center"><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b></td>
                                 </tr>
                             </table>
                         </div>
