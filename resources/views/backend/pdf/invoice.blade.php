@@ -10,10 +10,11 @@
             sheet-size: A5-L;
             background-color: azure;
             vertical-align: top;
-            margin-top: 0.5cm; /* <any of the usual CSS values for margins> */
+            margin-top: 0.3cm; /* <any of the usual CSS values for margins> */
+            margin-bottom: 0.3cm; /* <any of the usual CSS values for margins> */
             margin-left: 1cm; /* <any of the usual CSS values for margins> */
             margin-right: 1cm; /* <any of the usual CSS values for margins> */
-            margin-bottom: 0.5cm; /* <any of the usual CSS values for margins> */
+
             margin-header: 0; /* <any of the usual CSS values for margins> */
             margin-footer: 0; /* <any of the usual CSS values for margins> */
             marks: none;/*crop | cross | none*/
@@ -209,35 +210,61 @@
                             {{ get_static_option('invoice_number_19') }} <br>
                             {{ get_static_option('invoice_number_20') }}
                         </div>
+                        <style>
+                            #table_margin td {
+                              border: 1px solid black;
+                            }
+
+                            #table_margin {
+                              width: 100%;
+                              border-collapse: collapse;
+                            }
+                            </style>
                         <div style="width: 20%; float: left; font-size:12px;">
-                            হোম ডেলিভারি- <b>{{ en_to_bn($invoice->home) }}</b> <br>
-                            লেবার - <b>{{ en_to_bn($invoice->labour) }}</b> <br>
-                            মোট - <b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b> <br>
-                            অগ্রীম - <b>{{ en_to_bn($invoice->paid) }}</b> <br>
-                            বাকী - <b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b>
+                            <table id="table_margin">
+                                <tr>
+                                    <td style="text-align: right">হোম ডেলিভারি</td>
+                                    <td><b>{{ en_to_bn($invoice->home) }}</b></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right"> লেবার</td>
+                                    <td><b>{{ en_to_bn($invoice->labour) }}</b></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right"> মোট</td>
+                                    <td><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour) }}</b></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right"> অগ্রীম</td>
+                                    <td><b>{{ en_to_bn($invoice->paid) }}</b></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right"> বাকী</td>
+                                    <td><b>{{ en_to_bn($invoice->price + $invoice->home + $invoice->labour - $invoice->paid) }}</b></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
     <!-- End col -->
-    <div class="col-lg-12">
+    <div style=" width:100%; height:40px;"></div>
+    <div class="col-lg-12" style="background-color: rgba(255, 0, 0, 0);">
         <table style="width: 100%;">
             <tr style="width: 100%;">
-                <td style="width: 30%; text-align: left;">
+                <td style="width: 10%; text-align: left;">
                     প্রেরকের স্বাক্ষর-
                 </td>
                 <td style="width: 40%; text-align: center;">
                     <b>কন্ডিশনে মাল বুকিং করা হয়। </b>
                 </td>
-                <td style="width: 30%; text-align: right;">
-                    কর্মকর্তার স্বাক্ষর-{{ $invoice->creator->name }}
+                <td style="width: 40%; text-align: right;">
+                    কর্মকর্তার স্বাক্ষর- {{ $invoice->creator->name }}
                 </td>
             </tr>
         </table>
-
     </div>
     <!-- Start row -->
     <!-- End row -->
