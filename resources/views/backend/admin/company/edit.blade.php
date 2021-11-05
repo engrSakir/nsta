@@ -188,7 +188,7 @@
                                     <input type="text" name="invoice_number_12" value="{{ get_static_option('invoice_number_12') }}" placeholder="Serrial 12" class="form-control">
                                     <input type="text" name="invoice_number_13" value="{{ get_static_option('invoice_number_13') }}" placeholder="Serrial 13" class="form-control">
                                     <input type="text" name="invoice_number_14" value="{{ get_static_option('invoice_number_14') }}" placeholder="Serrial 14" class="form-control">
-                                    <input type="text" name="invoice_number_16" value="{{ get_static_option('invoice_number_16') }}" placeholder="Serrial 15" class="form-control">
+                                    <input type="text" name="invoice_number_15" value="{{ get_static_option('invoice_number_15') }}" placeholder="Serrial 15" class="form-control">
                                 </div>
                                 <div class="col-3">
                                     <input type="text" name="invoice_number_16" value="{{ get_static_option('invoice_number_16') }}" placeholder="Serrial 16" class="form-control">

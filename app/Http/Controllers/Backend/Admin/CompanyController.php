@@ -62,7 +62,7 @@ class CompanyController extends Controller
             update_static_option('invoice_number_12', $request->invoice_number_12);
             update_static_option('invoice_number_13', $request->invoice_number_13);
             update_static_option('invoice_number_14', $request->invoice_number_14);
-            update_static_option('invoice_number_16', $request->invoice_number_16);
+            update_static_option('invoice_number_15', $request->invoice_number_15);
             update_static_option('invoice_number_16', $request->invoice_number_16);
             update_static_option('invoice_number_17', $request->invoice_number_17);
             update_static_option('invoice_number_18', $request->invoice_number_18);

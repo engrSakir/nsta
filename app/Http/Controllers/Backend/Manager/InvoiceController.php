@@ -674,7 +674,7 @@ class InvoiceController extends Controller
     {
         $status = 'All';
         $branch_name = 'All';
-        $invoices = auth()->user()->branch->fromInvoices()->where('condition_amount', '>', '0')->orderBy('id', 'desc')->paginate(100);
+        $invoices = auth()->user()->branch->fromInvoices()->where('condition_amount', '>', '0')->orderBy('id', 'desc')->paginate(10);
         return view('backend.manager.invoice.index', compact('invoices', 'status', 'branch_name'));
     }
 

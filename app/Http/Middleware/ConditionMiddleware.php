@@ -17,11 +17,14 @@ class ConditionMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // Session::set('variableName', $value);
-        if(Session::get('conditional_password') != get_static_option('conditional_password')){
-            return redirect()->route('manager.conditionPassword');
+        if (request()->is('backend/manager/condition-invoice') && request()->page) {
+            return $next($request);
+        } else {
+            if (Session::get('conditional_password') != get_static_option('conditional_password')) {
+                return redirect()->route('manager.conditionPassword');
+            }
+            Session::put('conditional_password', null);
+            return $next($request);
         }
-        Session::put('conditional_password', null);
-        return $next($request);
     }
 }
