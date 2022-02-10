@@ -97,6 +97,7 @@
                             </thead>
                             </tbody>
                         </table>
+                         {{ $chalans->links() }}
                     </div>
                 </div>
             </div>
