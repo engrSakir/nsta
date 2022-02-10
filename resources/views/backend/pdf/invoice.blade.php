@@ -201,7 +201,7 @@
                             {{ get_static_option('invoice_number_12') }} <br>
                             {{ get_static_option('invoice_number_13') }} <br>
                            {{ get_static_option('invoice_number_14') }} <br>
-                            {{ get_static_option('invoice_number_16') }}
+                            {{ get_static_option('invoice_number_15') }}
                         </div>
                         <div style="width: 20%; float: left; font-size:11px;">
                             {{ get_static_option('invoice_number_16') }} <br>

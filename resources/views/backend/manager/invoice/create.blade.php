@@ -24,6 +24,7 @@
 @endsection
 @section('content')
     <div class="row">
+        <!--<div class="col-sm-12 text-center text-danger"><h3>দয়া করে বাকি টাকা পরিশোধ করুন। DataTech BD Ltd. </h3></div>-->
         <div class="col-sm-12">
             <div class="card card-body">
                 <form class="form-horizontal mt-4" id="create-inv-form">
