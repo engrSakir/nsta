@@ -1,50 +1,58 @@
 @push('title')
-    এন্ট্রি চালান
+এন্ট্রি চালান
 @endpush
 @extends('layouts.backend.app')
 @push('style')
 
 @endpush
 @section('breadcrumb')
-    <div class="row page-titles">
-        <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor font-weight-bold">এন্ট্রি চালান</h4>
-        </div>
-        <div class="col-md-7 align-self-center text-right">
-            <div class="d-flex justify-content-end align-items-center">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('manager.dashboard') }}">ড্যাশবোর্ড</a></li>
-                    <li class="breadcrumb-item active">এন্ট্রি চালান</li>
-                </ol>
-                <a href="{{ route('manager.invoice.create') }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> ভাউচার তৈরি</a>
-            </div>
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor font-weight-bold">এন্ট্রি চালান</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('manager.dashboard') }}">ড্যাশবোর্ড</a></li>
+                <li class="breadcrumb-item active">এন্ট্রি চালান</li>
+            </ol>
+            <a href="{{ route('manager.invoice.create') }}" class="btn btn-info d-none d-lg-block m-l-15"><i
+                    class="fa fa-plus-circle"></i> ভাউচার তৈরি</a>
         </div>
     </div>
+</div>
 @endsection
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">এন্ট্রি চালান তালিকা</h4>
-{{--                    <h6 class="card-subtitle">Add class <code>.color-bordered-table .primary-bordered-table</code></h6>--}}
-                    <div class="row button-group">
-                        <div class="col-lg-1 col-md-2">
-                            <button type="button" disabled class="btn waves-effect waves-light btn-block btn-info counter_display">0</button>
-                        </div>
-                        <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-info select-all">সবগুলো পছন্দ</button>
-                        </div>
-                        <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-success un-select-all">সবগুলো অপছন্দ</button>
-                        </div>
-                        <div class="col-lg-2 col-md-4">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-danger delete-selected-all">পছন্দ গুলো ডিলেট</button>
-                        </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">এন্ট্রি চালান তালিকা</h4>
+                {{-- <h6 class="card-subtitle">Add class <code>.color-bordered-table .primary-bordered-table</code></h6>
+                --}}
+                <div class="row button-group">
+                    <div class="col-lg-1 col-md-2">
+                        <button type="button" disabled
+                            class="btn waves-effect waves-light btn-block btn-info counter_display">0</button>
                     </div>
-                    <div class="invoice-table table-responsive">
-                        <table class="table color-bordered-table primary-bordered-table">
-                            <thead>
+                    <div class="col-lg-2 col-md-4">
+                        <button type="button" class="btn waves-effect waves-light btn-block btn-info select-all">সবগুলো
+                            পছন্দ</button>
+                    </div>
+                    <div class="col-lg-2 col-md-4">
+                        <button type="button"
+                            class="btn waves-effect waves-light btn-block btn-success un-select-all">সবগুলো
+                            অপছন্দ</button>
+                    </div>
+                    <div class="col-lg-2 col-md-4">
+                        <button type="button"
+                            class="btn waves-effect waves-light btn-block btn-danger delete-selected-all">পছন্দ গুলো
+                            ডিলেট</button>
+                    </div>
+                </div>
+                <div class="invoice-table table-responsive">
+                    <table class="table color-bordered-table primary-bordered-table">
+                        <thead>
                             <tr>
                                 <th>#</th>
                                 <th>তারিখ</th>
@@ -52,60 +60,71 @@
                                 <th>শাখা অফিস</th>
                                 <th>প্রিন্ট/এডিট/ডিলিট</th>
                             </tr>
-                            </thead>
-                            <tbody>
+                        </thead>
+                        <tbody>
                             @foreach($chalans as $chalan)
                             <tr>
                                 <td>
                                     <label class="btn btn-info active">
                                         <div class="custom-control custom-checkbox mr-sm-2">
-                                            <input type="checkbox" value="{{ $chalan->id }}" name="chalan" class="custom-control-input" id="chalan-{{ $loop->iteration }}">
-                                            <label class="custom-control-label font-weight-bold" for="chalan-{{ $loop->iteration }}">#{{ $chalan->custom_counter }}</label>
+                                            <input type="checkbox" value="{{ $chalan->id }}" name="chalan"
+                                                class="custom-control-input" id="chalan-{{ $loop->iteration }}">
+                                            <label class="custom-control-label font-weight-bold"
+                                                for="chalan-{{ $loop->iteration }}">#{{ $chalan->custom_counter
+                                                }}</label>
                                         </div>
                                     </label>
                                 </td>
                                 <td>
-                                    <b style="font-size: 18px;">{{ en_to_bn($chalan->created_at->format('d/m/Y')) ?? '' }}</b><br>
+                                    <b style="font-size: 18px;">{{ en_to_bn($chalan->created_at->format('d/m/Y')) ?? ''
+                                        }}</b><br>
 
                                     <span class="badge badge-success">
-                                       মোট ভাউচার:  {{ en_to_bn($chalan->invoices->count()) ?? '' }}
+                                        মোট ভাউচার: {{ en_to_bn($chalan->invoices->count()) ?? '' }}
                                     </span>
                                 </td>
                                 <td style="font-size: 16px;">
                                     {{ $chalan->driver_name ?? '' }}<br>
                                     <b>{{ $chalan->driver_phone ?? '' }}<br>
-                                    <span class="text-danger">গাড়ি নাম্বার: {{ $chalan->car_number }}</span><br></b>
+                                        <span class="text-danger">গাড়ি নাম্বার: {{ $chalan->car_number
+                                            }}</span><br></b>
                                 </td>
                                 <td style="font-size: 16px;">
                                     {{ $chalan->toBranch->name ?? '' }}
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-info btn-circle btn-lg show-chalan" value="{{ route('manager.chalan.show', $chalan) }}"><i class="mdi mdi-cloud-print"></i> </button>
+                                    <button type="button" class="btn btn-info btn-circle btn-lg show-chalan"
+                                        value="{{ route('manager.chalan.show', $chalan) }}"><i
+                                            class="mdi mdi-cloud-print"></i> </button>
 
-                                    <button type="button" class="btn btn-danger btn-circle btn-lg" onclick="delete_function(this)" value="{{ route('manager.chalan.destroy', $chalan) }}"><i class="mdi mdi-delete-circle"></i> </button>
+                                    <button type="button" class="btn btn-danger btn-circle btn-lg"
+                                        onclick="delete_function(this)"
+                                        value="{{ route('manager.chalan.destroy', $chalan) }}"><i
+                                            class="mdi mdi-delete-circle"></i> </button>
                                 </td>
                             </tr>
                             @endforeach
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>তারিখ</th>
-                                <th>ড্রাইভার</th>
-                                <th>শাখা অফিস</th>
-                                <th>প্রিন্ট/এডিট/ডিলিট</th>
-                            </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>তারিখ</th>
+                                    <th>ড্রাইভার</th>
+                                    <th>শাখা অফিস</th>
+                                    <th>প্রিন্ট/এডিট/ডিলিট</th>
+                                </tr>
                             </thead>
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
+                    {{ $chalans->links() }}
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 @push('script')
-    <script>
-        $(document).ready(function(){
+<script>
+    $(document).ready(function(){
             // Get current page and set current in nav
             $('input[type="checkbox"]').change(function() {
                 $('.counter_display').html($("[name='chalan']:checked").length)
@@ -204,5 +223,5 @@
                 })
             });
         });
-    </script>
+</script>
 @endpush

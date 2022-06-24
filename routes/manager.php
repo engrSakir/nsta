@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Manager;
+use App\Models\Branch;
 
 Route::group(['middleware' => 'manager', 'as' => 'manager.', 'prefix' => 'backend/manager/'], function (){
 
@@ -28,11 +29,17 @@ Route::group(['middleware' => 'manager', 'as' => 'manager.', 'prefix' => 'backen
 
     Route::resource('invoice', Manager\InvoiceController::class);
     Route::get('condition-invoice/create', [Manager\InvoiceController::class, 'conditionInvoiceCreate'])->name('conditionInvoice.create');
-    Route::get('condition-invoice', [Manager\InvoiceController::class, 'conditionInvoiceGet'])->name('conditionInvoice.get');
+    Route::get('condition-invoice', [Manager\InvoiceController::class, 'conditionInvoiceGet'])->name('conditionInvoice.get')->middleware(['condition']);
+    Route::get('condition-password', [Manager\InvoiceController::class, 'conditionPassword'])->name('conditionPassword');
+    Route::post('condition-password', [Manager\InvoiceController::class, 'conditionPasswordSet']);
     Route::resource('chalan', Manager\ChalanController::class);
     Route::resource('customers', Manager\CustomerController::class);
     Route::get('advance-search', [Manager\AdvanceSearchController::class, 'index'])->name('advanceSearch');
     Route::post('advance-search', [Manager\AdvanceSearchController::class, 'search'])->name('advanceSearchSubmit');
+
+    Route::get('get_linked_branches', function(){
+        return Branch::whereIn('id', auth()->user()->branch->fromLinkedBranchs()->pluck('to_branch_id'))->select('id', 'name')->get();
+    });
 
 });
 

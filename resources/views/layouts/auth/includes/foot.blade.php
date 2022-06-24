@@ -1,7 +1,7 @@
-<script src="{{ asset('assets/backend/node_modules/jquery/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ asset('assets/backend/node_modules_file/jquery/jquery-3.2.1.min.js') }}"></script>
 <!-- Bootstrap tether Core JavaScript -->
-<script src="{{ asset('assets/backend/node_modules/popper/popper.min.js') }}"></script>
-<script src="{{ asset('assets/backend/node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/backend/node_modules_file/popper/popper.min.js') }}"></script>
+<script src="{{ asset('assets/backend/node_modules_file/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <!--Custom JavaScript -->
 <script type="text/javascript">
     $(function() {

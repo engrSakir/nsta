@@ -23,4 +23,8 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
+{{-- print js --}}
+<link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+<script src="https://printjs-4de6.kxcdn.com/print.min.js" crossorigin="anonymous"></script>
+
 

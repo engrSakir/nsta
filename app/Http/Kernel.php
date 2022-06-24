@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\ConditionMiddleware;
 use App\Http\Middleware\CustomerMiddleware;
 use App\Http\Middleware\ManagerMiddleware;
 use App\Http\Middleware\SuperAdminMiddleware;
@@ -71,5 +72,6 @@ class Kernel extends HttpKernel
         'admin' => AdminMiddleware::class,
         'manager' => ManagerMiddleware::class,
         'customer' => CustomerMiddleware::class,
+        'condition' => ConditionMiddleware::class,
     ];
 }

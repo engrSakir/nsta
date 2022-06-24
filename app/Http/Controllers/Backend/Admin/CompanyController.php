@@ -22,6 +22,7 @@ class CompanyController extends Controller
            'logo'   =>  'nullable|image|max:800',
            'sms_api_key'   =>  'nullable|string',
            'sms_api_pass'   =>  'nullable|string',
+           'conditional_password'   =>  'nullable|string',
         ]);
 
         $company = auth()->user()->company;
@@ -46,7 +47,27 @@ class CompanyController extends Controller
             update_static_option('sms_api_pass', $request->sms_api_pass);
             update_static_option('regular_invoice_message_content_for_new_customer', $request->regular_invoice_message_content_for_new_customer);
             update_static_option('regular_invoice_message_content_for_old_customer', $request->regular_invoice_message_content_for_old_customer);
-
+            update_static_option('conditional_password', $request->conditional_password);
+            update_static_option('invoice_number_1', $request->invoice_number_1);
+            update_static_option('invoice_number_2', $request->invoice_number_2);
+            update_static_option('invoice_number_3', $request->invoice_number_3);
+            update_static_option('invoice_number_4', $request->invoice_number_4);
+            update_static_option('invoice_number_5', $request->invoice_number_5);
+            update_static_option('invoice_number_6', $request->invoice_number_6);
+            update_static_option('invoice_number_7', $request->invoice_number_7);
+            update_static_option('invoice_number_8', $request->invoice_number_8);
+            update_static_option('invoice_number_9', $request->invoice_number_9);
+            update_static_option('invoice_number_10', $request->invoice_number_10);
+            update_static_option('invoice_number_11', $request->invoice_number_11);
+            update_static_option('invoice_number_12', $request->invoice_number_12);
+            update_static_option('invoice_number_13', $request->invoice_number_13);
+            update_static_option('invoice_number_14', $request->invoice_number_14);
+            update_static_option('invoice_number_15', $request->invoice_number_15);
+            update_static_option('invoice_number_16', $request->invoice_number_16);
+            update_static_option('invoice_number_17', $request->invoice_number_17);
+            update_static_option('invoice_number_18', $request->invoice_number_18);
+            update_static_option('invoice_number_19', $request->invoice_number_19);
+            update_static_option('invoice_number_20', $request->invoice_number_20);
             $company->save();
             return back()->withSuccess('Company successfully updated');
         } catch (\Exception $exception) {
